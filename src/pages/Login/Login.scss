@@ -59,6 +59,13 @@ html {
         border: 1px solid #ddd;
         border-radius: 4px;
         font-size: 14px;
+        outline: none;
+      }
+
+      .error-message {
+        color: red;
+        margin-bottom: 20px;
+        font-size: 14px;
       }
 
       .forgot-password {

@@ -1,19 +1,23 @@
-import { useState } from "react";
-
+import React from "react";
+import { useForm } from "react-hook-form";
 import AgencyLogo from "../../assets/air_ticket_agency.png";
-
 import "./Login.scss";
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+// Interface for form values
+interface LoginFormValues {
+  email: string;
+  password: string;
+}
 
-  const handleEmailChange = (e: any) => setEmail(e.target.value);
-  const handlePasswordChange = (e: any) => setPassword(e.target.value);
+const Login: React.FC = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormValues>();
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    // Handle login logic here
+  const onSubmit = (data: LoginFormValues) => {
+    console.log(data);
   };
 
   return (
@@ -23,21 +27,31 @@ const Login = () => {
           <img src={AgencyLogo} alt="ATA Logo" className="logo" />
           <p>Please login to your account</p>
         </div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <input
             type="email"
             placeholder="Enter your email"
-            value={email}
-            onChange={handleEmailChange}
-            required
+            {...register("email", {
+              required: "Email is required",
+              pattern: /^\S+@\S+\.\S+$/,
+            })}
           />
+          {errors.email && (
+            <p className="error-message">{errors.email.message}</p>
+          )}
+
           <input
             type="password"
             placeholder="Enter your password"
-            value={password}
-            onChange={handlePasswordChange}
-            required
+            {...register("password", {
+              required: "Password is required",
+              minLength: 8,
+            })}
           />
+          {errors.password && (
+            <p className="error-message">{errors.password.message}</p>
+          )}
+
           <a href="#" className="forgot-password">
             Forgot Password?
           </a>
@@ -45,13 +59,6 @@ const Login = () => {
             Login
           </button>
         </form>
-        <div className="or-divider">
-          <span>OR</span>
-        </div>
-        <button className="microsoft-login">
-          {/* <FaMicrosoft className="microsoft-icon" /> */}
-          Login with Microsoft
-        </button>
       </div>
       <div className="login-banner">
         <h1>Delight Your Customer Effortlessly</h1>
@@ -59,9 +66,6 @@ const Login = () => {
           Simplify every experience and put customers back in control by
           offering the support they expect
         </p>
-        {/* <div className="mockup-image">
-          <img src="ticket-list.png" alt="Tickets list mockup" />
-        </div> */}
       </div>
     </div>
   );
