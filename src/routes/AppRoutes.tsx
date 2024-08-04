@@ -1,13 +1,14 @@
 import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
-import { Home, Login, ForgotPassword } from "../pages/index";
+import { Home, Login, ForgotPassword, ResetPassword } from "../pages/index";
 
 import {
   BaseURL,
   HomepageURL,
   LoginURL,
-  ForgotPassword as ForgotPasswordURL,
+  ForgotPasswordURL,
+  ResetPasswordURL,
 } from "./routeConstant";
 
 const AppRoutes: React.FC = () => {
@@ -18,6 +19,7 @@ const AppRoutes: React.FC = () => {
         <Route Component={Home} path={HomepageURL} />
         <Route Component={Login} path={LoginURL} />
         <Route Component={ForgotPassword} path={ForgotPasswordURL} />
+        <Route Component={ResetPassword} path={ResetPasswordURL} />
       </Routes>
     </Router>
   );

@@ -7,6 +7,9 @@ import {
   LOGIN_ERROR,
   LOGIN_PENDING,
   LOGIN_SUCCESS,
+  RESET_PASSWORD_ERROR,
+  RESET_PASSWORD_PENDING,
+  RESET_PASSWORD_SUCCESS,
 } from "../../constants";
 
 export const authReducer = (state = {}, action: any) => {
@@ -43,12 +46,14 @@ export const authReducer = (state = {}, action: any) => {
 
     // For Forgot Password Cases
     case FORGOT_PASSWORD_PENDING:
+    case RESET_PASSWORD_PENDING:
       return {
         ...state,
         loading: true,
       };
 
     case FORGOT_PASSWORD_SUCCESS:
+    case RESET_PASSWORD_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -56,6 +61,7 @@ export const authReducer = (state = {}, action: any) => {
       };
 
     case FORGOT_PASSWORD_ERROR:
+    case RESET_PASSWORD_ERROR:
       return {
         ...state,
         loading: false,
