@@ -12,13 +12,13 @@ html {
   background: $background-color;
 }
 
-.login-container {
+.auth-container {
   display: grid;
   grid-template-columns: 30% 70%;
   height: 100vh;
   background: $background-color;
 
-  .login-form {
+  .auth-form {
     max-width: 100%;
     padding: 40px;
     background: #ffffff;
@@ -28,7 +28,7 @@ html {
     justify-content: center;
     align-items: center;
 
-    .login-header {
+    .auth-header {
       text-align: center;
       margin-bottom: 20px;
 
@@ -77,7 +77,7 @@ html {
         text-decoration: none;
       }
 
-      .login-button {
+      .auth-button {
         width: 100%;
         padding: 10px;
         background: $primary-color;
@@ -116,7 +116,7 @@ html {
       }
     }
 
-    .microsoft-login {
+    .microsoft-auth {
       width: 100%;
       padding: 10px;
       background: #ffffff;
@@ -140,7 +140,7 @@ html {
     }
   }
 
-  .login-banner {
+  .auth-banner {
     flex: 2;
     background: linear-gradient(135deg, $secondary-color, #000dff);
     color: white;
