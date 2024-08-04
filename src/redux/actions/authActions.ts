@@ -24,7 +24,6 @@ export const loginToCRM = (email: string, password: string) => {
         password,
       });
       dispatch({ type: LOGIN_SUCCESS, payload: response.data });
-      toast.success("Login Successful");
     } catch (error: any) {
       dispatch({
         type: LOGIN_ERROR,

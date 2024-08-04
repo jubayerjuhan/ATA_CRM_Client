@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 
+import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 import AgencyLogo from "../../assets/air_ticket_agency.png";
 
 import { loginToCRM } from "../../redux/actions";
-import { AppDispatch } from "../../types";
+import { AppDispatch, AppState } from "../../types";
+import { CLEAR_ERROR, CLEAR_MESSAGE } from "../../constants";
 
 import "../../common/styles/AuthPageDesign.scss";
 
@@ -19,6 +22,8 @@ interface LoginFormValues {
 export const Login: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
+  const { auth: authState } = useSelector((state: AppState) => state);
+
   const {
     register,
     handleSubmit,
@@ -28,6 +33,20 @@ export const Login: React.FC = () => {
   const onSubmit = async (data: LoginFormValues) => {
     await dispatch(loginToCRM(data.email, data.password));
   };
+
+  useEffect(() => {
+    if (authState.message) {
+      toast.success(authState.message);
+      dispatch({ type: CLEAR_MESSAGE });
+    }
+  }, [authState.message, dispatch]);
+
+  useEffect(() => {
+    if (authState.error?.message) {
+      toast.error(authState.error.message);
+      dispatch({ type: CLEAR_ERROR });
+    }
+  }, [authState.error?.message, dispatch]);
 
   return (
     <div className="auth-container">
