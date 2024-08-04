@@ -7,7 +7,9 @@ export interface AuthState {
   loading: boolean;
   token: string | null;
   message: string | null;
-  error: any | null;
+  error: {
+    message: string;
+  } | null;
 }
 
 export interface AppState {

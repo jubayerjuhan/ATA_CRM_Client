@@ -10,7 +10,7 @@ import AgencyLogo from "../../assets/air_ticket_agency.png";
 
 import "../../common/styles/AuthPageDesign.scss";
 import toast from "react-hot-toast";
-import { CLEAR_MESSAGE } from "../../constants";
+import { CLEAR_ERROR, CLEAR_MESSAGE } from "../../constants";
 
 // Interface for form values
 interface ForgotPasswordFormValues {
@@ -38,6 +38,13 @@ export const ForgotPassword: React.FC = () => {
       dispatch({ type: CLEAR_MESSAGE });
     }
   }, [authState.message, dispatch]);
+
+  useEffect(() => {
+    if (authState.error?.message) {
+      toast.error(authState.error.message);
+      dispatch({ type: CLEAR_ERROR });
+    }
+  }, [authState.error?.message, dispatch]);
 
   return (
     <div className="auth-container">
