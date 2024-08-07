@@ -1,5 +1,4 @@
 import { Dispatch } from "@reduxjs/toolkit";
-import toast from "react-hot-toast";
 
 import {
   FORGOT_PASSWORD_ERROR,
