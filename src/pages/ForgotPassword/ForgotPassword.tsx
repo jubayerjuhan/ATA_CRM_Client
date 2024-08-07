@@ -1,25 +1,23 @@
 import React, { useEffect } from "react";
 
-import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+import { AppDispatch, AppState } from "../../types";
+import { forgotPasswordAction } from "../../redux/actions";
 
 import AgencyLogo from "../../assets/air_ticket_agency.png";
 
-import { loginToCRM } from "../../redux/actions";
-import { AppDispatch, AppState } from "../../types";
+import "../../common/styles/AuthPageDesign.scss";
+import toast from "react-hot-toast";
 import { CLEAR_ERROR, CLEAR_MESSAGE } from "../../constants";
 
-import "../../common/styles/AuthPageDesign.scss";
-
 // Interface for form values
-interface LoginFormValues {
+interface ForgotPasswordFormValues {
   email: string;
-  password: string;
 }
 
-export const Login: React.FC = () => {
+export const ForgotPassword: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const { auth: authState } = useSelector((state: AppState) => state);
@@ -28,10 +26,10 @@ export const Login: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormValues>();
+  } = useForm<ForgotPasswordFormValues>();
 
-  const onSubmit = async (data: LoginFormValues) => {
-    await dispatch(loginToCRM(data.email, data.password));
+  const onSubmit = async (data: ForgotPasswordFormValues) => {
+    await dispatch(forgotPasswordAction(data.email));
   };
 
   useEffect(() => {
@@ -53,7 +51,7 @@ export const Login: React.FC = () => {
       <div className="auth-form">
         <div className="auth-header">
           <img src={AgencyLogo} alt="ATA Logo" className="logo" />
-          <p>Please login to your account</p>
+          <p>Please enter your email to forgot your password</p>
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <input
@@ -68,26 +66,8 @@ export const Login: React.FC = () => {
             <p className="error-message">{errors.email.message}</p>
           )}
 
-          <input
-            type="password"
-            placeholder="Enter your password"
-            {...register("password", {
-              required: "Password is required",
-              minLength: {
-                value: 6,
-                message: "Password must have at least 6 characters",
-              },
-            })}
-          />
-          {errors.password && (
-            <p className="error-message">{errors.password.message}</p>
-          )}
-
-          <a href="#" className="forgot-password">
-            Forgot Password?
-          </a>
           <button type="submit" className="auth-button">
-            Login
+            Send Password Reset Link
           </button>
         </form>
       </div>

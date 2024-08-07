@@ -1,8 +1,4 @@
-$primary-color: #3960ee;
-$secondary-color: #4a90e2;
-$primary-color-dark: darken(#4a90e2, 10%);
-$default-color: #444;
-$background-color: #f5f5f5;
+@import "../styles/variables.scss";
 
 body,
 html {
@@ -12,13 +8,13 @@ html {
   background: $background-color;
 }
 
-.login-container {
+.auth-container {
   display: grid;
   grid-template-columns: 30% 70%;
   height: 100vh;
   background: $background-color;
 
-  .login-form {
+  .auth-form {
     max-width: 100%;
     padding: 40px;
     background: #ffffff;
@@ -28,7 +24,7 @@ html {
     justify-content: center;
     align-items: center;
 
-    .login-header {
+    .auth-header {
       text-align: center;
       margin-bottom: 20px;
 
@@ -59,6 +55,13 @@ html {
         border: 1px solid #ddd;
         border-radius: 4px;
         font-size: 14px;
+        outline: none;
+      }
+
+      .error-message {
+        color: red;
+        margin-bottom: 20px;
+        font-size: 14px;
       }
 
       .forgot-password {
@@ -70,7 +73,7 @@ html {
         text-decoration: none;
       }
 
-      .login-button {
+      .auth-button {
         width: 100%;
         padding: 10px;
         background: $primary-color;
@@ -109,7 +112,7 @@ html {
       }
     }
 
-    .microsoft-login {
+    .microsoft-auth {
       width: 100%;
       padding: 10px;
       background: #ffffff;
@@ -133,7 +136,7 @@ html {
     }
   }
 
-  .login-banner {
+  .auth-banner {
     flex: 2;
     background: linear-gradient(135deg, $secondary-color, #000dff);
     color: white;

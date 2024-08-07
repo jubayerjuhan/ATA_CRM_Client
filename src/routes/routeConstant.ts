@@ -1,17 +1,21 @@
-const HomepageURL = "/homepage";
+const BaseURL = "/";
+const HomepageURL = "/home";
 const LoginURL = "/login";
-const Register = "/register";
-const Profile = "/profile";
-const Dashboard = "/dashboard";
-const Settings = "/settings";
-const NotFound = "/not-found";
+const ForgotPasswordURL = "/forgot-password";
+const ResetPasswordURL = "/reset-password/:token";
+const ProfileURL = "/profile";
+const DashboardURL = "/dashboard";
+const SettingsURL = "/settings";
+const NotFoundURL = "/not-found";
 
 export {
+  BaseURL,
   HomepageURL,
   LoginURL,
-  Register,
-  Profile,
-  Dashboard,
-  Settings,
-  NotFound,
+  ForgotPasswordURL,
+  ResetPasswordURL,
+  ProfileURL,
+  DashboardURL,
+  SettingsURL,
+  NotFoundURL,
 };
