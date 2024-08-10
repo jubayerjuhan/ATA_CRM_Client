@@ -1,7 +1,14 @@
 import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
-import { Home, Login, ForgotPassword, ResetPassword } from "../pages/index";
+import {
+  Dashboard,
+  ForgotPassword,
+  Home,
+  Login,
+  ResetPassword,
+  Users,
+} from "@/pages";
 
 import {
   BaseURL,
@@ -9,6 +16,8 @@ import {
   LoginURL,
   ForgotPasswordURL,
   ResetPasswordURL,
+  DashboardURL,
+  UsersManagementURL,
 } from "./routeConstant";
 
 const AppRoutes: React.FC = () => {
@@ -20,6 +29,8 @@ const AppRoutes: React.FC = () => {
         <Route Component={Login} path={LoginURL} />
         <Route Component={ForgotPassword} path={ForgotPasswordURL} />
         <Route Component={ResetPassword} path={ResetPasswordURL} />
+        <Route Component={Dashboard} path={DashboardURL} />
+        <Route Component={Users} path={UsersManagementURL} />
       </Routes>
     </Router>
   );
