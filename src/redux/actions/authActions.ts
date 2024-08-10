@@ -12,7 +12,7 @@ import {
   RESET_PASSWORD_SUCCESS,
 } from "../../constants";
 
-import { base_url, client } from "../../api/api";
+import { client } from "../../api/api";
 
 export const loginToCRM = (email: string, password: string) => {
   return async (dispatch: Dispatch) => {
@@ -36,8 +36,6 @@ export const loginToCRM = (email: string, password: string) => {
 
 export const forgotPasswordAction = (email: string) => {
   return async (dispatch: Dispatch) => {
-    console.log(base_url, "Base URL...");
-    console.log(import.meta.env.NODE_ENV, "Node ENV...");
     dispatch({ type: FORGOT_PASSWORD_PENDING });
     try {
       await client.post("/auth/forgot-password", {

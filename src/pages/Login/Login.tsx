@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
 
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-
-import AgencyLogo from "../../assets/air_ticket_agency.png";
 
 import { loginToCRM } from "../../redux/actions";
 import { AppDispatch, AppState } from "../../types";
 import { CLEAR_ERROR, CLEAR_MESSAGE } from "../../constants";
 
+import AgencyLogo from "../../assets/air_ticket_agency.png";
 import "../../common/styles/AuthPageDesign.scss";
 
 // Interface for form values
@@ -83,9 +83,9 @@ export const Login: React.FC = () => {
             <p className="error-message">{errors.password.message}</p>
           )}
 
-          <a href="#" className="forgot-password">
+          <Link to={"/forgot-password"} className="forgot-password">
             Forgot Password?
-          </a>
+          </Link>
           <button type="submit" className="auth-button">
             Login
           </button>
