@@ -15,7 +15,7 @@ import "./Sidebar.scss";
 const Sidebar = () => {
   const navigate = useNavigate();
 
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen] = useState(true);
 
   // toggle sidebar function
   // const toggleSidebar = () => {

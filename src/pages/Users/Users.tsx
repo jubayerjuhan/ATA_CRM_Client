@@ -1,3 +1,5 @@
+import { DashboardLayout } from "@/components/app_components/DashboardLayout";
+
 export const Users = () => {
-  return <div>Users</div>;
+  return <DashboardLayout>Users</DashboardLayout>;
 };
