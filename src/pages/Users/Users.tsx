@@ -1,5 +1,10 @@
-import { DashboardLayout } from "@/components/app_components/DashboardLayout";
+import { DashboardLayout } from "@/app_components/DashboardLayout";
+import { UsersTable } from "@/app_components/UsersTable/UsersTable";
 
 export const Users = () => {
-  return <DashboardLayout>Users</DashboardLayout>;
+  return (
+    <DashboardLayout>
+      <UsersTable />
+    </DashboardLayout>
+  );
 };

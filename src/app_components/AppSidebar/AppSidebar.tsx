@@ -9,7 +9,7 @@ import { PiUserList } from "react-icons/pi";
 import { SidebarLinksType } from "./index";
 
 // local imports
-import logo from "../../../assets/air_ticket_agency.png";
+import logo from "../../assets/air_ticket_agency.png";
 import "./Sidebar.scss";
 
 const Sidebar = () => {
@@ -56,7 +56,7 @@ const Sidebar = () => {
       <div className="sidebar-links-list">
         {sidebarLinks.map((link, index) => (
           <div
-            className="menu-item"
+            className="menu-item px-10"
             key={index}
             onClick={() => handleSidebarLinkClick(link)}
           >

@@ -1,4 +1,4 @@
-import { DashboardLayout } from "@/components/app_components/DashboardLayout";
+import { DashboardLayout } from "@/app_components/DashboardLayout";
 
 export const Dashboard = () => {
   return (

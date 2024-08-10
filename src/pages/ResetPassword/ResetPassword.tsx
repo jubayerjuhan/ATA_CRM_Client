@@ -12,7 +12,7 @@ import "../../common/styles/AuthPageDesign.scss";
 import toast from "react-hot-toast";
 import { CLEAR_ERROR, CLEAR_MESSAGE } from "../../constants";
 
-import { AppButton } from "../../components";
+import { AppButton } from "../../app_components";
 
 // Interface for form values
 interface ResetPasswordFormValues {
