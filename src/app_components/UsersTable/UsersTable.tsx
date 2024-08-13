@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import moment from "moment";
 import { CaretSortIcon, ChevronDownIcon } from "@radix-ui/react-icons";
 import {
@@ -32,6 +31,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { UserType } from "@/types";
+import { AddUserFormModal } from "@/app_components";
 
 export const columns: ColumnDef<UserType>[] = [
   {
@@ -85,7 +85,11 @@ export interface UsersTableProps {
 }
 
 export const UsersTable: React.FC<UsersTableProps> = ({ users, loading }) => {
-  console.log(users, loading);
+  // Use useEffect to log when users or loading changes
+  React.useEffect(() => {
+    console.log(users, loading);
+  }, [users, loading]);
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -102,6 +106,7 @@ export const UsersTable: React.FC<UsersTableProps> = ({ users, loading }) => {
     createdAt: user.createdAt,
     updatedAt: user.updatedAt,
   }));
+
   const table = useReactTable({
     data: userData,
     columns,
@@ -123,6 +128,7 @@ export const UsersTable: React.FC<UsersTableProps> = ({ users, loading }) => {
 
   return (
     <div className="w-full">
+      <AddUserFormModal />
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter emails..."
