@@ -19,6 +19,7 @@ import {
   DashboardURL,
   UsersManagementURL,
 } from "./routeConstant";
+import PrivateRoute from "@/app_components/PrivateRoute/PrivateRoute";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -29,8 +30,16 @@ const AppRoutes: React.FC = () => {
         <Route Component={Login} path={LoginURL} />
         <Route Component={ForgotPassword} path={ForgotPasswordURL} />
         <Route Component={ResetPassword} path={ResetPasswordURL} />
-        <Route Component={Dashboard} path={DashboardURL} />
-        <Route Component={Users} path={UsersManagementURL} />
+
+        {/* Private routes */}
+        <Route
+          path={DashboardURL}
+          element={<PrivateRoute component={Dashboard} />}
+        />
+        <Route
+          path={UsersManagementURL}
+          element={<PrivateRoute component={Users} />}
+        />
       </Routes>
     </Router>
   );
