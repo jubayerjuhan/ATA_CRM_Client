@@ -15,6 +15,7 @@ export interface AuthState {
 export interface UserState {
   loading: boolean;
   users: any[];
+  message: string | null;
   error: {
     message: string;
   } | null;

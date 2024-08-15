@@ -7,6 +7,7 @@ import { UsersTable } from "@/app_components/UsersTable/UsersTable";
 
 import { getAllUsers } from "@/redux/actions/userActions";
 import { AppDispatch, AppState } from "@/types";
+import { AddUserFormModal } from "@/app_components";
 
 export const Users = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -30,6 +31,7 @@ export const Users = () => {
 
   return (
     <DashboardLayout>
+      <AddUserFormModal />
       <UsersTable users={users} loading={user.loading} />
     </DashboardLayout>
   );
