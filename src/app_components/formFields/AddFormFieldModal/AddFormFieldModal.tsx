@@ -13,14 +13,14 @@ import { addUser } from "@/redux/actions/userActions";
 import { AppDispatch } from "@/types";
 
 interface FormValues {
-  [key: string]: string; // Dynamic form values
+  [key: string]: string | boolean;
 }
 
-export const AddFormFieldModa = () => {
-  const triggerBtnTitle = "Add User";
-  const submitBtnTitle = "Add User";
-  const modalTitle = "Add User";
-  const description = "Fill in the form below to add a new user.";
+export const AddFormFieldModal = () => {
+  const triggerBtnTitle = "Add Form Field";
+  const submitBtnTitle = "Add Form Field";
+  const modalTitle = "Add Form Field";
+  const description = "Add a new form field to the form.";
 
   const fields: InputField[] = [
     {
@@ -46,24 +46,32 @@ export const AddFormFieldModa = () => {
       placeholder: "Enter The Field abel",
     },
     {
-      type: "checkbox",
+      type: "select",
       id: "required",
       label: "Required",
+      placeholder: "Select Field Required Or Not",
+      options: [
+        { value: "true", label: "Yes" },
+        { value: "false", label: "No" },
+      ],
     },
   ];
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleAddUser = async (data: FormValues) => {
-    try {
-      dispatch({ type: CREATE_USER_PENDING });
-      await dispatch(addUser(data));
-      toast.success("User added successfully!");
-      dispatch({ type: CLEAR_MESSAGE });
-    } catch (error) {
-      dispatch({ type: CREATE_USER_ERROR, payload: error });
-      toast.error("Failed to add user!");
-    }
+  const handleAddNewField = async (data: FormValues) => {
+    data = { ...data, required: data.required === "true" ? true : false };
+
+    console.log(data, "data");
+    // try {
+    //   dispatch({ type: CREATE_USER_PENDING });
+    //   await dispatch(addUser(data));
+    //   toast.success("User added successfully!");
+    //   dispatch({ type: CLEAR_MESSAGE });
+    // } catch (error) {
+    //   dispatch({ type: CREATE_USER_ERROR, payload: error });
+    //   toast.error("Failed to add user!");
+    // }
   };
 
   return (
@@ -74,7 +82,7 @@ export const AddFormFieldModa = () => {
         modalTitle={modalTitle}
         description={description}
         fields={fields}
-        submitHandler={handleAddUser}
+        submitHandler={handleAddNewField}
       />
     </div>
   );

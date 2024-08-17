@@ -1,9 +1,10 @@
 import { DashboardLayout } from "@/app_components/DashboardLayout";
-import { FormFieldsTable } from "@/app_components";
+import { AddFormFieldModal, FormFieldsTable } from "@/app_components";
 
 const FormManager = () => {
   return (
     <DashboardLayout>
+      <AddFormFieldModal />
       <FormFieldsTable
         fields={[
           {
