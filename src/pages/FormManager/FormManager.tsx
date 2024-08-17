@@ -1,5 +1,5 @@
 import { DashboardLayout } from "@/app_components/DashboardLayout";
-import { FormFieldsTable } from "@/app_components/FormFieldsTable/FormFieldsTable";
+import { FormFieldsTable } from "@/app_components";
 
 const FormManager = () => {
   return (
