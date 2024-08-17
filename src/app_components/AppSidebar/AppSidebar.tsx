@@ -5,12 +5,19 @@ import { useNavigate } from "react-router-dom";
 import { FaUsersViewfinder } from "react-icons/fa6";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { PiUserList } from "react-icons/pi";
+import { MdFormatAlignLeft } from "react-icons/md";
 
 import { SidebarLinksType } from "./index";
 
 // local imports
 import logo from "../../assets/air_ticket_agency.png";
 import "./Sidebar.scss";
+import {
+  DashboardURL,
+  FormFieldManagementURL,
+  LeadsManagementURL,
+  UsersManagementURL,
+} from "@/routes/routeConstant";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -26,17 +33,22 @@ const Sidebar = () => {
     {
       title: "Dashboard",
       icon: <LuLayoutDashboard />,
-      pathname: "/dashboard",
+      pathname: DashboardURL,
     },
     {
       title: "Users",
       icon: <PiUserList />,
-      pathname: "/dashboard/users",
+      pathname: UsersManagementURL,
     },
     {
       title: "Leads",
       icon: <FaUsersViewfinder />,
-      pathname: "/dashboard/leads",
+      pathname: LeadsManagementURL,
+    },
+    {
+      title: "Form Fields",
+      icon: <MdFormatAlignLeft />,
+      pathname: FormFieldManagementURL,
     },
   ];
 

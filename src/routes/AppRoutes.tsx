@@ -18,8 +18,10 @@ import {
   ResetPasswordURL,
   DashboardURL,
   UsersManagementURL,
+  FormFieldManagementURL,
 } from "./routeConstant";
 import PrivateRoute from "@/app_components/PrivateRoute/PrivateRoute";
+import FormManager from "@/pages/FormManager/FormManager";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -39,6 +41,10 @@ const AppRoutes: React.FC = () => {
         <Route
           path={UsersManagementURL}
           element={<PrivateRoute component={Users} />}
+        />
+        <Route
+          path={FormFieldManagementURL}
+          element={<PrivateRoute component={FormManager} />}
         />
       </Routes>
     </Router>
