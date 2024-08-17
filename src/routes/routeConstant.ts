@@ -5,6 +5,7 @@ const ForgotPasswordURL = "/forgot-password";
 const ResetPasswordURL = "/reset-password/:token";
 const ProfileURL = "/profile";
 const DashboardURL = "/dashboard";
+const UsersManagementURL = "/dashboard/users";
 const SettingsURL = "/settings";
 const NotFoundURL = "/not-found";
 
@@ -18,4 +19,5 @@ export {
   DashboardURL,
   SettingsURL,
   NotFoundURL,
+  UsersManagementURL,
 };

@@ -1,7 +1,14 @@
 import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
-import { Home, Login, ForgotPassword, ResetPassword } from "../pages/index";
+import {
+  Dashboard,
+  ForgotPassword,
+  Home,
+  Login,
+  ResetPassword,
+  Users,
+} from "@/pages";
 
 import {
   BaseURL,
@@ -9,7 +16,10 @@ import {
   LoginURL,
   ForgotPasswordURL,
   ResetPasswordURL,
+  DashboardURL,
+  UsersManagementURL,
 } from "./routeConstant";
+import PrivateRoute from "@/app_components/PrivateRoute/PrivateRoute";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -20,6 +30,16 @@ const AppRoutes: React.FC = () => {
         <Route Component={Login} path={LoginURL} />
         <Route Component={ForgotPassword} path={ForgotPasswordURL} />
         <Route Component={ResetPassword} path={ResetPasswordURL} />
+
+        {/* Private routes */}
+        <Route
+          path={DashboardURL}
+          element={<PrivateRoute component={Dashboard} />}
+        />
+        <Route
+          path={UsersManagementURL}
+          element={<PrivateRoute component={Users} />}
+        />
       </Routes>
     </Router>
   );

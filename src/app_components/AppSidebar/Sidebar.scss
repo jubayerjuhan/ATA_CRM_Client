@@ -1,0 +1,72 @@
+@import "../../common/styles/variables.scss";
+
+.sidebar {
+  width: 200px;
+  height: 100vh;
+  background-color: $shad-cn-secondary;
+  color: white;
+  transition: width 0.3s ease;
+  position: fixed;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+
+  &.closed {
+    width: 60px;
+  }
+
+  .sidebar-logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #e0e0e0;
+
+    .sidebar-logo {
+      width: 100px;
+    }
+  }
+
+  .toggle-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
+
+  .sidebar-links-list {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .menu-item {
+    border-radius: 10px;
+    padding: 14px 10px;
+    margin: 0px 6px 0px 8px;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    color: hsl(240 5.9% 10%);
+    cursor: pointer;
+
+    &:hover {
+      background-color: $shad-cn-secondary-hover;
+    }
+
+    svg {
+      height: 20px;
+      width: 20px;
+    }
+
+    .menu-link__title {
+      font-size: 14px;
+      line-height: 1;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 60px;
+  }
+}

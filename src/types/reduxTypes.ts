@@ -12,6 +12,16 @@ export interface AuthState {
   } | null;
 }
 
+export interface UserState {
+  loading: boolean;
+  users: any[];
+  message: string | null;
+  error: {
+    message: string;
+  } | null;
+}
+
 export interface AppState {
   auth: AuthState;
+  user: UserState;
 }
