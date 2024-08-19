@@ -1,16 +1,10 @@
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
 
 import { InputFormModal } from "@/app_components";
 
 import { InputField } from "@/app_components/InputFormModal/InputForm.types";
-import {
-  CLEAR_MESSAGE,
-  CREATE_USER_ERROR,
-  CREATE_USER_PENDING,
-} from "@/constants";
-import { addUser } from "@/redux/actions/userActions";
-import { AppDispatch } from "@/types";
+import { addFormField } from "@/services/formField/formField";
+import { useState } from "react";
 
 interface FormValues {
   [key: string]: string | boolean;
@@ -21,6 +15,8 @@ export const AddFormFieldModal = () => {
   const submitBtnTitle = "Add Form Field";
   const modalTitle = "Add Form Field";
   const description = "Add a new form field to the form.";
+
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
   const fields: InputField[] = [
     {
@@ -43,7 +39,7 @@ export const AddFormFieldModal = () => {
       type: "label",
       id: "label",
       label: "Field Label",
-      placeholder: "Enter The Field abel",
+      placeholder: "Enter The Field label",
     },
     {
       type: "select",
@@ -57,21 +53,19 @@ export const AddFormFieldModal = () => {
     },
   ];
 
-  const dispatch = useDispatch<AppDispatch>();
-
   const handleAddNewField = async (data: FormValues) => {
-    data = { ...data, required: data.required === "true" ? true : false };
+    const fieldDetails = {
+      ...data,
+      required: data.required === "true" ? true : false,
+    };
 
-    console.log(data, "data");
-    // try {
-    //   dispatch({ type: CREATE_USER_PENDING });
-    //   await dispatch(addUser(data));
-    //   toast.success("User added successfully!");
-    //   dispatch({ type: CLEAR_MESSAGE });
-    // } catch (error) {
-    //   dispatch({ type: CREATE_USER_ERROR, payload: error });
-    //   toast.error("Failed to add user!");
-    // }
+    try {
+      await addFormField(fieldDetails);
+      toast.success("New form field added successfully.");
+      setDialogOpen(false);
+    } catch (error) {
+      toast.error("Failed to add new form field.");
+    }
   };
 
   return (
@@ -83,6 +77,7 @@ export const AddFormFieldModal = () => {
         description={description}
         fields={fields}
         submitHandler={handleAddNewField}
+        dialogOpen={dialogOpen}
       />
     </div>
   );

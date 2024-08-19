@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   useForm,
   SubmitHandler,
@@ -43,7 +43,10 @@ export const InputFormModal: React.FC<InputFormModalProps> = ({
   description,
   fields,
   submitHandler,
+  dialogOpen = false,
 }) => {
+  const [open, setOpen] = useState(false); // State to manage dialog open state
+
   const {
     register,
     handleSubmit,
@@ -51,12 +54,17 @@ export const InputFormModal: React.FC<InputFormModalProps> = ({
     formState: { errors },
   } = useForm<FormValues>();
 
+  useEffect(() => {
+    setOpen(dialogOpen);
+  }, [dialogOpen]);
+
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     if (submitHandler) submitHandler(data);
+    setOpen(false); // Close the modal after successful submission
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">{triggerBtnTitle}</Button>
       </DialogTrigger>

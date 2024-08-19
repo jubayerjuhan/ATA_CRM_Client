@@ -1,5 +1,5 @@
 export interface FormFieldType {
-  _id: string;
+  _id?: string;
   name: string;
   label: string;
   type: string;
