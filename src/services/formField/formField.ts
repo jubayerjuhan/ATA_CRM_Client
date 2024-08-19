@@ -1,11 +1,16 @@
 import { client } from "@/api/api";
 
-export const getAllFormFields = async () => {
+export const getAllFormFields = async (): Promise<any> => {
   try {
     const { data } = await client.get("/form");
-    return data;
+    return data.formFields;
   } catch (error) {
-    return error;
+    throw {
+      error: {
+        message: "Failed to fetch form fields",
+        data: error,
+      },
+    };
   }
 };
 

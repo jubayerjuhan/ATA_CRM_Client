@@ -1,29 +1,29 @@
 import { DashboardLayout } from "@/app_components/DashboardLayout";
 import { AddFormFieldModal, FormFieldsTable } from "@/app_components";
+import { useEffect, useState } from "react";
+import { getAllFormFields } from "@/services/formField/formField";
+import { FormFieldType } from "@/types";
 
 const FormManager = () => {
+  const [formFields, setFormFields] = useState<FormFieldType[]>([]);
+
+  useEffect(() => {
+    fetchFormFields();
+  }, []);
+
+  const fetchFormFields = async () => {
+    try {
+      const allFormFieldData = await getAllFormFields();
+      setFormFields(allFormFieldData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <DashboardLayout>
       <AddFormFieldModal />
-      <FormFieldsTable
-        fields={[
-          {
-            _id: "123",
-            name: "Name 123",
-            type: "Type",
-            label: "Label",
-            required: true,
-          },
-          {
-            _id: "123",
-            name: "Name 123",
-            type: "Type",
-            label: "Label",
-            required: false,
-          },
-        ]}
-        loading={false}
-      />
+      <FormFieldsTable fields={formFields} loading={false} />
     </DashboardLayout>
   );
 };
