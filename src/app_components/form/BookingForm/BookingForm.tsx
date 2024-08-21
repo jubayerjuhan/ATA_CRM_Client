@@ -10,13 +10,17 @@ import { AppButton } from "@/app_components/AppButton";
 
 interface BookingFormProps {
   fields: FormFieldType[];
+  onSubmit: (data: any) => void;
 }
 
 interface FormValues {
   [key: string]: any; // Allow for dynamic field names
 }
 
-export const BookingForm: React.FC<BookingFormProps> = ({ fields }) => {
+export const BookingForm: React.FC<BookingFormProps> = ({
+  fields,
+  onSubmit: handleAddLead,
+}) => {
   const {
     register,
     handleSubmit,
@@ -40,7 +44,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({ fields }) => {
       return;
     }
 
-    console.log(data);
+    handleAddLead(data);
   };
 
   return (

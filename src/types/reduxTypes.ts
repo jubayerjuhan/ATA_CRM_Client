@@ -21,7 +21,16 @@ export interface UserState {
   } | null;
 }
 
+export interface LeadState {
+  loading: boolean;
+  message: string | null;
+  success: boolean | null;
+  error: {
+    message: string;
+  } | null;
+}
 export interface AppState {
   auth: AuthState;
   user: UserState;
+  lead: LeadState;
 }

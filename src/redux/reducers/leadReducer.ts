@@ -17,13 +17,15 @@ export const leadReducer = (state = {}, action: any) => {
       return {
         ...state,
         loading: false,
-        message: action.payload,
+        message: action.payload.message,
+        success: true,
       };
     case ADD_LEAD_ERROR:
       return {
         ...state,
         loading: false,
-        error: action.payload,
+        success: false,
+        error: action.payload.message,
       };
     case CLEAR_ERROR:
       return {
