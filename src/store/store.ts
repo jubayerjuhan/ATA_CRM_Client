@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 import { persistStore, persistReducer } from "redux-persist";
-import { authReducer, userReducer } from "../redux/reducers";
+import { authReducer, leadReducer, userReducer } from "../redux/reducers";
 
 // Configuration for redux-persist
 const persistConfig = {
@@ -14,6 +14,7 @@ const persistConfig = {
 const rootReducer = {
   auth: authReducer,
   user: userReducer,
+  lead: leadReducer,
 };
 
 // Apply persistReducer to the rootReducer

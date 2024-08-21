@@ -28,6 +28,10 @@ export const CREATE_USER_PENDING = "CREATE_USER_PENDING";
 export const CREATE_USER_SUCCESS = "CREATE_USER_SUCCESS";
 export const CREATE_USER_ERROR = "CREATE_USER_ERROR";
 
+export const ADD_LEAD_PENDING = "ADD_LEAD_PENDING";
+export const ADD_LEAD_SUCCESS = "ADD_LEAD_SUCCESS";
+export const ADD_LEAD_ERROR = "ADD_LEAD_ERROR";
+
 // Clear Error Constant
 export const CLEAR_ERROR = "CLEAR_ERROR";
 export const CLEAR_MESSAGE = "CLEAR_MESSAGE";
