@@ -32,6 +32,10 @@ export const ADD_LEAD_PENDING = "ADD_LEAD_PENDING";
 export const ADD_LEAD_SUCCESS = "ADD_LEAD_SUCCESS";
 export const ADD_LEAD_ERROR = "ADD_LEAD_ERROR";
 
+export const FETCH_LEADS_PENDING = "FETCH_LEADS_PENDING";
+export const FETCH_LEADS_SUCCESS = "FETCH_LEADS_SUCCESS";
+export const FETCH_LEADS_ERROR = "FETCH_LEADS_ERROR";
+
 // Clear Error Constant
 export const CLEAR_ERROR = "CLEAR_ERROR";
 export const CLEAR_MESSAGE = "CLEAR_MESSAGE";

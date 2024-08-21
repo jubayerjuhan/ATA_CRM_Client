@@ -1,5 +1,6 @@
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { RootState } from "../store/store";
+import { Lead } from "@/pages";
 
 export type AppDispatch = ThunkDispatch<RootState, unknown, any>;
 
@@ -25,6 +26,7 @@ export interface LeadState {
   loading: boolean;
   message: string | null;
   success: boolean | null;
+  leads: Lead[];
   error: {
     message: string;
   } | null;
