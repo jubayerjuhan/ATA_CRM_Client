@@ -19,7 +19,10 @@ export const Leads = () => {
   }, [dispatch]);
   return (
     <DashboardLayout>
-      <LeadsTable leads={leadState.leads} loading={false} />
+      <LeadsTable
+        leads={leadState.leads ? leadState.leads : []}
+        loading={false}
+      />
     </DashboardLayout>
   );
 };

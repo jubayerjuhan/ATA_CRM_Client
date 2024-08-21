@@ -9,7 +9,7 @@ import {
   FETCH_LEADS_SUCCESS,
 } from "../../constants";
 
-export const leadReducer = (state = { leads: [] }, action: any) => {
+export const leadReducer = (state = {}, action: any) => {
   switch (action.type) {
     case ADD_LEAD_PENDING:
       return {
