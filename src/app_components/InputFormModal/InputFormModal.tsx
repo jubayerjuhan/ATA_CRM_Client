@@ -1,5 +1,11 @@
-import React from "react";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import React, { useEffect, useState } from "react";
+import {
+  useForm,
+  SubmitHandler,
+  Controller,
+  UseFormRegister,
+  FieldErrors,
+} from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -11,6 +17,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -23,7 +30,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-import { InputFormModalProps } from "./InputForm.types";
+import { InputField, InputFormModalProps } from "./InputForm.types";
 
 interface FormValues {
   [key: string]: string; // Dynamic form values
@@ -36,7 +43,10 @@ export const InputFormModal: React.FC<InputFormModalProps> = ({
   description,
   fields,
   submitHandler,
+  dialogOpen = false,
 }) => {
+  const [open, setOpen] = useState(false); // State to manage dialog open state
+
   const {
     register,
     handleSubmit,
@@ -44,12 +54,17 @@ export const InputFormModal: React.FC<InputFormModalProps> = ({
     formState: { errors },
   } = useForm<FormValues>();
 
+  useEffect(() => {
+    setOpen(dialogOpen);
+  }, [dialogOpen]);
+
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     if (submitHandler) submitHandler(data);
+    setOpen(false); // Close the modal after successful submission
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">{triggerBtnTitle}</Button>
       </DialogTrigger>
@@ -67,48 +82,12 @@ export const InputFormModal: React.FC<InputFormModalProps> = ({
               <Label htmlFor={field.id} className="text-right">
                 {field.label}
               </Label>
-              {field.type === "select" ? (
-                <Controller
-                  name={field.id}
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field: controllerField }) => (
-                    <Select
-                      onValueChange={(value) => controllerField.onChange(value)}
-                      value={controllerField.value}
-                    >
-                      <SelectTrigger className="col-span-3">
-                        <SelectValue placeholder={field.placeholder} />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectGroup>
-                          <SelectLabel>{field.label}</SelectLabel>
-                          {field.options?.map((option) => (
-                            <SelectItem key={option.value} value={option.value}>
-                              {option.label}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                      </SelectContent>
-                    </Select>
-                  )}
-                />
-              ) : (
-                <>
-                  <Input
-                    id={field.id}
-                    type={field.type}
-                    placeholder={field.placeholder}
-                    {...register(field.id, { required: true })}
-                    className="col-span-3"
-                  />
-                  {errors[field.id] && (
-                    <span className="text-xs text-right text-red-500 col-span-4 ml-1 mt-1">
-                      * This Field Is Required
-                    </span>
-                  )}
-                </>
-              )}
+              <RenderInputField
+                register={register}
+                control={control}
+                field={field}
+                errors={errors}
+              />
             </div>
           ))}
           <DialogFooter>
@@ -117,5 +96,73 @@ export const InputFormModal: React.FC<InputFormModalProps> = ({
         </form>
       </DialogContent>
     </Dialog>
+  );
+};
+
+interface RenderInputFieldProps {
+  control: any;
+  field: InputField;
+  register: UseFormRegister<FormValues>;
+  errors: FieldErrors<FormValues>;
+}
+const RenderInputField: React.FC<RenderInputFieldProps> = ({
+  control,
+  field,
+  register,
+  errors,
+}) => {
+  if (field.type === "select") {
+    return (
+      <Controller
+        name={field.id}
+        control={control}
+        rules={{ required: true }}
+        render={({ field: controllerField }) => (
+          <Select
+            onValueChange={(value) => controllerField.onChange(value)}
+            value={controllerField.value}
+          >
+            <SelectTrigger className="col-span-3">
+              <SelectValue placeholder={field.placeholder} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>{field.label}</SelectLabel>
+                {field.options?.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        )}
+      />
+    );
+  }
+
+  if (field.type === "checkbox") {
+    return (
+      <div className="flex items-center space-x-2">
+        <Checkbox id={field.id} {...register(field.id, { required: true })} />
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <Input
+        id={field.id}
+        type={field.type}
+        placeholder={field.placeholder}
+        {...register(field.id, { required: true })}
+        className="col-span-3"
+      />
+      {errors[field.id] && (
+        <span className="text-xs text-right text-red-500 col-span-4 ml-1 mt-1">
+          * This Field Is Required
+        </span>
+      )}
+    </>
   );
 };

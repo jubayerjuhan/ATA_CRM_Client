@@ -6,6 +6,7 @@ interface AppButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   primary?: boolean;
   secondary?: boolean;
   danger?: boolean;
+  className?: string;
 }
 
 export const AppButton: React.FC<AppButtonProps> = ({
@@ -13,20 +14,21 @@ export const AppButton: React.FC<AppButtonProps> = ({
   primary,
   secondary,
   danger,
+  className,
   ...props
 }) => {
-  let className = "app-custom-button";
+  let classNameComponent = `${className} app-custom-button`;
 
   if (primary) {
-    className += " primary";
+    classNameComponent += " primary";
   } else if (secondary) {
-    className += " secondary";
+    classNameComponent += " secondary";
   } else if (danger) {
-    className += " danger";
+    classNameComponent += " danger";
   }
 
   return (
-    <button className={className} {...props}>
+    <button className={classNameComponent} {...props}>
       {children}
     </button>
   );

@@ -4,7 +4,9 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import {
   Dashboard,
   ForgotPassword,
+  FormPage,
   Home,
+  Leads,
   Login,
   ResetPassword,
   Users,
@@ -19,6 +21,8 @@ import {
   DashboardURL,
   UsersManagementURL,
   FormFieldManagementURL,
+  FormPageURL,
+  LeadsManagementURL,
 } from "./routeConstant";
 import PrivateRoute from "@/app_components/PrivateRoute/PrivateRoute";
 import FormManager from "@/pages/FormManager/FormManager";
@@ -45,6 +49,14 @@ const AppRoutes: React.FC = () => {
         <Route
           path={FormFieldManagementURL}
           element={<PrivateRoute component={FormManager} />}
+        />
+        <Route
+          path={FormPageURL}
+          element={<PrivateRoute component={FormPage} />}
+        />
+        <Route
+          path={LeadsManagementURL}
+          element={<PrivateRoute component={Leads} />}
         />
       </Routes>
     </Router>
