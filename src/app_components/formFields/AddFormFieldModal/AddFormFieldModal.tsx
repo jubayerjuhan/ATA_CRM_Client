@@ -32,7 +32,13 @@ export const AddFormFieldModal = () => {
       placeholder: "Select The Field Type",
       options: [
         { value: "text", label: "Text" },
-        { value: "number", label: "Text" },
+        { value: "number", label: "Number" },
+        { value: "checkbox", label: "Checkbox" },
+        { value: "radio", label: "Radio" },
+        { value: "textarea", label: "Textarea" },
+        { value: "date", label: "Date" },
+        { value: "email", label: "Email" },
+        { value: "password", label: "Password" },
       ],
     },
     {
@@ -56,6 +62,7 @@ export const AddFormFieldModal = () => {
   const handleAddNewField = async (data: FormValues) => {
     const fieldDetails = {
       ...data,
+      name: (data.name as string).toLowerCase(),
       required: data.required === "true" ? true : false,
     };
 

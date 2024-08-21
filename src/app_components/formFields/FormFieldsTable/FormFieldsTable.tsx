@@ -1,6 +1,6 @@
 import React, { memo, useMemo } from "react";
 
-import { ChevronDownIcon } from "@radix-ui/react-icons";
+import { ChevronDownIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 
 import {
   ColumnDef,
@@ -20,8 +20,11 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -32,6 +35,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { FormFieldType } from "@/types";
+import { deleteFormField } from "@/services/formField/formField";
+import toast from "react-hot-toast";
 
 export const columns: ColumnDef<FormFieldType>[] = [
   {
@@ -64,7 +69,49 @@ export const columns: ColumnDef<FormFieldType>[] = [
       return <div className="">{required ? "Yes" : "No"}</div>;
     },
   },
+
+  {
+    id: "actions",
+    header: "Actions",
+    enableHiding: false,
+    cell: ({ row }) => {
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <DotsHorizontalIcon className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem
+              style={{ color: "#f56565" }}
+              onClick={() => handleDeleteField(row.original)}
+            >
+              Delete Field
+            </DropdownMenuItem>
+            {/* <DropdownMenuSeparator /> */}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
 ];
+
+const handleDeleteField = async (field: FormFieldType) => {
+  const confirmDelete = window.confirm(
+    `Are you sure you want to delete the field "${field.label}"?`
+  );
+  if (confirmDelete) {
+    try {
+      await deleteFormField(field._id);
+      toast.success(`Field "${field.label}" deleted successfully`);
+    } catch (error: any) {
+      toast.error(error.message as string);
+    }
+  }
+};
 
 export interface FormFieldsTableProps {
   fields: FormFieldType[];
@@ -116,10 +163,10 @@ export const FormFieldsTable: React.FC<FormFieldsTableProps> = memo(
       <div className="w-full">
         <div className="flex items-center py-4">
           <Input
-            placeholder="Filter emails..."
-            value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+            placeholder="Filter Field Name"
+            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
-              table.getColumn("email")?.setFilterValue(event.target.value)
+              table.getColumn("name")?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
           />
