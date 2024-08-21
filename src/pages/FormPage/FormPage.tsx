@@ -23,6 +23,7 @@ export const FormPage = () => {
   const navigate = useNavigate();
   const [formFields, setFormFields] = useState<FormFieldType[]>([]);
   const [loading, setLoading] = useState(false);
+  console.log(loading, "loading...");
 
   const dispatch = useDispatch<AppDispatch>();
   const { lead: leadState } = useSelector((state: AppState) => state);
