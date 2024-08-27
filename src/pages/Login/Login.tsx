@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -21,6 +21,7 @@ interface LoginFormValues {
 
 export const Login: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   const { auth: authState } = useSelector((state: AppState) => state);
 
@@ -38,8 +39,9 @@ export const Login: React.FC = () => {
     if (authState.message) {
       toast.success(authState.message);
       dispatch({ type: CLEAR_MESSAGE });
+      navigate("/");
     }
-  }, [authState.message, dispatch]);
+  }, [authState.message, dispatch, navigate]);
 
   useEffect(() => {
     if (authState.error?.message) {

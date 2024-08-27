@@ -33,13 +33,14 @@ const AppRoutes: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route Component={Home} path={BaseURL} />
         <Route Component={Home} path={HomepageURL} />
         <Route Component={Login} path={LoginURL} />
         <Route Component={ForgotPassword} path={ForgotPasswordURL} />
         <Route Component={ResetPassword} path={ResetPasswordURL} />
 
         {/* Private routes */}
+        <Route path={BaseURL} element={<PrivateRoute component={Home} />} />
+        <Route path={HomepageURL} element={<PrivateRoute component={Home} />} />
         <Route
           path={DashboardURL}
           element={<PrivateRoute component={Dashboard} />}
