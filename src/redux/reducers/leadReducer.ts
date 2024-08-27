@@ -4,6 +4,9 @@ import {
   ADD_LEAD_SUCCESS,
   CLEAR_ERROR,
   CLEAR_MESSAGE,
+  EDIT_LEAD_ERROR,
+  EDIT_LEAD_PENDING,
+  EDIT_LEAD_SUCCESS,
   FETCH_LEADS_ERROR,
   FETCH_LEADS_PENDING,
   FETCH_LEADS_SUCCESS,
@@ -24,6 +27,25 @@ export const leadReducer = (state = {}, action: any) => {
         success: true,
       };
     case ADD_LEAD_ERROR:
+      return {
+        ...state,
+        loading: false,
+        success: false,
+        error: action.payload.message,
+      };
+    case EDIT_LEAD_PENDING:
+      return {
+        ...state,
+        loading: true,
+      };
+    case EDIT_LEAD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        message: action.payload.message,
+        success: true,
+      };
+    case EDIT_LEAD_ERROR:
       return {
         ...state,
         loading: false,

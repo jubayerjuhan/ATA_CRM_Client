@@ -8,6 +8,7 @@ import {
   Home,
   Leads,
   Login,
+  NewLeads,
   ResetPassword,
   Users,
 } from "@/pages";
@@ -23,6 +24,7 @@ import {
   FormFieldManagementURL,
   FormPageURL,
   LeadsManagementURL,
+  NewLeadsURL,
 } from "./routeConstant";
 import PrivateRoute from "@/app_components/PrivateRoute/PrivateRoute";
 import FormManager from "@/pages/FormManager/FormManager";
@@ -57,6 +59,10 @@ const AppRoutes: React.FC = () => {
         <Route
           path={LeadsManagementURL}
           element={<PrivateRoute component={Leads} />}
+        />
+        <Route
+          path={NewLeadsURL}
+          element={<PrivateRoute component={NewLeads} />}
         />
       </Routes>
     </Router>

@@ -10,4 +10,5 @@ export type LeadType = {
   departure: Date;
   createdAt: Date;
   updatedAt?: Date;
+  claimed_by?: object | null;
 };

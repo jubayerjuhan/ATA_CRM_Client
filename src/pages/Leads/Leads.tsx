@@ -17,6 +17,8 @@ export const Leads = () => {
     };
     fetchAllLeads();
   }, [dispatch]);
+
+  console.log("object");
   return (
     <DashboardLayout>
       <LeadsTable
