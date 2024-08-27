@@ -8,6 +8,11 @@ export interface AuthState {
   loading: boolean;
   token: string | null;
   message: string | null;
+  profile: {
+    _id: string;
+    email: string;
+    name: string;
+  } | null;
   error: {
     message: string;
   } | null;

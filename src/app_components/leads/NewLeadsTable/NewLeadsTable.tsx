@@ -32,59 +32,68 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { AppDispatch, AppState, LeadType } from "@/types";
+import { useSelector } from "react-redux";
+import { editLead } from "@/redux/actions";
+import { useDispatch } from "react-redux";
 
-const columns: ColumnDef<any>[] = [
-  {
-    accessorKey: "name",
-    header: "Name",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
-  },
-  {
-    accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
+export const NewLeadsTable: React.FC<any> = ({ leads }) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { auth } = useSelector((state: AppState) => state);
+
+  const columns: ColumnDef<any>[] = [
+    {
+      accessorKey: "name",
+      header: "Name",
+      cell: ({ row }) => (
+        <div className="capitalize">{row.getValue("name")}</div>
+      ),
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
-  },
-  {
-    accessorKey: "phone",
-    header: "Phone",
-    cell: ({ row }) => <div>{row.getValue("phone")}</div>,
-  },
-  {
-    accessorKey: "from",
-    header: "From",
-    cell: ({ row }) => <div>{row.getValue("from")}</div>,
-  },
-  {
-    accessorKey: "to",
-    header: "Destination",
-    cell: ({ row }) => <div>{row.getValue("to")}</div>,
-  },
-  {
-    accessorKey: "class",
-    header: "Class",
-    cell: ({ row }) => <div>{row.getValue("class")}</div>,
-  },
-  {
-    header: "Detail",
-    cell: ({ row }) => (
-      <Button onClick={() => console.log(row.original)}>
-        <CgProfile />
-      </Button>
-    ),
-  },
-];
+    {
+      accessorKey: "email",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Email
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="lowercase">{row.getValue("email")}</div>
+      ),
+    },
+    {
+      accessorKey: "phone",
+      header: "Phone",
+      cell: ({ row }) => <div>{row.getValue("phone")}</div>,
+    },
+    {
+      accessorKey: "from",
+      header: "From",
+      cell: ({ row }) => <div>{row.getValue("from")}</div>,
+    },
+    {
+      accessorKey: "to",
+      header: "Destination",
+      cell: ({ row }) => <div>{row.getValue("to")}</div>,
+    },
+    {
+      header: "Claim Lead",
+      cell: ({ row }) => (
+        <Button onClick={() => handleClaimLead(row.original)}>Claim Now</Button>
+      ),
+    },
+  ];
 
-export const LeadsTable: React.FC<any> = ({ leads }) => {
+  const handleClaimLead = async (lead: LeadType) => {
+    const edited_lead = { ...lead, claimed_by: auth.profile?._id };
+    await dispatch(editLead(edited_lead));
+  };
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []

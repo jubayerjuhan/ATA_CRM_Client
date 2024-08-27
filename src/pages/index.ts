@@ -6,3 +6,4 @@ export * from "./Dashboard/Dashboard";
 export * from "./Users/Users";
 export * from "./FormPage/FormPage";
 export * from "./Leads/Leads";
+export * from "./NewLeads/NewLeads";

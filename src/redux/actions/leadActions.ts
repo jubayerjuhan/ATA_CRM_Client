@@ -7,14 +7,15 @@ import {
   FETCH_LEADS_SUCCESS,
   FETCH_LEADS_ERROR,
   ADD_LEAD_PENDING,
+  EDIT_LEAD_PENDING,
+  EDIT_LEAD_SUCCESS,
+  EDIT_LEAD_ERROR,
 } from "@/constants";
 import { client } from "@/api/api";
+import { LeadType } from "@/types";
+import toast from "react-hot-toast";
 
-export interface Lead {
-  [key: string]: string;
-}
-
-export const addLead = (data: Lead) => {
+export const addLead = (data: LeadType) => {
   return async (dispatch: Dispatch) => {
     dispatch({ type: ADD_LEAD_PENDING });
     try {
@@ -48,6 +49,28 @@ export const getAllLeads = () => {
     } catch (error: any) {
       dispatch({
         type: FETCH_LEADS_ERROR,
+        payload: {
+          message: error.response?.data?.message || "Something went wrong",
+        },
+      });
+    }
+  };
+};
+
+export const editLead = (data: LeadType) => {
+  return async (dispatch: Dispatch) => {
+    dispatch({ type: EDIT_LEAD_PENDING });
+    try {
+      await client.put(`/leads/${data._id}`, data);
+      dispatch({
+        type: EDIT_LEAD_SUCCESS,
+        payload: { message: "Lead Updated Successfully" },
+      });
+      toast.success("Lead Updated Successfully");
+      dispatch(getAllLeads() as any);
+    } catch (error: any) {
+      dispatch({
+        type: EDIT_LEAD_ERROR,
         payload: {
           message: error.response?.data?.message || "Something went wrong",
         },
