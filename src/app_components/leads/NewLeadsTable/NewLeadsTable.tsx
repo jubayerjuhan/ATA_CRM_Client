@@ -91,7 +91,7 @@ export const NewLeadsTable: React.FC<any> = ({ leads }) => {
 
   const handleClaimLead = async (lead: LeadType) => {
     const edited_lead = { ...lead, claimed_by: auth.profile?._id };
-    await dispatch(editLead(edited_lead));
+    await dispatch(editLead(edited_lead as LeadType));
   };
 
   const [sorting, setSorting] = React.useState<SortingState>([]);

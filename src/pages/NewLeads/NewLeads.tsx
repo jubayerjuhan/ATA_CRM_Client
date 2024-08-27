@@ -6,14 +6,14 @@ import { useSelector } from "react-redux";
 import { DashboardLayout } from "@/app_components/DashboardLayout";
 
 import { getAllLeads } from "@/redux/actions";
-import { AppDispatch, AppState } from "@/types";
+import { AppDispatch, AppState, LeadType } from "@/types";
 import { NewLeadsTable } from "@/app_components";
 
 export const NewLeads = () => {
   const { lead: leadState } = useSelector((state: AppState) => state);
   const dispatch = useDispatch<AppDispatch>();
 
-  const [unclaimedLeads, setUnclaimedLeads] = React.useState<Lead[]>([]);
+  const [unclaimedLeads, setUnclaimedLeads] = React.useState<LeadType[]>([]);
 
   useEffect(() => {
     const fetchAllLeads = async () => {

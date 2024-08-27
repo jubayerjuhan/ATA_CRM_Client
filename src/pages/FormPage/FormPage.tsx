@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 
 import { getAllFormFields } from "@/services/formField/formField";
 import { AppButton, BookingForm } from "@/app_components";
-import { AppDispatch, AppState, FormFieldType } from "@/types";
+import { AppDispatch, AppState, FormFieldType, LeadType } from "@/types";
 
 import logo from "../../assets/air_ticket_agency.png";
 import successLogo from "../../assets/success-tick.png";
@@ -14,10 +14,6 @@ import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { CLEAR_ERROR } from "@/constants";
 import { useNavigate } from "react-router-dom";
-
-export interface Lead {
-  [key: string]: string;
-}
 
 export const FormPage = () => {
   const navigate = useNavigate();
@@ -44,7 +40,7 @@ export const FormPage = () => {
     }
   };
 
-  const handleAddLead = async (data: Lead) => {
+  const handleAddLead = async (data: LeadType) => {
     await dispatch(addLead(data));
   };
 
