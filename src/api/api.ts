@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const environment = import.meta.env.NODE_ENV;
+const environment = import.meta.env.VITE_NODE_ENV;
 
 export const base_url =
   environment === "development" || environment === undefined
