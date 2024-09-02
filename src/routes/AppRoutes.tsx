@@ -25,9 +25,14 @@ import {
   FormPageURL,
   LeadsManagementURL,
   NewLeadsURL,
+  MyLeadsURL,
+  LeadDetailURL,
 } from "./routeConstant";
 import PrivateRoute from "@/app_components/PrivateRoute/PrivateRoute";
 import FormManager from "@/pages/FormManager/FormManager";
+import { MyLeads } from "@/pages/MyLeads/MyLeads";
+import { ClientFormPage } from "@/pages/ClientFormPage/ClientFormPage";
+import LeadDetailPage from "@/pages/LeadDetailPage/LeadDetailPage";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -55,15 +60,23 @@ const AppRoutes: React.FC = () => {
         />
         <Route
           path={FormPageURL}
-          element={<PrivateRoute component={FormPage} />}
+          element={<PrivateRoute component={ClientFormPage} />}
         />
         <Route
           path={LeadsManagementURL}
           element={<PrivateRoute component={Leads} />}
         />
         <Route
+          path={LeadDetailURL}
+          element={<PrivateRoute component={LeadDetailPage} />}
+        />
+        <Route
           path={NewLeadsURL}
           element={<PrivateRoute component={NewLeads} />}
+        />
+        <Route
+          path={MyLeadsURL}
+          element={<PrivateRoute component={MyLeads} />}
         />
       </Routes>
     </Router>

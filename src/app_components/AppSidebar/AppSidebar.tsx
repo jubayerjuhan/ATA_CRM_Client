@@ -2,10 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Icons
+import { FaWpforms } from "react-icons/fa6";
 import { FaUsersViewfinder } from "react-icons/fa6";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { PiUserList } from "react-icons/pi";
-import { MdFormatAlignLeft, MdFiberNew } from "react-icons/md";
+import { MdMyLocation, MdFormatAlignLeft, MdFiberNew } from "react-icons/md";
 
 import { SidebarLinksType } from "./index";
 
@@ -15,7 +16,9 @@ import "./Sidebar.scss";
 import {
   DashboardURL,
   FormFieldManagementURL,
+  FormPageURL,
   LeadsManagementURL,
+  MyLeadsURL,
   NewLeadsURL,
   UsersManagementURL,
 } from "@/routes/routeConstant";
@@ -52,9 +55,19 @@ const Sidebar = () => {
       pathname: NewLeadsURL,
     },
     {
+      title: "My Leads",
+      icon: <MdMyLocation />,
+      pathname: MyLeadsURL,
+    },
+    {
       title: "Form Fields",
       icon: <MdFormatAlignLeft />,
       pathname: FormFieldManagementURL,
+    },
+    {
+      title: "Lead Sub Form",
+      icon: <FaWpforms />,
+      pathname: FormPageURL,
     },
   ];
 

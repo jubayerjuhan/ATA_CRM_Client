@@ -1,5 +1,6 @@
 import * as React from "react";
 import { CaretSortIcon, ChevronDownIcon } from "@radix-ui/react-icons";
+import { CgProfile } from "react-icons/cg";
 
 import {
   ColumnDef,
@@ -35,8 +36,10 @@ import { AppDispatch, AppState, LeadType } from "@/types";
 import { useSelector } from "react-redux";
 import { editLead } from "@/redux/actions";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-export const NewLeadsTable: React.FC<any> = ({ leads }) => {
+export const MyLeadsTable: React.FC<any> = ({ leads }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { auth } = useSelector((state: AppState) => state);
 
@@ -93,17 +96,14 @@ export const NewLeadsTable: React.FC<any> = ({ leads }) => {
       cell: ({ row }) => <div>{row.getValue("leadType")}</div>,
     },
     {
-      header: "Claim Lead",
+      header: "Detail",
       cell: ({ row }) => (
-        <Button onClick={() => handleClaimLead(row.original)}>Claim Now</Button>
+        <Button onClick={() => navigate(`/dashboard/lead/${row.original._id}`)}>
+          <CgProfile />
+        </Button>
       ),
     },
   ];
-
-  const handleClaimLead = async (lead: LeadType) => {
-    const edited_lead = { ...lead, claimed_by: auth.profile?._id };
-    await dispatch(editLead(edited_lead as LeadType));
-  };
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -131,6 +131,10 @@ export const NewLeadsTable: React.FC<any> = ({ leads }) => {
       rowSelection,
     },
   });
+
+  if (!leads) {
+    return <div>No leads available</div>;
+  }
 
   return (
     <div className="w-full">

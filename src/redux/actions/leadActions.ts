@@ -12,8 +12,8 @@ import {
   EDIT_LEAD_ERROR,
 } from "@/constants";
 import { client } from "@/api/api";
-import { LeadType } from "@/types";
 import toast from "react-hot-toast";
+import { LeadType } from "@/types";
 
 export const addLead = (data: LeadType) => {
   return async (dispatch: Dispatch) => {
@@ -24,6 +24,8 @@ export const addLead = (data: LeadType) => {
         type: ADD_LEAD_SUCCESS,
         payload: { message: "Form Submitted Successfully" },
       });
+      toast.success("Lead Added Successfully");
+      window.location.reload();
       // dispatch(getAllUsers() as any);
     } catch (error: any) {
       dispatch({
@@ -57,6 +59,29 @@ export const getAllLeads = () => {
   };
 };
 
+// Get leads by user id
+export const getLeadsByUserId = (userId: string) => {
+  return async (dispatch: Dispatch) => {
+    dispatch({ type: FETCH_LEADS_PENDING });
+    try {
+      const response = await client.get(`/leads/user/${userId}`);
+
+      dispatch({
+        type: FETCH_LEADS_SUCCESS,
+        payload: response.data.leads,
+      });
+    } catch (error: any) {
+      dispatch({
+        type: FETCH_LEADS_ERROR,
+        payload: {
+          message: error.response?.data?.message || "Something went wrong",
+        },
+      });
+    }
+  };
+};
+
+// edit lead
 export const editLead = (data: LeadType) => {
   return async (dispatch: Dispatch) => {
     dispatch({ type: EDIT_LEAD_PENDING });

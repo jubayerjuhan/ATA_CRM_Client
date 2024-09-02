@@ -7,7 +7,9 @@ const ProfileURL = "/profile";
 const DashboardURL = "/dashboard";
 const UsersManagementURL = "/dashboard/users";
 const LeadsManagementURL = "/dashboard/leads";
+const LeadDetailURL = "/dashboard/lead/:id";
 const NewLeadsURL = "/dashboard/new-leads";
+const MyLeadsURL = "/dashboard/my-leads";
 const FormFieldManagementURL = "/dashboard/form-fields";
 const FormPageURL = "/form";
 const SettingsURL = "/settings";
@@ -25,7 +27,9 @@ export {
   NotFoundURL,
   UsersManagementURL,
   LeadsManagementURL,
+  LeadDetailURL,
   NewLeadsURL,
+  MyLeadsURL,
   FormFieldManagementURL,
   FormPageURL,
 };

@@ -35,9 +35,18 @@ import {
 
 const columns: ColumnDef<any>[] = [
   {
-    accessorKey: "name",
-    header: "Name",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
+    accessorKey: "firstName",
+    header: "First Name",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("firstName")}</div>
+    ),
+  },
+  {
+    accessorKey: "lastName",
+    header: "Last Name",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("lastName")}</div>
+    ),
   },
   {
     accessorKey: "email",
@@ -55,24 +64,24 @@ const columns: ColumnDef<any>[] = [
     cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
   },
   {
-    accessorKey: "phone",
-    header: "Phone",
-    cell: ({ row }) => <div>{row.getValue("phone")}</div>,
+    accessorKey: "departure",
+    header: "Departure",
+    cell: ({ row }) => <div>{row.getValue("departure")}</div>,
   },
   {
-    accessorKey: "from",
-    header: "From",
-    cell: ({ row }) => <div>{row.getValue("from")}</div>,
+    accessorKey: "arrival",
+    header: "Arrival",
+    cell: ({ row }) => <div>{row.getValue("arrival")}</div>,
   },
   {
-    accessorKey: "to",
-    header: "Destination",
-    cell: ({ row }) => <div>{row.getValue("to")}</div>,
+    accessorKey: "adult",
+    header: "Adult",
+    cell: ({ row }) => <div>{row.getValue("adult")}</div>,
   },
   {
-    accessorKey: "class",
-    header: "Class",
-    cell: ({ row }) => <div>{row.getValue("class")}</div>,
+    accessorKey: "leadType",
+    header: "Lead Type",
+    cell: ({ row }) => <div>{row.getValue("leadType")}</div>,
   },
   {
     header: "Detail",
