@@ -8,10 +8,13 @@ import { addLead } from "@/redux/actions";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { CLEAR_ERROR } from "@/constants";
+import { AirportSelector } from "@/app_components";
+import { useNavigate } from "react-router-dom";
 
 export const ClientFormPage = () => {
   const { lead: leadState } = useSelector((state: AppState) => state);
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -28,6 +31,14 @@ export const ClientFormPage = () => {
   const onSubmit = async (data: any) => {
     console.log(data, "data");
     await dispatch(addLead(data as LeadType));
+
+    const queryParams = new URLSearchParams({
+      title: "Lead Added Successfully",
+      message: `Name: ${data.firstName} ${data.lastName}`,
+      redirectLink: "/form",
+    }).toString();
+
+    navigate(`/lead-success?${queryParams}`);
   };
 
   return (
@@ -35,15 +46,34 @@ export const ClientFormPage = () => {
       <div className="section">
         <h2 className="section-title">Passenger Details</h2>
         <div className="form-group">
-          <label>Passenger Type</label>
-          <select {...register("passengerName")}>
+          <label>
+            Passenger Type <span className="required">*</span>
+          </label>
+          <select
+            {...register("passengerType", {
+              required: "Passenger Type is required",
+            })}
+          >
+            <option value="">Select</option>
             <option value="New">New</option>
-            {/* Add other options */}
+            <option value="Returning">Returning</option>
+            <option value="VIP">VIP</option>
+            <option value="Frequent Flyer">Frequent Flyer</option>
+            <option value="Business">Business</option>
+            <option value="Economy">Economy</option>
+            <option value="First Class">First Class</option>
           </select>
+          {errors.passengerType && (
+            <span className="error-message">
+              {errors.passengerType.message as string}
+            </span>
+          )}
         </div>
         <div className="form-row">
           <div className="form-group">
-            <label>First Name</label>
+            <label>
+              First Name <span className="required">*</span>
+            </label>
             <input
               type="text"
               placeholder="Enter First Name"
@@ -56,7 +86,9 @@ export const ClientFormPage = () => {
             )}
           </div>
           <div className="form-group">
-            <label>Last Name</label>
+            <label>
+              Last Name <span className="required">*</span>
+            </label>
             <input
               type="text"
               placeholder="Enter Last Name"
@@ -69,11 +101,13 @@ export const ClientFormPage = () => {
             )}
           </div>
           <div className="form-group">
-            <label>Phone Number</label>
+            <label>
+              Phone Number <span className="required">*</span>
+            </label>
             <input
-              type="phone"
+              type="tel"
               placeholder="Enter Phone Number"
-              {...register("phone", { required: "Phone Number Is Required" })}
+              {...register("phone", { required: "Phone Number is required" })}
             />
             {errors.phone && (
               <span className="error-message">
@@ -82,7 +116,9 @@ export const ClientFormPage = () => {
             )}
           </div>
           <div className="form-group">
-            <label>Email</label>
+            <label>
+              Email <span className="required">*</span>
+            </label>
             <input
               type="email"
               placeholder="example@example.com"
@@ -105,109 +141,58 @@ export const ClientFormPage = () => {
             <input
               type="text"
               placeholder="Post code here"
-              {...register("postCode", { required: "Post Code is required" })}
+              {...register("postCode")}
             />
-            {errors.postCode && (
-              <span className="error-message">
-                {errors.postCode.message as string}
-              </span>
-            )}
           </div>
         </div>
       </div>
-
       <hr />
-
       <div className="section">
         <h2 className="section-title">Call Log Details</h2>
         <div className="form-row">
           <div className="form-group">
-            <label>
-              Call Type <span>*</span>
-            </label>
-            <select
-              {...register("callType", { required: "Call Type is required" })}
-            >
+            <label>Call Type</label>
+            <select {...register("callType")}>
               <option value="">Select</option>
               <option value="Inbound">Inbound</option>
               <option value="Outbound">Outbound</option>
               <option value="Missed">Missed</option>
             </select>
-            {errors.callType && (
-              <span className="error-message">
-                {errors.callType.message as string}
-              </span>
-            )}
           </div>
           <div className="form-group">
             <label>Date and Time</label>
             <input type="datetime-local" {...register("dateTime")} />
           </div>
           <div className="form-group">
-            <label>
-              Call For <span>*</span>
-            </label>
-            <select
-              {...register("callFor", { required: "Call For is required" })}
-            >
-              <option value="">Select</option>
-              <option value="Existing">Existing</option>
-              <option value="Returning">Returning</option>
-              <option value="VIP">VIP</option>
-              {/* Add other options */}
-            </select>
-            {errors.callFor && (
-              <span className="error-message">
-                {errors.callFor.message as string}
-              </span>
-            )}
+            <label>Call For</label>
+            <input type="text" {...register("callFor")} />
           </div>
         </div>
         <div className="form-row">
+          <AirportSelector
+            label="Departure"
+            name="departure"
+            register={register}
+            errorMessage={errors.departure?.message as string}
+            required
+          />
+          <AirportSelector
+            label="Arrival"
+            name="arrival"
+            register={register}
+            errorMessage={errors.arrival?.message as string}
+            required
+          />
           <div className="form-group">
             <label>
-              Departure <span>*</span>
+              Airlines Code <span className="required">*</span>
             </label>
             <input
               type="text"
-              placeholder="Enter Departure City Name"
-              {...register("departure", { required: "First Name is required" })}
-            />
-            {errors.departure && (
-              <span className="error-message">
-                {errors.departure.message as string}
-              </span>
-            )}
-          </div>
-          <div className="form-group">
-            <label>
-              Arrival <span>*</span>
-            </label>
-            <input
-              type="text"
-              placeholder="Enter Arrival City Name"
-              {...register("arrival", { required: "First Name is required" })}
-            />
-            {errors.arrival && (
-              <span className="error-message">
-                {errors.arrival.message as string}
-              </span>
-            )}
-          </div>
-          <div className="form-group">
-            <label>
-              Airlines Code <span>*</span>
-            </label>
-            <select
               {...register("airlinesCode", {
                 required: "Airlines Code is required",
               })}
-            >
-              <option value="">Select</option>
-              <option value="AA">American Airlines</option>
-              <option value="UA">United Airlines</option>
-              <option value="DL">Delta Airlines</option>
-            </select>
+            />
             {errors.airlinesCode && (
               <span className="error-message">
                 {errors.airlinesCode.message as string}
@@ -226,7 +211,7 @@ export const ClientFormPage = () => {
         <div className="form-row">
           <div className="form-group">
             <label>
-              Travel Date <span>*</span>
+              Travel Date <span className="required">*</span>
             </label>
             <input
               type="date"
@@ -245,22 +230,65 @@ export const ClientFormPage = () => {
             <input type="date" {...register("returnDate")} />
           </div>
           <div className="form-group">
-            <label>Adult</label>
-            <input type="number" defaultValue={1} {...register("adult")} />
+            <label>
+              Adult <span className="required">*</span>
+            </label>
+            <input
+              type="number"
+              defaultValue={1}
+              {...register("adult", { required: "Adult is required" })}
+            />
+            {errors.adult && (
+              <span className="error-message">
+                {errors.adult.message as string}
+              </span>
+            )}
           </div>
           <div className="form-group">
-            <label>Child</label>
-            <input type="number" defaultValue={0} {...register("child")} />
+            <label>
+              Child <span className="required">*</span>
+            </label>
+            <input
+              type="number"
+              defaultValue={0}
+              {...register("child", { required: "Child is required" })}
+            />
+            {errors.child && (
+              <span className="error-message">
+                {errors.child.message as string}
+              </span>
+            )}
           </div>
           <div className="form-group">
-            <label>Infant</label>
-            <input type="number" defaultValue={0} {...register("infant")} />
+            <label>
+              Infant <span className="required">*</span>
+            </label>
+            <input
+              type="number"
+              defaultValue={0}
+              {...register("infant", { required: "Infant is required" })}
+            />
+            {errors.infant && (
+              <span className="error-message">
+                {errors.infant.message as string}
+              </span>
+            )}
           </div>
         </div>
         <div className="form-row">
           <div className="form-group">
-            <label>Case Date</label>
-            <input type="datetime-local" {...register("caseDate")} />
+            <label>
+              Case Date <span className="required">*</span>
+            </label>
+            <input
+              type="datetime-local"
+              {...register("caseDate", { required: "Case Date is required" })}
+            />
+            {errors.caseDate && (
+              <span className="error-message">
+                {errors.caseDate.message as string}
+              </span>
+            )}
           </div>
           <div className="form-group">
             <label>Quoted</label>
@@ -272,7 +300,7 @@ export const ClientFormPage = () => {
           </div>
           <div className="form-group">
             <label>
-              Lead Type <span>*</span>
+              Lead Type <span className="required">*</span>
             </label>
             <select
               {...register("leadType", { required: "Lead Type is required" })}
@@ -289,20 +317,8 @@ export const ClientFormPage = () => {
             )}
           </div>
           <div className="form-group">
-            <label>
-              Next Follow-up Date <span>*</span>
-            </label>
-            <input
-              type="date"
-              {...register("followUpDate", {
-                required: "Next Follow-up Date is required",
-              })}
-            />
-            {errors.followUpDate && (
-              <span className="error-message">
-                {errors.followUpDate.message as string}
-              </span>
-            )}
+            <label>Next Follow-up Date</label>
+            <input type="date" {...register("followUpDate")} />
           </div>
         </div>
         <div className="form-group">
@@ -310,7 +326,6 @@ export const ClientFormPage = () => {
           <textarea placeholder="Comments" {...register("comments")} />
         </div>
       </div>
-
       <Button type="submit" style={{ width: "100%" }}>
         Submit
       </Button>

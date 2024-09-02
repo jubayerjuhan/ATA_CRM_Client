@@ -24,8 +24,6 @@ export const addLead = (data: LeadType) => {
         type: ADD_LEAD_SUCCESS,
         payload: { message: "Form Submitted Successfully" },
       });
-      toast.success("Lead Added Successfully");
-      window.location.reload();
       // dispatch(getAllUsers() as any);
     } catch (error: any) {
       dispatch({

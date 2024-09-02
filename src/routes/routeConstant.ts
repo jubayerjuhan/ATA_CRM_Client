@@ -13,6 +13,7 @@ const MyLeadsURL = "/dashboard/my-leads";
 const FormFieldManagementURL = "/dashboard/form-fields";
 const FormPageURL = "/form";
 const SettingsURL = "/settings";
+const LeadSuccessURL = "/lead-success";
 const NotFoundURL = "/not-found";
 
 export {
@@ -31,5 +32,6 @@ export {
   NewLeadsURL,
   MyLeadsURL,
   FormFieldManagementURL,
+  LeadSuccessURL,
   FormPageURL,
 };
