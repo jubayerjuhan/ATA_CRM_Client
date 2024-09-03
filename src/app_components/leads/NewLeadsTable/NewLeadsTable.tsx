@@ -37,8 +37,21 @@ import { editLead } from "@/redux/actions";
 import { useDispatch } from "react-redux";
 
 export const NewLeadsTable: React.FC<any> = ({ leads }) => {
+  const [rows, setRows] = React.useState<any[]>([]);
   const dispatch = useDispatch<AppDispatch>();
   const { auth } = useSelector((state: AppState) => state);
+
+  React.useEffect(() => {
+    const arranged_leads = leads.map((lead: any) => {
+      return {
+        ...lead,
+        departure: lead.departure.name,
+        arrival: lead.arrival.name,
+      };
+    });
+
+    setRows(arranged_leads);
+  }, [leads]);
 
   const columns: ColumnDef<any>[] = [
     {
@@ -101,7 +114,9 @@ export const NewLeadsTable: React.FC<any> = ({ leads }) => {
   ];
 
   const handleClaimLead = async (lead: LeadType) => {
-    const edited_lead = { ...lead, claimed_by: auth.profile?._id };
+    const leadId = lead._id;
+    const original_lead = leads.find((l: any) => l._id === leadId);
+    const edited_lead = { ...original_lead, claimed_by: auth.profile?._id };
     await dispatch(editLead(edited_lead as LeadType));
   };
 
@@ -114,7 +129,7 @@ export const NewLeadsTable: React.FC<any> = ({ leads }) => {
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
-    data: leads,
+    data: rows,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,

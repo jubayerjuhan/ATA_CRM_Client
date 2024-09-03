@@ -43,6 +43,8 @@ export const MyLeadsTable: React.FC<any> = ({ leads }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { auth } = useSelector((state: AppState) => state);
 
+  const [rows, setRows] = React.useState<any[]>([]);
+
   const columns: ColumnDef<any>[] = [
     {
       accessorKey: "firstName",
@@ -114,7 +116,7 @@ export const MyLeadsTable: React.FC<any> = ({ leads }) => {
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
-    data: leads,
+    data: rows, // Use the rows state here
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -131,6 +133,19 @@ export const MyLeadsTable: React.FC<any> = ({ leads }) => {
       rowSelection,
     },
   });
+
+  React.useEffect(() => {
+    if (leads && leads.length > 0) {
+      const arranged_leads = leads.map((lead: any) => ({
+        ...lead,
+        departure: lead.departure?.name || "",
+        arrival: lead.arrival?.name || "",
+      }));
+      setRows(arranged_leads);
+    } else {
+      setRows([]);
+    }
+  }, [leads]);
 
   if (!leads) {
     return <div>No leads available</div>;

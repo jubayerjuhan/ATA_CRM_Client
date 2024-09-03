@@ -18,6 +18,7 @@ export const ClientFormPage = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm();
 
@@ -170,19 +171,20 @@ export const ClientFormPage = () => {
         </div>
         <div className="form-row">
           <AirportSelector
-            label="Departure"
+            label="Departure Airport"
             name="departure"
             register={register}
-            errorMessage={errors.departure?.message as string}
+            setValue={setValue}
             required
           />
           <AirportSelector
-            label="Arrival"
+            label="Arrival Airport"
             name="arrival"
             register={register}
-            errorMessage={errors.arrival?.message as string}
+            setValue={setValue}
             required
           />
+
           <div className="form-group">
             <label>
               Airlines Code <span className="required">*</span>

@@ -30,7 +30,7 @@
   position: absolute;
   right: 12px;
   top: 50%;
-  transform: translateY(-50%);
+  // transform: translateY(-50%);
   font-size: 18px;
   color: #777;
 }
@@ -40,6 +40,10 @@
   margin-top: 8px;
   font-weight: bold;
   margin-bottom: 8px;
+
+  span {
+    color: red;
+  }
 }
 
 .errorMessage {

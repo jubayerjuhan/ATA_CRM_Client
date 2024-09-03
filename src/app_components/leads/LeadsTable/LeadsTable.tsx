@@ -94,6 +94,7 @@ const columns: ColumnDef<any>[] = [
 ];
 
 export const LeadsTable: React.FC<any> = ({ leads }) => {
+  const [rows, setRows] = React.useState<any[]>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -102,8 +103,20 @@ export const LeadsTable: React.FC<any> = ({ leads }) => {
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
+  React.useEffect(() => {
+    const arranged_leads = leads.map((lead: any) => {
+      return {
+        ...lead,
+        departure: lead.departure.name,
+        arrival: lead.arrival.name,
+      };
+    });
+
+    setRows(arranged_leads);
+  }, [leads]);
+
   const table = useReactTable({
-    data: leads,
+    data: rows,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,

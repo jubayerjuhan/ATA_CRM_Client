@@ -1,24 +1,25 @@
 import { client } from "@/api/api";
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./AirportSelector.module.scss";
-import { UseFormRegister, FieldValues } from "react-hook-form";
+import { UseFormRegister, FieldValues, UseFormSetValue } from "react-hook-form";
 
 type AirportSelectorProps = {
   label: string;
   name: string;
   register: UseFormRegister<FieldValues>;
+  setValue: UseFormSetValue<FieldValues>;
   required?: boolean;
   errorMessage?: string;
 };
-
 export const AirportSelector = ({
   label,
   name,
   register,
+  setValue,
   errorMessage,
   required = false,
 }: AirportSelectorProps): JSX.Element => {
-  const [searchKeyword, setSearchKeyword] = useState<string>("");
+  const [displayValue, setDisplayValue] = useState<string>("");
   const [airports, setAirports] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
@@ -27,6 +28,7 @@ export const AirportSelector = ({
   const handleChange = async (searchTerm: string): Promise<void> => {
     if (!searchTerm || searchTerm.length < 3) {
       setAirports([]);
+      setValue(name, ""); // Clear the form value when search is cleared
       return;
     }
     setLoading(true);
@@ -57,7 +59,8 @@ export const AirportSelector = ({
   }, []);
 
   const handleSelectAirport = (airport: any) => {
-    setSearchKeyword(`${airport.name} (${airport.code})`);
+    setDisplayValue(`${airport.name} (${airport.code})`);
+    setValue(name, airport._id);
     setIsDropdownVisible(false);
   };
 
@@ -65,7 +68,7 @@ export const AirportSelector = ({
     <div className={styles.airportSelector}>
       <div className={styles.inputWrapper}>
         <label htmlFor={name} className={styles.label}>
-          {label}
+          {label} {required && <span>*</span>}
         </label>
         <input
           type="text"
@@ -74,12 +77,12 @@ export const AirportSelector = ({
           id={name}
           {...register(name, {
             required: required ? `${label} is required` : false,
-            onChange: (e) => {
-              setSearchKeyword(e.target.value);
-              handleChange(e.target.value);
-            },
           })}
-          value={searchKeyword}
+          value={displayValue}
+          onChange={(e) => {
+            setDisplayValue(e.target.value);
+            handleChange(e.target.value);
+          }}
         />
         <span className={styles.searchIcon}>🔍</span>
       </div>
