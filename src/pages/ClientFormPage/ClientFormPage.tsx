@@ -30,8 +30,9 @@ export const ClientFormPage = () => {
   }, [leadState.error?.message, dispatch]);
 
   const onSubmit = async (data: any) => {
-    console.log(data, "data");
-    await dispatch(addLead(data as LeadType));
+    await dispatch(
+      addLead({ ...data, leadOrigin: "Website Form" } as LeadType)
+    );
 
     const queryParams = new URLSearchParams({
       title: "Lead Added Successfully",

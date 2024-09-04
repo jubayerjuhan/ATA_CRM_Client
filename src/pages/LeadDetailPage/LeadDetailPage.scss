@@ -39,7 +39,8 @@
   .info-card {
     background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
+      rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
     padding: 1.5rem;
     transition: transform 0.3s ease;
 

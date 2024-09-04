@@ -1,15 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import { DashboardLayout } from "@/app_components/DashboardLayout";
-import "./LeadDetailPage.scss";
 import { AppDispatch, AppState } from "@/types";
 import { getSingleLead } from "@/redux/actions";
 import moment from "moment";
-import { AddCallLogModal } from "@/app_components";
+import { AddCallLogModal, AppButton } from "@/app_components";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+
+import "./LeadDetailPage.scss";
+import { client } from "@/api/api";
 
 const LeadDetailPage = () => {
+  const [pnr, setPnr] = useState("");
   const dispatch = useDispatch<AppDispatch>();
   const { leadId } = useParams<{ leadId: string }>();
   const { lead } = useSelector((state: AppState) => state.lead);
@@ -24,6 +29,15 @@ const LeadDetailPage = () => {
     return <div>Loading...</div>;
   }
 
+  const handlePNRSubmit: any = async (pnr: string) => {
+    console.log("object");
+    try {
+      await client.post(`/leads/${leadId}/send-pnr-confirmation`, { pnr });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <DashboardLayout>
       <div className="lead-detail-page">
@@ -36,6 +50,17 @@ const LeadDetailPage = () => {
           </span>
         </header>
 
+        <div className="flex space-x-2 mb-[2rem]">
+          <Input
+            className="w-[200px]"
+            placeholder="Enter PNR Number"
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              setPnr(event.target.value)
+            }
+          />
+          <Button onClick={() => handlePNRSubmit(pnr)}>Submit</Button>
+        </div>
+
         <div className="lead-info-grid">
           <InfoCard title="Personal Information">
             <InfoItem
@@ -44,6 +69,7 @@ const LeadDetailPage = () => {
             />
             <InfoItem label="Phone" value={lead.phone} />
             <InfoItem label="Email" value={lead.email} />
+            <InfoItem label="Lead Origin" value={lead.leadOrigin} />
             <InfoItem label="Post Code" value={lead.postCode} />
           </InfoCard>
 
