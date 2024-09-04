@@ -10,6 +10,9 @@ import {
   EDIT_LEAD_PENDING,
   EDIT_LEAD_SUCCESS,
   EDIT_LEAD_ERROR,
+  FETCH_SINGLE_LEAD_PENDING,
+  FETCH_SINGLE_LEAD_SUCCESS,
+  FETCH_SINGLE_LEAD_ERROR,
 } from "@/constants";
 import { client } from "@/api/api";
 import toast from "react-hot-toast";
@@ -71,6 +74,28 @@ export const getLeadsByUserId = (userId: string) => {
     } catch (error: any) {
       dispatch({
         type: FETCH_LEADS_ERROR,
+        payload: {
+          message: error.response?.data?.message || "Something went wrong",
+        },
+      });
+    }
+  };
+};
+
+// Fetch a single lead
+export const getSingleLead = (leadId: string) => {
+  return async (dispatch: Dispatch) => {
+    dispatch({ type: FETCH_SINGLE_LEAD_PENDING });
+    try {
+      const response = await client.get(`/leads/${leadId}`);
+
+      dispatch({
+        type: FETCH_SINGLE_LEAD_SUCCESS,
+        payload: response.data.lead,
+      });
+    } catch (error: any) {
+      dispatch({
+        type: FETCH_SINGLE_LEAD_ERROR,
         payload: {
           message: error.response?.data?.message || "Something went wrong",
         },

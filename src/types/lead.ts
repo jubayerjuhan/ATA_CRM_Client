@@ -4,8 +4,43 @@ export enum LeadTypeEnum {
   Hot = "Hot",
 }
 
+export interface Airport {
+  _id: string;
+  code: string;
+  lat: string;
+  lon: string;
+  name: string;
+  city: string;
+  state: string;
+  country: string;
+  woeid: string;
+  tz: string;
+  phone: string;
+  type: string;
+  email: string;
+  url: string;
+  runway_length: number;
+  elev: number;
+  icao: string;
+  direct_flights: string;
+  carriers: string;
+}
+
+export interface User {
+  _id: string;
+  name: string;
+  email: string;
+  role: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
 export interface LeadType {
   _id: string;
+  departure: Airport;
+  arrival: Airport;
+  passengerType: string;
   passengerName: string;
   firstName: string;
   lastName: string;
@@ -16,8 +51,6 @@ export interface LeadType {
   dateTime?: string;
   callFor?: string;
   mobileNumber?: string;
-  departure?: string;
-  arrival?: string;
   airlinesCode?: string;
   pnr?: string;
   travelDate?: string;
@@ -31,5 +64,14 @@ export interface LeadType {
   followUpDate?: string;
   comments?: string;
   leadOrigin?: string;
-  claimed_by?: string;
+  claimed_by?: User;
+  createdAt: string;
+  updatedAt: string;
+  call_logs?: {
+    dateTime: string;
+    callType: string;
+    callFor: string;
+  }[];
+
+  __v: number;
 }

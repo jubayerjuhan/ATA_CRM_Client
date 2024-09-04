@@ -10,6 +10,9 @@ import {
   FETCH_LEADS_ERROR,
   FETCH_LEADS_PENDING,
   FETCH_LEADS_SUCCESS,
+  FETCH_SINGLE_LEAD_ERROR,
+  FETCH_SINGLE_LEAD_PENDING,
+  FETCH_SINGLE_LEAD_SUCCESS,
 } from "../../constants";
 
 export const leadReducer = (state = {}, action: any) => {
@@ -72,6 +75,28 @@ export const leadReducer = (state = {}, action: any) => {
         loading: false,
         error: action.payload.message,
       };
+
+    // Fetch Single Lead
+    case FETCH_SINGLE_LEAD_PENDING:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case FETCH_SINGLE_LEAD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        lead: action.payload,
+      };
+
+    case FETCH_SINGLE_LEAD_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload.message,
+      };
+
     case CLEAR_ERROR:
       return {
         ...state,

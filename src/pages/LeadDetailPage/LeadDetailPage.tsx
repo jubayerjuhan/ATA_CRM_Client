@@ -1,59 +1,37 @@
-import { DashboardLayout } from "@/app_components/DashboardLayout";
 import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
+import { DashboardLayout } from "@/app_components/DashboardLayout";
 import "./LeadDetailPage.scss";
+import { AppDispatch, AppState } from "@/types";
+import { getSingleLead } from "@/redux/actions";
+import moment from "moment";
+import { AddCallLogModal } from "@/app_components";
 
 const LeadDetailPage = () => {
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
+  const dispatch = useDispatch<AppDispatch>();
+  const { leadId } = useParams<{ leadId: string }>();
+  const { lead } = useSelector((state: AppState) => state.lead);
 
-  // useEffect(() => {
-  //   const fetchLead = () => {};
-  //   fetchLead();
-  // }, []);
+  useEffect(() => {
+    if (leadId) {
+      dispatch(getSingleLead(leadId));
+    }
+  }, [dispatch, leadId]);
 
-  const lead = {
-    _id: 'ObjectId("66d05239927b2c8563628dae")',
-    passengerName: "James French",
-    firstName: "James",
-    lastName: "French",
-    phone: "+8801620692839",
-    email: "jamesfrench@example.com",
-    postCode: "SW1A 1AA",
-    callType: "Missed",
-    dateTime: "2024-02-15T14:30",
-    callFor: "New Booking",
-    departure: "London Heathrow (LHR)",
-    arrival: "New York (JFK)",
-    airlinesCode: "BA",
-    pnr: "ABC123",
-    travelDate: "2024-06-20",
-    returnDate: "2024-06-27",
-    adult: "2",
-    child: "1",
-    infant: "0",
-    caseDate: "2024-02-15T15:00",
-    quoted: "$2,500",
-    leadType: "Hot",
-    followUpDate: "2024-02-17",
-    comments:
-      "Customer interested in business class upgrade. Requested information on lounge access and in-flight meals. Follow up with detailed quote including upgrade options.",
-    createdAt: "2024-02-15T14:35:29.976+00:00",
-  };
+  if (!lead) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <DashboardLayout>
       <div className="lead-detail-page">
         <header>
-          <h1>{lead.passengerName}'s Lead Details</h1>
-          <span className={`lead-type ${lead.leadType.toLowerCase()}`}>
+          <h1>
+            {lead.firstName} {lead.lastName}'s Lead Details
+          </h1>
+          <span className={`lead-type ${lead.leadType?.toLowerCase()}`}>
             {lead.leadType}
           </span>
         </header>
@@ -70,14 +48,31 @@ const LeadDetailPage = () => {
           </InfoCard>
 
           <InfoCard title="Call Information">
-            <InfoItem label="Call Type" value={lead.callType} />
-            <InfoItem label="Date & Time" value={formatDate(lead.dateTime)} />
-            <InfoItem label="Call For" value={lead.callFor} />
+            <AddCallLogModal leadId={leadId as string} />
+            {lead.call_logs?.map((log, index) => (
+              <div
+                key={index}
+                style={{ backgroundColor: "#F9F9F9" }}
+                className="p-4 rounded-md mb-4"
+              >
+                <InfoItem label="Call Type" value={log.callType} />
+                <InfoItem
+                  label="Date & Time"
+                  value={moment(log.dateTime).format("DD-MM-YYYY hh:mm a")}
+                />
+              </div>
+            ))}
           </InfoCard>
 
           <InfoCard title="Travel Details">
-            <InfoItem label="Departure" value={lead.departure} />
-            <InfoItem label="Arrival" value={lead.arrival} />
+            <InfoItem
+              label="Departure"
+              value={`${lead.departure.name} (${lead.departure.code}), ${lead.departure.city}, ${lead.departure.country}`}
+            />
+            <InfoItem
+              label="Arrival"
+              value={`${lead.arrival.name} (${lead.arrival.code}), ${lead.arrival.city}, ${lead.arrival.country}`}
+            />
             <InfoItem label="Airlines Code" value={lead.airlinesCode} />
             <InfoItem label="PNR" value={lead.pnr} />
             <InfoItem label="Travel Date" value={lead.travelDate} />
@@ -91,7 +86,7 @@ const LeadDetailPage = () => {
           </InfoCard>
 
           <InfoCard title="Additional Information">
-            <InfoItem label="Case Date" value={formatDate(lead.caseDate)} />
+            {/* <InfoItem label="Case Date" value={formatDate(lead.caseDate)} /> */}
             <InfoItem label="Quoted" value={lead.quoted} />
             <InfoItem label="Follow-up Date" value={lead.followUpDate} />
           </InfoCard>
@@ -130,7 +125,7 @@ const InfoCard: React.FC<InfoCardProps> = ({ title, children, fullWidth }) => (
 
 interface InfoItemProps {
   label: string;
-  value: string | number;
+  value: string | number | undefined;
 }
 
 const InfoItem: React.FC<InfoItemProps> = ({ label, value }) => (
