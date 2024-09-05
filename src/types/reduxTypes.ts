@@ -33,6 +33,7 @@ export interface LeadState {
   success: boolean | null;
   leads: LeadType[];
   lead: LeadType | null;
+  insertedLeadId: string | null;
   error: {
     message: string;
   } | null;

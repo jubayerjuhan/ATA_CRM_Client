@@ -1,6 +1,7 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./SuccessPage.scss";
+import { Button } from "@/components/ui/button";
 
 export const SuccessPage: React.FC = () => {
   const location = useLocation();
@@ -12,6 +13,8 @@ export const SuccessPage: React.FC = () => {
   const message =
     queryParams.get("message") || "You have successfully added a new lead";
   const redirectLink = queryParams.get("redirectLink") || "/form";
+
+  const navigate = useNavigate();
 
   return (
     <div className="success-page">
@@ -28,9 +31,14 @@ export const SuccessPage: React.FC = () => {
         </div>
         <h1 className="success-title">{title}</h1>
         <p className="success-message">{message}</p>
-        <Link to={redirectLink as string} className="back-button">
-          Add Another Lead
-        </Link>
+        <div className="flex gap-4 flex-col">
+          <Button variant={"outline"} onClick={() => navigate(redirectLink)}>
+            Add Another Lead
+          </Button>
+          <Button variant={"default"} onClick={() => navigate("/dashboard")}>
+            Return To Home
+          </Button>
+        </div>
       </div>
     </div>
   );

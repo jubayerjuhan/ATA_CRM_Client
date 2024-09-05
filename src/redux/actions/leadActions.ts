@@ -22,12 +22,16 @@ export const addLead = (data: LeadType) => {
   return async (dispatch: Dispatch) => {
     dispatch({ type: ADD_LEAD_PENDING });
     try {
-      await client.post("/leads", data);
+      const { data: leadData } = await client.post("/leads", data);
+
       dispatch({
         type: ADD_LEAD_SUCCESS,
-        payload: { message: "Form Submitted Successfully" },
+        payload: {
+          message: "Form Submitted Successfully",
+          insertedLeadId: leadData.lead._id,
+        },
       });
-      // dispatch(getAllUsers() as any);
+      return leadData.lead._id; // Return the ID directly
     } catch (error: any) {
       dispatch({
         type: ADD_LEAD_ERROR,
@@ -35,6 +39,7 @@ export const addLead = (data: LeadType) => {
           message: error.response?.data?.message || "Something went wrong",
         },
       });
+      throw error;
     }
   };
 };

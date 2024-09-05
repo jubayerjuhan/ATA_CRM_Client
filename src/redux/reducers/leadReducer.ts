@@ -21,6 +21,7 @@ export const leadReducer = (state = {}, action: any) => {
       return {
         ...state,
         loading: true,
+        success: false,
       };
     case ADD_LEAD_SUCCESS:
       return {
@@ -28,6 +29,7 @@ export const leadReducer = (state = {}, action: any) => {
         loading: false,
         message: action.payload.message,
         success: true,
+        insertedLeadId: action.payload.insertedLeadId,
       };
     case ADD_LEAD_ERROR:
       return {
