@@ -3,15 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 import { DashboardLayout } from "@/app_components/DashboardLayout";
-import { AppDispatch, AppState } from "@/types";
-import { getSingleLead } from "@/redux/actions";
-import moment from "moment";
-import { AddCallLogModal, AppButton } from "@/app_components";
+import { AddCallLogModal } from "@/app_components";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-import "./LeadDetailPage.scss";
+import { AppDispatch, AppState } from "@/types";
+import { getSingleLead } from "@/redux/actions";
 import { client } from "@/api/api";
+
+import moment from "moment";
+import "./LeadDetailPage.scss";
 
 const LeadDetailPage = () => {
   const [pnr, setPnr] = useState("");
@@ -70,7 +71,7 @@ const LeadDetailPage = () => {
             <InfoItem label="Phone" value={lead.phone} />
             <InfoItem label="Email" value={lead.email} />
             <InfoItem label="Lead Origin" value={lead.leadOrigin} />
-            <InfoItem label="Post Code" value={lead.postCode} />
+            <InfoItem label="Address" value={lead.address} />
           </InfoCard>
 
           <InfoCard title="Call Information">
@@ -113,7 +114,7 @@ const LeadDetailPage = () => {
 
           <InfoCard title="Additional Information">
             {/* <InfoItem label="Case Date" value={formatDate(lead.caseDate)} /> */}
-            <InfoItem label="Quoted" value={lead.quoted} />
+            <InfoItem label="Quoted Amount" value={lead.quotedAmount} />
             <InfoItem label="Follow-up Date" value={lead.followUpDate} />
           </InfoCard>
 

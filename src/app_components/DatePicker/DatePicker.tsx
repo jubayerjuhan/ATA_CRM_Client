@@ -1,6 +1,7 @@
 import React from "react";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
+
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -14,8 +15,10 @@ import { Label } from "@/components/ui/label";
 interface DatePickerProps {
   name: string;
   label: string;
+  required?: boolean;
   value?: Date;
   error?: string;
+  style?: object;
   onDateChange: (value: Date | undefined) => void;
 }
 
@@ -25,6 +28,8 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   value,
   error,
   onDateChange,
+  style,
+  required,
 }) => {
   const [date, setDate] = React.useState<Date | undefined>(value);
 
@@ -35,11 +40,12 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 
   return (
     <div key={name} className="flex flex-col gap-4 w-full">
-      <Label htmlFor={name} className="">
+      <Label htmlFor={name} className="text-md">
         {label}
+        {required && <span className="ml-1 text-red-600">*</span>}
       </Label>
       <Popover>
-        <PopoverTrigger asChild>
+        <PopoverTrigger asChild style={style}>
           <Button
             variant={"outline"}
             className={cn(

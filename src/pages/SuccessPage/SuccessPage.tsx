@@ -1,7 +1,9 @@
 import React from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import "./SuccessPage.scss";
+import { useLocation, useNavigate } from "react-router-dom";
+
 import { Button } from "@/components/ui/button";
+
+import "./SuccessPage.scss";
 
 export const SuccessPage: React.FC = () => {
   const location = useLocation();

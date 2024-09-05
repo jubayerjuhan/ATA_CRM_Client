@@ -46,7 +46,7 @@ export interface LeadType {
   lastName: string;
   phone: string;
   email: string;
-  postCode: string;
+  address: string;
   callType?: string;
   dateTime?: string;
   callFor?: string;
@@ -59,7 +59,7 @@ export interface LeadType {
   child?: number;
   infant?: number;
   caseDate?: string;
-  quoted?: string;
+  quotedAmount?: string;
   leadType?: LeadTypeEnum;
   followUpDate?: string;
   comments?: string;
