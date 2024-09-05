@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-
 import { DashboardLayout } from "@/app_components/DashboardLayout";
 import { AddCallLogModal } from "@/app_components";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
 import { AppDispatch, AppState } from "@/types";
 import { getSingleLead } from "@/redux/actions";
 import { client } from "@/api/api";
-
 import moment from "moment";
 import "./LeadDetailPage.scss";
+import toast from "react-hot-toast";
 
 const LeadDetailPage = () => {
+  const [pageLoading, setPageLoading] = useState(false);
   const [pnr, setPnr] = useState("");
   const dispatch = useDispatch<AppDispatch>();
   const { leadId } = useParams<{ leadId: string }>();
-  const { lead } = useSelector((state: AppState) => state.lead);
+  const { lead, loading } = useSelector((state: AppState) => state.lead);
 
   useEffect(() => {
     if (leadId) {
@@ -27,15 +26,20 @@ const LeadDetailPage = () => {
   }, [dispatch, leadId]);
 
   if (!lead) {
-    return <div>Loading...</div>;
+    return <div>Lead not found</div>;
   }
 
-  const handlePNRSubmit: any = async (pnr: string) => {
-    console.log("object");
+  const handlePNRSubmit = async (pnr: string) => {
     try {
+      setPageLoading(true);
       await client.post(`/leads/${leadId}/send-pnr-confirmation`, { pnr });
+      toast.success("PNR Confirmation Mail Sent");
     } catch (error) {
-      console.log(error);
+      toast.error(
+        "Can't Send PNR Confirmation Mail, Please Check If Arrival and Departure Airport Entered Or Not"
+      );
+    } finally {
+      setPageLoading(false);
     }
   };
 
@@ -50,7 +54,6 @@ const LeadDetailPage = () => {
             {lead.leadType}
           </span>
         </header>
-
         <div className="flex space-x-2 mb-[2rem]">
           <Input
             className="w-[200px]"
@@ -59,9 +62,10 @@ const LeadDetailPage = () => {
               setPnr(event.target.value)
             }
           />
-          <Button onClick={() => handlePNRSubmit(pnr)}>Submit</Button>
+          <Button disabled={pageLoading} onClick={() => handlePNRSubmit(pnr)}>
+            Submit
+          </Button>
         </div>
-
         <div className="lead-info-grid">
           <InfoCard title="Personal Information">
             <InfoItem
@@ -73,7 +77,28 @@ const LeadDetailPage = () => {
             <InfoItem label="Lead Origin" value={lead.leadOrigin} />
             <InfoItem label="Address" value={lead.address} />
           </InfoCard>
-
+          <InfoCard title="Travel Details">
+            <InfoItem
+              label="Departure"
+              value={
+                lead.departure
+                  ? `${lead.departure.name} (${lead.departure.code}), ${lead.departure.city}, ${lead.departure.country}`
+                  : "N/A"
+              }
+            />
+            <InfoItem
+              label="Arrival"
+              value={
+                lead.arrival
+                  ? `${lead.arrival.name} (${lead.arrival.code}), ${lead.arrival.city}, ${lead.arrival.country}`
+                  : "N/A"
+              }
+            />
+            <InfoItem label="Airlines Code" value={lead.airlinesCode} />
+            <InfoItem label="PNR" value={lead.pnr} />
+            <InfoItem label="Travel Date" value={lead.travelDate} />
+            <InfoItem label="Return Date" value={lead.returnDate} />
+          </InfoCard>
           <InfoCard title="Call Information">
             <AddCallLogModal leadId={leadId as string} />
             {lead.call_logs?.map((log, index) => (
@@ -90,38 +115,18 @@ const LeadDetailPage = () => {
               </div>
             ))}
           </InfoCard>
-
-          <InfoCard title="Travel Details">
-            <InfoItem
-              label="Departure"
-              value={`${lead.departure.name} (${lead.departure.code}), ${lead.departure.city}, ${lead.departure.country}`}
-            />
-            <InfoItem
-              label="Arrival"
-              value={`${lead.arrival.name} (${lead.arrival.code}), ${lead.arrival.city}, ${lead.arrival.country}`}
-            />
-            <InfoItem label="Airlines Code" value={lead.airlinesCode} />
-            <InfoItem label="PNR" value={lead.pnr} />
-            <InfoItem label="Travel Date" value={lead.travelDate} />
-            <InfoItem label="Return Date" value={lead.returnDate} />
-          </InfoCard>
-
           <InfoCard title="Passengers">
             <InfoItem label="Adult" value={lead.adult} />
             <InfoItem label="Child" value={lead.child} />
             <InfoItem label="Infant" value={lead.infant} />
           </InfoCard>
-
-          <InfoCard title="Additional Information">
-            {/* <InfoItem label="Case Date" value={formatDate(lead.caseDate)} /> */}
+          <InfoCard title="Pricing Information">
             <InfoItem label="Quoted Amount" value={lead.quotedAmount} />
             <InfoItem label="Follow-up Date" value={lead.followUpDate} />
           </InfoCard>
-
           <InfoCard title="Comments" fullWidth>
             <p>{lead.comments}</p>
           </InfoCard>
-
           <InfoCard title="Contact via WhatsApp">
             <a
               href={`https://wa.me/${lead.phone}`}

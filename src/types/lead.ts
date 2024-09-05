@@ -37,11 +37,10 @@ export interface User {
 }
 
 export interface LeadType {
-  _id: string;
-  departure: Airport;
-  arrival: Airport;
+  _id?: string;
+  departure?: Airport;
+  arrival?: Airport;
   passengerType: string;
-  passengerName: string;
   firstName: string;
   lastName: string;
   phone: string;
@@ -64,9 +63,9 @@ export interface LeadType {
   followUpDate?: string;
   comments?: string;
   leadOrigin?: string;
-  claimed_by?: User;
+  claimed_by: User | string | null;
   createdAt: string;
-  updatedAt: string;
+  updatedAt?: string;
   call_logs?: {
     dateTime: string;
     callType: string;

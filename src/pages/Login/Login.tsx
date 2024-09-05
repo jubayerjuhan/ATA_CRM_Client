@@ -39,7 +39,7 @@ export const Login: React.FC = () => {
     if (authState.message) {
       toast.success(authState.message);
       dispatch({ type: CLEAR_MESSAGE });
-      navigate("/");
+      window.location.href = "/";
     }
   }, [authState.message, dispatch, navigate]);
 

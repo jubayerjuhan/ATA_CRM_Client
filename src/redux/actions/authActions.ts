@@ -1,4 +1,5 @@
 import { Dispatch } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
 
 import {
   FORGOT_PASSWORD_ERROR,
@@ -22,6 +23,8 @@ export const loginToCRM = (email: string, password: string) => {
         email,
         password,
       });
+
+      Cookies.set("auth_token", response.data.token);
       dispatch({ type: LOGIN_SUCCESS, payload: response.data });
     } catch (error: any) {
       dispatch({

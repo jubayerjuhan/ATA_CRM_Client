@@ -6,7 +6,8 @@ import { FaWpforms } from "react-icons/fa6";
 import { FaUsersViewfinder } from "react-icons/fa6";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { PiUserList } from "react-icons/pi";
-import { MdMyLocation, MdFormatAlignLeft, MdFiberNew } from "react-icons/md";
+import { CiLogout } from "react-icons/ci";
+import { MdMyLocation, MdFiberNew } from "react-icons/md";
 
 import { SidebarLinksType } from "./index";
 
@@ -15,25 +16,46 @@ import logo from "../../assets/air_ticket_agency.png";
 import "./Sidebar.scss";
 import {
   DashboardURL,
-  FormFieldManagementURL,
   FormPageURL,
   LeadsManagementURL,
   MyLeadsURL,
   NewLeadsURL,
   UsersManagementURL,
 } from "@/routes/routeConstant";
+import { useSelector } from "react-redux";
+import { AppState } from "@/types";
 
 const Sidebar = () => {
   const navigate = useNavigate();
+  const { profile } = useSelector((state: AppState) => state.auth);
 
   const [isOpen] = useState(true);
 
-  // toggle sidebar function
-  // const toggleSidebar = () => {
-  //   setIsOpen(!isOpen);
-  // };
+  const agentSidebarLinks: SidebarLinksType[] = [
+    {
+      title: "Dashboard",
+      icon: <LuLayoutDashboard />,
+      pathname: DashboardURL,
+    },
 
-  const sidebarLinks: SidebarLinksType[] = [
+    {
+      title: "New Leads",
+      icon: <MdFiberNew />,
+      pathname: NewLeadsURL,
+    },
+    {
+      title: "My Leads",
+      icon: <MdMyLocation />,
+      pathname: MyLeadsURL,
+    },
+    {
+      title: "Lead Sub Form",
+      icon: <FaWpforms />,
+      pathname: FormPageURL,
+    },
+  ];
+
+  const adminSidebarLink: SidebarLinksType[] = [
     {
       title: "Dashboard",
       icon: <LuLayoutDashboard />,
@@ -59,11 +81,11 @@ const Sidebar = () => {
       icon: <MdMyLocation />,
       pathname: MyLeadsURL,
     },
-    {
-      title: "Form Fields",
-      icon: <MdFormatAlignLeft />,
-      pathname: FormFieldManagementURL,
-    },
+    // {
+    //   title: "Form Fields",
+    //   icon: <MdFormatAlignLeft />,
+    //   pathname: FormFieldManagementURL,
+    // },
     {
       title: "Lead Sub Form",
       icon: <FaWpforms />,
@@ -71,16 +93,14 @@ const Sidebar = () => {
     },
   ];
 
+  const sidebarLinks: SidebarLinksType[] =
+    profile?.role === "admin" ? adminSidebarLink : agentSidebarLinks;
   const handleSidebarLinkClick = (link: SidebarLinksType) => {
     navigate(link.pathname);
   };
 
   return (
     <div className={`sidebar ${isOpen ? "open" : "closed"}`}>
-      {/* <div className="toggle-btn" onClick={toggleSidebar}>
-        <FaBars />
-      </div> */}
-
       <div className="sidebar-logo-container">
         <img src={logo} alt="Company Logo" className="sidebar-logo" />
       </div>
@@ -95,8 +115,20 @@ const Sidebar = () => {
             {isOpen && <p className="menu-link__title">{link.title}</p>}
           </div>
         ))}
+
+        <div
+          className="menu-item px-10"
+          onClick={() => {
+            window.localStorage.clear();
+            navigate("/login");
+          }}
+        >
+          <CiLogout />
+          {isOpen && (
+            <p className="menu-link__title text-red-500">{"Logout"}</p>
+          )}
+        </div>
       </div>
-      {/* Add more menu items here */}
     </div>
   );
 };

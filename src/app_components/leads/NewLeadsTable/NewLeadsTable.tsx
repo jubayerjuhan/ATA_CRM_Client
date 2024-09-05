@@ -1,6 +1,5 @@
 import * as React from "react";
 import { CaretSortIcon, ChevronDownIcon } from "@radix-ui/react-icons";
-
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -13,9 +12,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-
 import { Button } from "@/components/ui/button";
-
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -32,25 +29,24 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { AppDispatch, AppState, LeadType } from "@/types";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { editLead } from "@/redux/actions";
-import { useDispatch } from "react-redux";
 
-export const NewLeadsTable: React.FC<any> = ({ leads }) => {
+export const NewLeadsTable: React.FC<{ leads: LeadType[] }> = ({ leads }) => {
   const [rows, setRows] = React.useState<any[]>([]);
   const dispatch = useDispatch<AppDispatch>();
   const { auth } = useSelector((state: AppState) => state);
 
   React.useEffect(() => {
-    const arranged_leads = leads.map((lead: any) => {
-      return {
+    console.log(leads);
+    if (Array.isArray(leads)) {
+      const arranged_leads = leads.map((lead: LeadType) => ({
         ...lead,
-        departure: lead.departure.name,
-        arrival: lead.arrival.name,
-      };
-    });
-
-    setRows(arranged_leads);
+        departure: lead.departure?.name || "N/A",
+        arrival: lead.arrival?.name || "N/A",
+      }));
+      setRows(arranged_leads);
+    }
   }, [leads]);
 
   const columns: ColumnDef<any>[] = [
@@ -115,9 +111,11 @@ export const NewLeadsTable: React.FC<any> = ({ leads }) => {
 
   const handleClaimLead = async (lead: LeadType) => {
     const leadId = lead._id;
-    const original_lead = leads.find((l: any) => l._id === leadId);
-    const edited_lead = { ...original_lead, claimed_by: auth.profile?._id };
-    await dispatch(editLead(edited_lead as LeadType));
+    const original_lead = leads.find((l: LeadType) => l._id === leadId);
+    if (original_lead && auth.profile) {
+      const edited_lead = { ...original_lead, claimed_by: auth.profile._id };
+      await dispatch(editLead(edited_lead));
+    }
   };
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
