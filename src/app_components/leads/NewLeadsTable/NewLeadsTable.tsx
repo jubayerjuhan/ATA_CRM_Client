@@ -32,7 +32,10 @@ import { AppDispatch, AppState, LeadType } from "@/types";
 import { useSelector, useDispatch } from "react-redux";
 import { editLead } from "@/redux/actions";
 
-export const NewLeadsTable: React.FC<{ leads: LeadType[] }> = ({ leads }) => {
+export const NewLeadsTable: React.FC<{
+  leads: LeadType[];
+  loading?: boolean;
+}> = ({ leads }) => {
   const [rows, setRows] = React.useState<any[]>([]);
   const dispatch = useDispatch<AppDispatch>();
   const { auth } = useSelector((state: AppState) => state);

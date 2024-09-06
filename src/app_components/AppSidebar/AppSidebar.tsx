@@ -24,6 +24,7 @@ import {
 } from "@/routes/routeConstant";
 import { useSelector } from "react-redux";
 import { AppState } from "@/types";
+import Cookies from "js-cookie";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -120,6 +121,7 @@ const Sidebar = () => {
           className="menu-item px-10"
           onClick={() => {
             window.localStorage.clear();
+            Cookies.remove("auth_token");
             navigate("/login");
           }}
         >
