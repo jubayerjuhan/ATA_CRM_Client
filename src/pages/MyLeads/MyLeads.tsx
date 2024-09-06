@@ -21,7 +21,7 @@ export const MyLeads = () => {
 
   return (
     <DashboardLayout>
-      <MyLeadsTable leads={leadState.leads} loading={false} />
+      <MyLeadsTable leads={leadState.leads} loading={leadState.loading} />
     </DashboardLayout>
   );
 };

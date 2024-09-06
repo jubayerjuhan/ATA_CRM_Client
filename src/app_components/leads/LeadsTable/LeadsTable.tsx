@@ -93,7 +93,7 @@ const columns: ColumnDef<any>[] = [
   },
 ];
 
-export const LeadsTable: React.FC<any> = ({ leads }) => {
+export const LeadsTable: React.FC<any> = ({ leads, loading }) => {
   const [rows, setRows] = React.useState<any[]>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -104,11 +104,11 @@ export const LeadsTable: React.FC<any> = ({ leads }) => {
   const [rowSelection, setRowSelection] = React.useState({});
 
   React.useEffect(() => {
-    const arranged_leads = leads.map((lead: any) => {
+    const arranged_leads = leads?.map((lead: any) => {
       return {
         ...lead,
-        departure: lead.departure.name,
-        arrival: lead.arrival.name,
+        departure: lead.departure?.name ? lead.departure.name : "N/A",
+        arrival: lead.arrival?.name ? lead.arrival.name : "N/A",
       };
     });
 
@@ -116,7 +116,7 @@ export const LeadsTable: React.FC<any> = ({ leads }) => {
   }, [leads]);
 
   const table = useReactTable({
-    data: rows,
+    data: loading ? [] : rows,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,

@@ -35,13 +35,12 @@ import { editLead } from "@/redux/actions";
 export const NewLeadsTable: React.FC<{
   leads: LeadType[];
   loading?: boolean;
-}> = ({ leads }) => {
+}> = ({ leads, loading }) => {
   const [rows, setRows] = React.useState<any[]>([]);
   const dispatch = useDispatch<AppDispatch>();
   const { auth } = useSelector((state: AppState) => state);
 
   React.useEffect(() => {
-    console.log(leads);
     if (Array.isArray(leads)) {
       const arranged_leads = leads.map((lead: LeadType) => ({
         ...lead,
@@ -130,7 +129,7 @@ export const NewLeadsTable: React.FC<{
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
-    data: rows,
+    data: loading ? [] : rows,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,

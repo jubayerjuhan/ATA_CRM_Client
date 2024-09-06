@@ -31,7 +31,7 @@ export const NewLeads = () => {
 
   return (
     <DashboardLayout>
-      <NewLeadsTable leads={unclaimedLeads} loading={false} />
+      <NewLeadsTable leads={unclaimedLeads} loading={leadState.loading} />
     </DashboardLayout>
   );
 };

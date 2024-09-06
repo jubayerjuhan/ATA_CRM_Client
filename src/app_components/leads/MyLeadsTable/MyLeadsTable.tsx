@@ -32,16 +32,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { AppDispatch, AppState, LeadType } from "@/types";
+import { AppState } from "@/types";
 import { useSelector } from "react-redux";
-import { editLead } from "@/redux/actions";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 export const MyLeadsTable: React.FC<any> = ({ leads }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
-  const { auth } = useSelector((state: AppState) => state);
+  const { lead: leadState } = useSelector((state: AppState) => state);
 
   const [rows, setRows] = React.useState<any[]>([]);
 
@@ -116,7 +113,7 @@ export const MyLeadsTable: React.FC<any> = ({ leads }) => {
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
-    data: rows, // Use the rows state here
+    data: leadState.loading ? [] : rows, // Use the rows state here
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,

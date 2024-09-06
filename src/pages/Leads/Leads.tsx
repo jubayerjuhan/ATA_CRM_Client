@@ -23,7 +23,7 @@ export const Leads = () => {
     <DashboardLayout>
       <LeadsTable
         leads={leadState.leads ? leadState.leads : []}
-        loading={false}
+        loading={leadState.loading}
       />
     </DashboardLayout>
   );

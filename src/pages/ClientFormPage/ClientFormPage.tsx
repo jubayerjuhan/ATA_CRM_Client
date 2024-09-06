@@ -419,7 +419,7 @@ export const ClientFormPage = () => {
             )}
 
             <div className="form-actions">
-              <Button type="submit">
+              <Button type="submit" disabled={leadState.loading}>
                 {formPart === 1 ? "Next" : "Submit"}
               </Button>
             </div>
