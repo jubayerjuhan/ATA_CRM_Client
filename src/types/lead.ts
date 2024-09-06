@@ -38,6 +38,7 @@ export interface User {
 
 export interface LeadType {
   _id?: string;
+  status: "In Progress" | "PNR Sent" | "Payment Link Sent" | "Payment Complete";
   departure?: Airport;
   arrival?: Airport;
   passengerType: string;

@@ -16,6 +16,7 @@ import { FaWhatsapp } from "react-icons/fa";
 const LeadDetailPage = () => {
   const [pageLoading, setPageLoading] = useState(false);
   const [pnr, setPnr] = useState("");
+  const [quotedAmount, setQuotedAmount] = useState("");
   const dispatch = useDispatch<AppDispatch>();
   const { leadId } = useParams<{ leadId: string }>();
   const { lead, loading } = useSelector((state: AppState) => state.lead);
@@ -35,11 +36,42 @@ const LeadDetailPage = () => {
       setPageLoading(true);
       await client.post(`/leads/${leadId}/send-pnr-confirmation`, { pnr });
       toast.success("PNR Confirmation Mail Sent");
+      if (leadId) {
+        dispatch(getSingleLead(leadId));
+      }
     } catch (error) {
       toast.error(
         "Can't Send PNR Confirmation Mail, Please Check If Arrival and Departure Airport Entered Or Not"
       );
     } finally {
+      setPageLoading(false);
+    }
+  };
+
+  const handlePaymentLinkCreation = async (quotedAmount: string) => {
+    try {
+      setPageLoading(true);
+
+      // First, add the quoted amount
+      await client.put(`/leads/${leadId}`, {
+        ...lead,
+        quotedAmount,
+      });
+
+      // Then, create the payment link
+      await client.post(`/payment/create-payment-link`, {
+        currency: "USD",
+        leadId: lead._id,
+      });
+
+      toast.success("Payment link created and sent successfully");
+    } catch (error) {
+      console.error("Error creating payment link:", error);
+      toast.error("Failed to create and send payment link. Please try again.");
+    } finally {
+      if (leadId) {
+        dispatch(getSingleLead(leadId));
+      }
       setPageLoading(false);
     }
   };
@@ -52,34 +84,45 @@ const LeadDetailPage = () => {
             {lead.firstName} {lead.lastName}'s Lead Details
           </h1>
           <span className={`lead-type ${lead.leadType?.toLowerCase()}`}>
-            {lead.leadType}
+            {lead.status}
           </span>
         </header>
         <div className="flex space-x-4">
-          <div className="flex space-x-2 mb-[2rem]">
-            <Input
-              className="w-[200px]"
-              placeholder="Enter PNR Number"
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                setPnr(event.target.value)
-              }
-            />
-            <Button disabled={pageLoading} onClick={() => handlePNRSubmit(pnr)}>
-              Submit
-            </Button>
-          </div>
-          <div className="flex space-x-2 mb-[2rem]">
-            <Input
-              className="w-[200px]"
-              placeholder="Enter Quoted Amount"
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                setPnr(event.target.value)
-              }
-            />
-            <Button disabled={pageLoading} onClick={() => handlePNRSubmit(pnr)}>
-              Submit
-            </Button>
-          </div>
+          {!lead.pnr && (
+            <div className="flex space-x-2 mb-[2rem]">
+              <Input
+                className="w-[200px]"
+                placeholder="Enter PNR Number"
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  setPnr(event.target.value)
+                }
+              />
+              <Button
+                disabled={pageLoading}
+                onClick={() => handlePNRSubmit(pnr)}
+              >
+                Submit
+              </Button>
+            </div>
+          )}
+          {lead.pnr && !lead.quotedAmount && (
+            <div className="flex space-x-2 mb-[2rem]">
+              <Input
+                type="number"
+                className="w-[200px]"
+                placeholder="Enter Quoted Amount"
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  setQuotedAmount(event.target.value)
+                }
+              />
+              <Button
+                disabled={pageLoading}
+                onClick={() => handlePaymentLinkCreation(quotedAmount)}
+              >
+                Send Payment Link
+              </Button>
+            </div>
+          )}
         </div>
 
         <div className="mb-8">
