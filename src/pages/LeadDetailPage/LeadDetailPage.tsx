@@ -55,17 +55,31 @@ const LeadDetailPage = () => {
             {lead.leadType}
           </span>
         </header>
-        <div className="flex space-x-2 mb-[2rem]">
-          <Input
-            className="w-[200px]"
-            placeholder="Enter PNR Number"
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              setPnr(event.target.value)
-            }
-          />
-          <Button disabled={pageLoading} onClick={() => handlePNRSubmit(pnr)}>
-            Submit
-          </Button>
+        <div className="flex space-x-4">
+          <div className="flex space-x-2 mb-[2rem]">
+            <Input
+              className="w-[200px]"
+              placeholder="Enter PNR Number"
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                setPnr(event.target.value)
+              }
+            />
+            <Button disabled={pageLoading} onClick={() => handlePNRSubmit(pnr)}>
+              Submit
+            </Button>
+          </div>
+          <div className="flex space-x-2 mb-[2rem]">
+            <Input
+              className="w-[200px]"
+              placeholder="Enter Quoted Amount"
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                setPnr(event.target.value)
+              }
+            />
+            <Button disabled={pageLoading} onClick={() => handlePNRSubmit(pnr)}>
+              Submit
+            </Button>
+          </div>
         </div>
 
         <div className="mb-8">
