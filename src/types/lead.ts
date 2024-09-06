@@ -69,7 +69,7 @@ export interface LeadType {
   call_logs?: {
     dateTime: string;
     callType: string;
-    callFor: string;
+    notes?: string;
   }[];
 
   __v: number;

@@ -32,14 +32,14 @@ export const AddCallLogModal: React.FC<AddCallLogModalProps> = ({ leadId }) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const [callType, setCallType] = useState("");
-  const [callFor, setCallFor] = useState("");
+  const [notes, setNotes] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newCallLogWithDateTime = {
       callType,
-      callFor,
+      notes,
       leadId,
       dateTime: moment().format("DD-MM-YYYY hh:mm a"),
     };
@@ -85,13 +85,13 @@ export const AddCallLogModal: React.FC<AddCallLogModalProps> = ({ leadId }) => {
               </div>
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="callFor" className="text-right">
-                Call For
+              <Label htmlFor="notes" className="text-right">
+                Notes{" "}
               </Label>
               <Input
-                id="callFor"
-                value={callFor}
-                onChange={(e) => setCallFor(e.target.value)}
+                id="notes"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
                 className="col-span-3"
               />
             </div>

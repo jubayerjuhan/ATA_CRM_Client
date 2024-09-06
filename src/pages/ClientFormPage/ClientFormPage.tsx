@@ -57,6 +57,18 @@ export const ClientFormPage = () => {
   };
 
   const onSubmitPartTwo = async (data: any) => {
+    // Added Logs With Leads
+    const leadWithLogs = {
+      ...data,
+      call_logs: [
+        {
+          callType: "Inbound",
+          dateTime: Date.now(),
+          notes: data.notes,
+        },
+      ],
+    };
+
     if (!leadState.insertedLeadId) {
       toast.error("Lead ID not found. Please start over.");
       return;
@@ -64,7 +76,7 @@ export const ClientFormPage = () => {
 
     try {
       await dispatch(
-        editLead({ _id: leadState.insertedLeadId, ...data } as LeadType)
+        editLead({ _id: leadState.insertedLeadId, ...leadWithLogs } as LeadType)
       );
       const queryParams = new URLSearchParams({
         title: "Lead Updated Successfully",
@@ -78,7 +90,6 @@ export const ClientFormPage = () => {
     }
   };
 
-  console.log(formPart, "Form Part");
   return (
     <>
       <div className="client-form-page">
@@ -248,6 +259,25 @@ export const ClientFormPage = () => {
                 transition={{ duration: 0.5 }}
                 className="form-part"
               >
+                <div className="form-group">
+                  <label>Call For</label>
+                  <select
+                    {...register("callFor", {
+                      required: "Call For is required",
+                    })}
+                  >
+                    <option value="Air Ticket">Air Ticket</option>
+                    <option value="Hotel">Hotel</option>
+                    <option value="Air Ticket + Hotel">
+                      Air Ticket + Hotel
+                    </option>
+                  </select>
+                  {errors.callFor && (
+                    <span className="error-message">
+                      {errors.callFor.message as string}
+                    </span>
+                  )}
+                </div>
                 <AirportSelector
                   label="Departure Airport"
                   name="departure"
@@ -382,8 +412,8 @@ export const ClientFormPage = () => {
                   <input type="date" {...register("followUpDate")} />
                 </div>
                 <div className="form-group">
-                  <label>Comments</label>
-                  <textarea placeholder="Comments" {...register("comments")} />
+                  <label>Notes</label>
+                  <textarea placeholder="Notes" {...register("notes")} />
                 </div>
               </motion.div>
             )}

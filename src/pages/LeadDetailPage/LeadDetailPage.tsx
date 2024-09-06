@@ -11,6 +11,7 @@ import { client } from "@/api/api";
 import moment from "moment";
 import "./LeadDetailPage.scss";
 import toast from "react-hot-toast";
+import { FaWhatsapp } from "react-icons/fa";
 
 const LeadDetailPage = () => {
   const [pageLoading, setPageLoading] = useState(false);
@@ -66,6 +67,19 @@ const LeadDetailPage = () => {
             Submit
           </Button>
         </div>
+
+        <div className="mb-8">
+          <a
+            href={`https://wa.me/${lead.phone}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex gap-2 text-lg"
+            style={{ alignItems: "center", width: "fit-content" }}
+          >
+            <span className="text-[#3498db]">WhatsApp:</span>
+            <FaWhatsapp size={32} />
+          </a>
+        </div>
         <div className="lead-info-grid">
           <InfoCard title="Personal Information">
             <InfoItem
@@ -112,6 +126,7 @@ const LeadDetailPage = () => {
                   label="Date & Time"
                   value={moment(log.dateTime).format("DD-MM-YYYY hh:mm a")}
                 />
+                <InfoItem label="Notes" value={log.notes} />
               </div>
             ))}
           </InfoCard>
@@ -127,7 +142,7 @@ const LeadDetailPage = () => {
           <InfoCard title="Comments" fullWidth>
             <p>{lead.comments}</p>
           </InfoCard>
-          <InfoCard title="Contact via WhatsApp">
+          {/* <InfoCard title="Contact via WhatsApp">
             <a
               href={`https://wa.me/${lead.phone}`}
               target="_blank"
@@ -135,7 +150,7 @@ const LeadDetailPage = () => {
             >
               Send WhatsApp Message
             </a>
-          </InfoCard>
+          </InfoCard> */}
         </div>
       </div>
     </DashboardLayout>
