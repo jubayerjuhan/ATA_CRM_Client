@@ -36,7 +36,7 @@ import { AppState } from "@/types";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-export const MyLeadsTable: React.FC<any> = ({ leads }) => {
+export const MyCustomersTable: React.FC<any> = ({ leads }) => {
   const navigate = useNavigate();
   const { lead: leadState } = useSelector((state: AppState) => state);
 

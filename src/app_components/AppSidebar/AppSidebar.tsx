@@ -18,7 +18,7 @@ import {
   DashboardURL,
   FormPageURL,
   LeadsManagementURL,
-  MyLeadsURL,
+  MyCustomersURL,
   NewLeadsURL,
   UsersManagementURL,
 } from "@/routes/routeConstant";
@@ -45,9 +45,9 @@ const Sidebar = () => {
       pathname: NewLeadsURL,
     },
     {
-      title: "My Leads",
+      title: "My Customers",
       icon: <MdMyLocation />,
-      pathname: MyLeadsURL,
+      pathname: MyCustomersURL,
     },
     {
       title: "Lead Sub Form",
@@ -68,7 +68,7 @@ const Sidebar = () => {
       pathname: UsersManagementURL,
     },
     {
-      title: "All Leads",
+      title: "All Customers",
       icon: <FaUsersViewfinder />,
       pathname: LeadsManagementURL,
     },
@@ -78,9 +78,9 @@ const Sidebar = () => {
       pathname: NewLeadsURL,
     },
     {
-      title: "My Leads",
+      title: "My Customers",
       icon: <MdMyLocation />,
-      pathname: MyLeadsURL,
+      pathname: MyCustomersURL,
     },
     // {
     //   title: "Form Fields",
