@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { LeadsTable } from "@/app_components";
 import { DashboardLayout } from "@/app_components/DashboardLayout";
 
 import { getAllLeads } from "@/redux/actions";
 import { AppDispatch, AppState } from "@/types";
+import { AllCustomersTable } from "@/app_components";
 
 export const Leads = () => {
   const { lead: leadState } = useSelector((state: AppState) => state);
@@ -21,8 +21,8 @@ export const Leads = () => {
   console.log("object");
   return (
     <DashboardLayout>
-      <LeadsTable
-        leads={leadState.leads ? leadState.leads : []}
+      <AllCustomersTable
+        customers={leadState.leads}
         loading={leadState.loading}
       />
     </DashboardLayout>

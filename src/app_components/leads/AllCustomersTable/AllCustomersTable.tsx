@@ -14,7 +14,7 @@ import { FaRegUser } from "react-icons/fa";
 
 import moment from "moment";
 
-type Employee = {
+export type Employee = {
   firstName: string;
   lastName: string;
   email: string;
@@ -25,12 +25,12 @@ type Employee = {
   avatar: string;
 };
 
-interface MyCustomersTableProps {
+interface AllCustomersTableProps {
   customers: any;
   loading: boolean;
 }
 
-export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
+export const AllCustomersTable: React.FC<AllCustomersTableProps> = ({
   customers,
   loading,
 }) => {
@@ -269,8 +269,13 @@ export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
               <ul>
                 {customerData.call_logs
                   ? customerData.call_logs.map((log: any) => {
-                      console.log(log.dateTime, log.notes);
-                      const parsedDate = moment(log.dateTime).format(
+                      console.log(
+                        typeof log.dateTime,
+                        log.dateTime,
+                        log.notes,
+                        "notes..."
+                      );
+                      const parsedDate = moment(Number(log.dateTime)).format(
                         "DD-MM-YYYY hh:mm a"
                       );
                       return (
@@ -372,7 +377,7 @@ export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
   return (
     <div style={{ width: "100%" }}>
       <Box sx={{ padding: "16px 0px", color: "#3960be" }}>
-        <Title order={3}>My Customers</Title>
+        <Title order={3}>All Customers</Title>
       </Box>
       <MantineReactTable table={table} />
     </div>
