@@ -1,265 +1,374 @@
-import * as React from "react";
-import { CaretSortIcon, ChevronDownIcon } from "@radix-ui/react-icons";
-import { CgProfile } from "react-icons/cg";
-
+import React, { useMemo } from "react";
 import {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-
-import { Button } from "@/components/ui/button";
-
+  MantineReactTable,
+  useMantineReactTable,
+  type MRT_ColumnDef,
+  MRT_GlobalFilterTextInput,
+  MRT_ToggleFiltersButton,
+} from "mantine-react-table";
+import { Box, Button, Flex, Menu, Text, Title } from "@mantine/core";
 import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { AppState } from "@/types";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+  IconUserCircle,
+  IconSend,
+  IconBrandWhatsapp,
+} from "@tabler/icons-react";
+import { FaRegUser } from "react-icons/fa";
 
-export const MyCustomersTable: React.FC<any> = ({ leads }) => {
-  const navigate = useNavigate();
-  const { lead: leadState } = useSelector((state: AppState) => state);
+import moment from "moment";
 
-  const [rows, setRows] = React.useState<any[]>([]);
+export type Employee = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  jobTitle: string;
+  salary: number;
+  startDate: string;
+  signatureCatchPhrase: string;
+  avatar: string;
+};
 
-  const columns: ColumnDef<any>[] = [
-    {
-      accessorKey: "firstName",
-      header: "First Name",
-      cell: ({ row }) => (
-        <div className="capitalize">{row.getValue("firstName")}</div>
-      ),
-    },
-    {
-      accessorKey: "lastName",
-      header: "Last Name",
-      cell: ({ row }) => (
-        <div className="capitalize">{row.getValue("lastName")}</div>
-      ),
-    },
-    {
-      accessorKey: "email",
-      header: ({ column }) => {
-        return (
-          <Button
-            variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          >
-            Email
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </Button>
-        );
+interface MyCustomersTableProps {
+  customers: any;
+  loading: boolean;
+}
+
+export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
+  customers,
+  loading,
+}) => {
+  // At First Checking If It's Loading Then Rendering Loading
+
+  const columns = useMemo<MRT_ColumnDef<any>[]>(
+    () => [
+      {
+        id: "customer",
+        header: "Customer",
+        columns: [
+          {
+            accessorFn: (row) => `${row.firstName} ${row.lastName}`,
+            id: "name",
+            header: "Name",
+            size: 200,
+            filterVariant: "autocomplete",
+          },
+          {
+            accessorKey: "status",
+            id: "status",
+            header: "Lead Status",
+            size: 200,
+          },
+          {
+            accessorKey: "email",
+            header: "Email",
+            size: 250,
+            enableClickToCopy: true,
+          },
+          {
+            accessorKey: "phone",
+            header: "Phone",
+            size: 150,
+          },
+        ],
       },
-      cell: ({ row }) => (
-        <div className="lowercase">{row.getValue("email")}</div>
-      ),
-    },
-    {
-      accessorKey: "departure",
-      header: "Departure",
-      cell: ({ row }) => <div>{row.getValue("departure")}</div>,
-    },
-    {
-      accessorKey: "arrival",
-      header: "Arrival",
-      cell: ({ row }) => <div>{row.getValue("arrival")}</div>,
-    },
-    {
-      accessorKey: "adult",
-      header: "Adult",
-      cell: ({ row }) => <div>{row.getValue("adult")}</div>,
-    },
-    {
-      accessorKey: "leadType",
-      header: "Lead Type",
-      cell: ({ row }) => <div>{row.getValue("leadType")}</div>,
-    },
-    {
-      header: "Detail",
-      cell: ({ row }) => (
-        <Button onClick={() => navigate(`/dashboard/lead/${row.original._id}`)}>
-          <CgProfile />
-        </Button>
-      ),
-    },
-  ];
 
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+      {
+        id: "travelInfo",
+        header: "Travel Information",
+        columns: [
+          {
+            accessorKey: "departure.name",
+            header: "Departure",
+            size: 200,
+          },
+          {
+            accessorKey: "arrival.name",
+            header: "Arrival",
+            size: 200,
+          },
+          {
+            accessorKey: "travelDate",
+            header: "Travel Date",
+            size: 150,
+            Cell: ({ cell }) =>
+              new Date(cell.getValue<string>()).toLocaleDateString(),
+          },
+          {
+            accessorKey: "returnDate",
+            header: "Return Date",
+            size: 150,
+            Cell: ({ cell }) =>
+              new Date(cell.getValue<string>()).toLocaleDateString(),
+          },
+          {
+            accessorKey: "airlinesCode",
+            header: "Airlines Code",
+            size: 120,
+          },
+          {
+            accessorKey: "pnr",
+            header: "PNR",
+            size: 100,
+          },
+          {
+            accessorKey: "pnr",
+            header: "PNR",
+            size: 100,
+          },
+        ],
+      },
+      {
+        id: "bookingDetails",
+        header: "Booking Details",
+        columns: [
+          {
+            accessorKey: "callFor",
+            header: "Call For",
+            size: 120,
+          },
+          {
+            accessorKey: "leadType",
+            header: "Lead Type",
+            size: 120,
+          },
+          {
+            accessorKey: "status",
+            header: "Status",
+            size: 150,
+          },
+          {
+            accessorKey: "quotedAmount",
+            header: "Quoted Amount",
+            size: 150,
+            Cell: ({ cell }) =>
+              `${
+                cell.getValue<string>() ? `$${cell.getValue<string>()}` : "N/A"
+              }`,
+          },
+          {
+            accessorKey: "payment.status",
+            header: "Payment Status",
+            size: 150,
+          },
+        ],
+      },
+      {
+        id: "passengerInfo",
+        header: "Passenger Information",
+        columns: [
+          {
+            accessorKey: "passengerType",
+            header: "Passenger Type",
+            size: 150,
+          },
+          {
+            accessorKey: "adult",
+            header: "Adults",
+            size: 100,
+          },
+          {
+            accessorKey: "child",
+            header: "Children",
+            size: 100,
+          },
+          {
+            accessorKey: "infant",
+            header: "Infants",
+            size: 100,
+          },
+        ],
+      },
+      {
+        accessorFn: (row) => {
+          //convert to Date for sorting and filtering
+          const sDay = new Date(row.createdAt);
+          sDay.setHours(0, 0, 0, 0); // remove time from date (useful if filter by equals exact date)
+          return sDay;
+        },
+        id: "createdAt",
+        header: "Case  Date",
+        filterVariant: "date-range",
+        sortingFn: "datetime",
+        enableColumnFilterModes: false, //keep this as only date-range filter with between inclusive filterFn
+        Cell: ({ cell }) => {
+          return cell.getValue<Date>()?.toLocaleDateString();
+        }, //render Date as a string
+        Header: ({ column }) => <em>{column.columnDef.header}</em>, //custom header markup
+      },
+      {
+        accessorKey: "claimed_by.name",
+        header: "Claimed By",
+        size: 150,
+      },
+    ],
     []
   );
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
 
-  const table = useReactTable({
-    data: leadState.loading ? [] : rows, // Use the rows state here
+  const table = useMantineReactTable({
     columns,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
-    state: {
-      sorting,
-      columnFilters,
-      columnVisibility,
-      rowSelection,
+    data: customers ? customers : [], //must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+    enableColumnFilterModes: true,
+    enableColumnOrdering: true,
+    enableFacetedValues: true,
+    enableGrouping: true,
+    enablePinning: true,
+    enableRowActions: true,
+    enableRowSelection: true,
+    initialState: { showColumnFilters: true, showGlobalFilter: true },
+    paginationDisplayMode: "pages",
+    positionToolbarAlertBanner: "bottom",
+    mantinePaginationProps: {
+      radius: "xl",
+      size: "lg",
+    },
+    mantineSearchTextInputProps: {
+      placeholder: "Search Employees",
+    },
+    renderDetailPanel: ({ row }) => {
+      const customerData = row.original;
+      console.log(customerData, "customerData...");
+      return (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            gap: "16px",
+            padding: "16px",
+          }}
+        >
+          <Box>
+            <Button
+              style={{
+                backgroundColor: "white",
+                color: "#1C7ED6",
+                border: "1px solid #1C7ED6",
+              }}
+              leftIcon={<FaRegUser size={16} />}
+              onClick={() => {
+                window.open(`/dashboard/lead/${customerData?._id}`);
+                console.log(
+                  `Open WhatsApp chat for ${customerData.firstName} ${customerData.lastName}`
+                );
+              }}
+            >
+              See Customer Details
+            </Button>
+          </Box>
+          <Box>
+            <Button
+              leftIcon={<IconBrandWhatsapp size={18} />}
+              onClick={() => {
+                window.open(`https://wa.me/${customerData.phone}`);
+                console.log(
+                  `Open WhatsApp chat for ${customerData.firstName} ${customerData.lastName}`
+                );
+              }}
+            >
+              WhatsApp
+            </Button>
+          </Box>
+          <Box>
+            <Title order={4}>Call Logs</Title>
+            <Text>
+              <ul>
+                {customerData.call_logs
+                  ? customerData.call_logs.map((log: any) => {
+                      console.log(log.dateTime, log.notes);
+                      const parsedDate = moment(log.dateTime).format(
+                        "DD-MM-YYYY hh:mm a"
+                      );
+                      return (
+                        <li key={log.dateTime}>
+                          <div>
+                            <strong>{log.callType}</strong>
+
+                            <p>{parsedDate}</p>
+                            <p>
+                              {log.notes ? log.notes : "No Notes Available"}
+                            </p>
+                          </div>
+                        </li>
+                      );
+                    })
+                  : "No call logs available."}
+              </ul>
+            </Text>
+          </Box>
+        </Box>
+      );
+    },
+    renderRowActionMenuItems: () => (
+      <>
+        <Menu.Item icon={<IconUserCircle />}>View Profile</Menu.Item>
+        <Menu.Item icon={<IconSend />}>Send Email</Menu.Item>
+      </>
+    ),
+    renderTopToolbar: ({ table }) => {
+      const handleDeactivate = () => {
+        table.getSelectedRowModel().flatRows.map((row) => {
+          alert("deactivating " + row.getValue("name"));
+        });
+      };
+
+      const handleActivate = () => {
+        table.getSelectedRowModel().flatRows.map((row) => {
+          alert("activating " + row.getValue("name"));
+        });
+      };
+
+      const handleContact = () => {
+        table.getSelectedRowModel().flatRows.map((row) => {
+          alert("contact " + row.getValue("name"));
+        });
+      };
+
+      if (loading) {
+        return <p>Loading...</p>;
+      }
+
+      return (
+        <div>
+          <Flex p="md" justify="space-between">
+            <Flex gap="xs">
+              {/* import MRT sub-components */}
+              <MRT_GlobalFilterTextInput table={table} />
+              <MRT_ToggleFiltersButton table={table} />
+            </Flex>
+            <Flex sx={{ gap: "8px" }}>
+              <Button
+                color="red"
+                disabled={!table.getIsSomeRowsSelected()}
+                onClick={handleDeactivate}
+                variant="filled"
+              >
+                Deactivate
+              </Button>
+              <Button
+                color="green"
+                disabled={!table.getIsSomeRowsSelected()}
+                onClick={handleActivate}
+                variant="filled"
+              >
+                Activate
+              </Button>
+              <Button
+                color="blue"
+                disabled={!table.getIsSomeRowsSelected()}
+                onClick={handleContact}
+                variant="filled"
+              >
+                Contact
+              </Button>
+            </Flex>
+          </Flex>
+        </div>
+      );
     },
   });
 
-  React.useEffect(() => {
-    if (leads && leads.length > 0) {
-      const arranged_leads = leads.map((lead: any) => ({
-        ...lead,
-        departure: lead.departure?.name || "",
-        arrival: lead.arrival?.name || "",
-      }));
-      setRows(arranged_leads);
-    } else {
-      setRows([]);
-    }
-  }, [leads]);
-
-  if (!leads) {
-    return <div>No leads available</div>;
-  }
-
   return (
-    <div className="w-full">
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
-        <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
-        </div>
-      </div>
+    <div style={{ width: "100%" }}>
+      <MantineReactTable table={table} />
     </div>
   );
 };

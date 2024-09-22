@@ -68,7 +68,7 @@ export interface LeadType {
   createdAt: string;
   updatedAt?: string;
   call_logs?: {
-    dateTime: string;
+    dateTime: string | Date;
     callType: string;
     notes?: string;
   }[];

@@ -19,9 +19,14 @@ export const MyCustomers = () => {
     fetchMyCustomers();
   }, [dispatch, auth.profile?._id]);
 
+  console.log("My Customers", leadState.leads);
+
   return (
     <DashboardLayout>
-      <MyCustomersTable leads={leadState.leads} loading={leadState.loading} />
+      <MyCustomersTable
+        customers={leadState.leads}
+        loading={leadState.loading}
+      />
     </DashboardLayout>
   );
 };

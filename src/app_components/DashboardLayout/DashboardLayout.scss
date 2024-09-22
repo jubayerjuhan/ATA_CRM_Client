@@ -1,17 +1,11 @@
 .dashboard-layout {
-  display: flex;
+  display: grid;
+  grid-template-columns: 200px calc(100vw - 220px);
   min-height: 100vh;
   overflow: hidden;
+}
 
-  .layout-content {
-    flex: 1;
-    margin-left: 200px; // Sidebar width
-    padding: 20px;
-    transition: margin-left 0.3s ease;
-
-    // Responsive adjustments
-    @media (max-width: 768px) {
-      margin-left: 60px; // Adjust based on sidebar collapse
-    }
-  }
+.layout-content {
+  padding: 20px;
+  width: 100%;
 }
