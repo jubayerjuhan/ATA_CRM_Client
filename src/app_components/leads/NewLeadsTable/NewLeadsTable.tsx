@@ -28,17 +28,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { AppDispatch, AppState, LeadType } from "@/types";
-import { useSelector, useDispatch } from "react-redux";
-import { editLead } from "@/redux/actions";
+import { LeadType } from "@/types";
 
 export const NewLeadsTable: React.FC<{
   leads: LeadType[];
   loading?: boolean;
-}> = ({ leads, loading }) => {
+  onClaimLead: any;
+  claimLeadLoading: boolean;
+}> = ({ leads, loading, claimLeadLoading, onClaimLead }) => {
   const [rows, setRows] = React.useState<any[]>([]);
-  const dispatch = useDispatch<AppDispatch>();
-  const { auth } = useSelector((state: AppState) => state);
 
   React.useEffect(() => {
     if (Array.isArray(leads)) {
@@ -106,19 +104,15 @@ export const NewLeadsTable: React.FC<{
     {
       header: "Claim Lead",
       cell: ({ row }) => (
-        <Button onClick={() => handleClaimLead(row.original)}>Claim Now</Button>
+        <Button
+          disabled={claimLeadLoading}
+          onClick={() => onClaimLead(row.original)}
+        >
+          {claimLeadLoading ? `Claiming...` : `Claim Now`}
+        </Button>
       ),
     },
   ];
-
-  const handleClaimLead = async (lead: LeadType) => {
-    const leadId = lead._id;
-    const original_lead = leads.find((l: LeadType) => l._id === leadId);
-    if (original_lead && auth.profile) {
-      const edited_lead = { ...original_lead, claimed_by: auth.profile._id };
-      await dispatch(editLead(edited_lead));
-    }
-  };
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(

@@ -131,3 +131,16 @@ export const editLead = (data: LeadType) => {
     }
   };
 };
+
+// edit lead
+// Update the claimLead function in your actions file
+export const claimLead = async (data: LeadType) => {
+  try {
+    await client.post(`/leads/${data._id}/claim-lead`, data);
+    toast.success("Lead Claimed Successfully");
+    return true;
+  } catch (error: any) {
+    toast.error(error.response?.data?.message || "Something went wrong");
+    return false;
+  }
+};

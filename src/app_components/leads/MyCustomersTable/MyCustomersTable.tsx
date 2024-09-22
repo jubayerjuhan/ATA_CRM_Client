@@ -270,7 +270,7 @@ export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
                 {customerData.call_logs
                   ? customerData.call_logs.map((log: any) => {
                       console.log(log.dateTime, log.notes);
-                      const parsedDate = moment(log.dateTime).format(
+                      const parsedDate = moment(Number(log.dateTime)).format(
                         "DD-MM-YYYY hh:mm a"
                       );
                       return (
