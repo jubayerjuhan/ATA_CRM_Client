@@ -3,10 +3,8 @@ import {
   MantineReactTable,
   useMantineReactTable,
   type MRT_ColumnDef,
-  MRT_GlobalFilterTextInput,
-  MRT_ToggleFiltersButton,
 } from "mantine-react-table";
-import { Box, Button, Flex, Menu, Text, Title } from "@mantine/core";
+import { Box, Button, Menu, Text, Title } from "@mantine/core";
 import {
   IconUserCircle,
   IconSend,
@@ -36,8 +34,6 @@ export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
   customers,
   loading,
 }) => {
-  // At First Checking If It's Loading Then Rendering Loading
-
   const columns = useMemo<MRT_ColumnDef<any>[]>(
     () => [
       {
@@ -303,69 +299,76 @@ export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
         <Menu.Item icon={<IconSend />}>Send Email</Menu.Item>
       </>
     ),
-    renderTopToolbar: ({ table }) => {
-      const handleDeactivate = () => {
-        table.getSelectedRowModel().flatRows.map((row) => {
-          alert("deactivating " + row.getValue("name"));
-        });
-      };
+    // renderTopToolbar: ({ table }) => {
+    //   const handleDeactivate = () => {
+    //     table.getSelectedRowModel().flatRows.map((row) => {
+    //       alert("deactivating " + row.getValue("name"));
+    //     });
+    //   };
 
-      const handleActivate = () => {
-        table.getSelectedRowModel().flatRows.map((row) => {
-          alert("activating " + row.getValue("name"));
-        });
-      };
+    //   const handleActivate = () => {
+    //     table.getSelectedRowModel().flatRows.map((row) => {
+    //       alert("activating " + row.getValue("name"));
+    //     });
+    //   };
 
-      const handleContact = () => {
-        table.getSelectedRowModel().flatRows.map((row) => {
-          alert("contact " + row.getValue("name"));
-        });
-      };
+    //   const handleContact = () => {
+    //     table.getSelectedRowModel().flatRows.map((row) => {
+    //       alert("contact " + row.getValue("name"));
+    //     });
+    //   };
 
-      if (loading) {
-        return <p>Loading...</p>;
-      }
+    //   if (loading) {
+    //     return <p>Loading...</p>;
+    //   }
 
-      return (
-        <div>
-          <Flex p="md" justify="space-between">
-            <Flex gap="xs">
-              {/* import MRT sub-components */}
-              <MRT_GlobalFilterTextInput table={table} />
-              <MRT_ToggleFiltersButton table={table} />
-            </Flex>
-            <Flex sx={{ gap: "8px" }}>
-              <Button
-                color="red"
-                disabled={!table.getIsSomeRowsSelected()}
-                onClick={handleDeactivate}
-                variant="filled"
-              >
-                Deactivate
-              </Button>
-              <Button
-                color="green"
-                disabled={!table.getIsSomeRowsSelected()}
-                onClick={handleActivate}
-                variant="filled"
-              >
-                Activate
-              </Button>
-              <Button
-                color="blue"
-                disabled={!table.getIsSomeRowsSelected()}
-                onClick={handleContact}
-                variant="filled"
-              >
-                Contact
-              </Button>
-            </Flex>
-          </Flex>
-        </div>
-      );
-    },
+    //   return (
+    //     <div>
+    //       <Flex p="md" justify="space-between">
+    //         <Flex gap="xs">
+    //           {/* import MRT sub-components */}
+    //           <MRT_GlobalFilterTextInput table={table} />
+    //           <MRT_ToggleFiltersButton table={table} />
+    //         </Flex>
+    //         <Flex sx={{ gap: "8px" }}>
+    //           <Button
+    //             color="red"
+    //             disabled={!table.getIsSomeRowsSelected()}
+    //             onClick={handleDeactivate}
+    //             variant="filled"
+    //           >
+    //             Deactivate
+    //           </Button>
+    //           <Button
+    //             color="green"
+    //             disabled={!table.getIsSomeRowsSelected()}
+    //             onClick={handleActivate}
+    //             variant="filled"
+    //           >
+    //             Activate
+    //           </Button>
+    //           <Button
+    //             color="blue"
+    //             disabled={!table.getIsSomeRowsSelected()}
+    //             onClick={handleContact}
+    //             variant="filled"
+    //           >
+    //             Contact
+    //           </Button>
+    //         </Flex>
+    //       </Flex>
+    //     </div>
+    //   );
+    // },
   });
 
+  if (loading) {
+    return (
+      <div style={{ width: "100%", textAlign: "center", padding: "20px" }}>
+        <Title order={3}>Loading...</Title>
+      </div>
+    );
+  }
   return (
     <div style={{ width: "100%" }}>
       <MantineReactTable table={table} />
