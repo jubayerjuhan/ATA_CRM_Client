@@ -47,6 +47,7 @@ export interface LeadType {
   phone: string;
   email: string;
   address: string;
+  postCode: string;
   callType?: string;
   dateTime?: string;
   callFor?: string;

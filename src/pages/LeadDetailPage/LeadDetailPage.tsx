@@ -138,7 +138,7 @@ const LeadDetailPage = () => {
           </a>
         </div>
         <div className="lead-info-grid">
-          <InfoCard title="Personal Information">
+          <InfoCard title="Customer Information">
             <InfoItem
               label="Full Name"
               value={`${lead.firstName} ${lead.lastName}`}
@@ -146,7 +146,7 @@ const LeadDetailPage = () => {
             <InfoItem label="Phone" value={lead.phone} />
             <InfoItem label="Email" value={lead.email} />
             <InfoItem label="Lead Origin" value={lead.leadOrigin} />
-            <InfoItem label="Address" value={lead.address} />
+            <InfoItem label="Post Code" value={lead.postCode} />
           </InfoCard>
           <InfoCard title="Travel Details">
             <InfoItem
