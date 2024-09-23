@@ -2,6 +2,7 @@ import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 import {
+  ConvertedCustomers,
   Dashboard,
   ForgotPassword,
   Home,
@@ -28,6 +29,7 @@ import {
   LeadDetailURL,
   LeadSuccessURL,
   MyCustomersURL,
+  ConvertedCustomersURL,
 } from "./routeConstant";
 import PrivateRoute from "@/app_components/PrivateRoute/PrivateRoute";
 import FormManager from "@/pages/FormManager/FormManager";
@@ -82,6 +84,10 @@ const AppRoutes: React.FC = () => {
         <Route
           path={MyCustomersURL}
           element={<PrivateRoute component={MyCustomers} />}
+        />
+        <Route
+          path={ConvertedCustomersURL}
+          element={<PrivateRoute component={ConvertedCustomers} />}
         />
       </Routes>
     </Router>

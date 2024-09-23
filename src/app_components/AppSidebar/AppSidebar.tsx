@@ -15,6 +15,7 @@ import { SidebarLinksType } from "./index";
 import logo from "../../assets/air_ticket_agency.png";
 import "./Sidebar.scss";
 import {
+  ConvertedCustomersURL,
   DashboardURL,
   FormPageURL,
   LeadsManagementURL,
@@ -81,6 +82,11 @@ const Sidebar = () => {
       title: "My Customers",
       icon: <MdMyLocation />,
       pathname: MyCustomersURL,
+    },
+    {
+      title: "Converted Customers",
+      icon: <MdMyLocation />,
+      pathname: ConvertedCustomersURL,
     },
     // {
     //   title: "Form Fields",

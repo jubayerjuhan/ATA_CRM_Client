@@ -1,0 +1,32 @@
+import { MyCustomersTable } from "@/app_components";
+import { DashboardLayout } from "@/app_components/DashboardLayout";
+import { getConvertedLeads } from "@/redux/actions";
+import { AppDispatch, AppState } from "@/types";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+
+export const ConvertedCustomers = () => {
+  const { lead: leadState } = useSelector((state: AppState) => state);
+  const { auth } = useSelector((state: AppState) => state);
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    const fetchConvertedCustomers = async () => {
+      await dispatch(getConvertedLeads());
+    };
+    fetchConvertedCustomers();
+  }, [dispatch, auth.profile?._id]);
+
+  console.log("My Customers", leadState.leads);
+
+  return (
+    <DashboardLayout>
+      <MyCustomersTable
+        customers={leadState.leads}
+        loading={leadState.loading}
+      />
+    </DashboardLayout>
+  );
+};

@@ -10,6 +10,7 @@ const LeadsManagementURL = "/dashboard/leads";
 const LeadDetailURL = "/dashboard/lead/:leadId";
 const NewLeadsURL = "/dashboard/new-leads";
 const MyCustomersURL = "/dashboard/my-customers";
+const ConvertedCustomersURL = "/dashboard/converted-customers";
 const FormFieldManagementURL = "/dashboard/form-fields";
 const FormPageURL = "/form";
 const SettingsURL = "/settings";
@@ -31,6 +32,7 @@ export {
   LeadDetailURL,
   NewLeadsURL,
   MyCustomersURL,
+  ConvertedCustomersURL,
   FormFieldManagementURL,
   LeadSuccessURL,
   FormPageURL,
