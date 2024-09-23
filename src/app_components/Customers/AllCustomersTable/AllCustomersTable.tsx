@@ -14,23 +14,12 @@ import { FaRegUser } from "react-icons/fa";
 
 import moment from "moment";
 
-export type Employee = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  jobTitle: string;
-  salary: number;
-  startDate: string;
-  signatureCatchPhrase: string;
-  avatar: string;
-};
-
-interface AllCustomersTableProps {
+interface AllCustomersProps {
   customers: any;
   loading: boolean;
 }
 
-export const AllCustomersTable: React.FC<AllCustomersTableProps> = ({
+export const AllCustomersTable: React.FC<AllCustomersProps> = ({
   customers,
   loading,
 }) => {
@@ -85,25 +74,24 @@ export const AllCustomersTable: React.FC<AllCustomersTableProps> = ({
             accessorKey: "travelDate",
             header: "Travel Date",
             size: 150,
-            Cell: ({ cell }) =>
-              new Date(cell.getValue<string>()).toLocaleDateString(),
+            Cell: ({ cell }) => {
+              const date = cell.getValue<string>();
+              return date ? new Date(date).toLocaleDateString() : "N/A";
+            },
           },
           {
             accessorKey: "returnDate",
             header: "Return Date",
             size: 150,
-            Cell: ({ cell }) =>
-              new Date(cell.getValue<string>()).toLocaleDateString(),
+            Cell: ({ cell }) => {
+              const date = cell.getValue<string>();
+              return date ? new Date(date).toLocaleDateString() : "N/A";
+            },
           },
           {
             accessorKey: "airlinesCode",
             header: "Airlines Code",
             size: 120,
-          },
-          {
-            accessorKey: "pnr",
-            header: "PNR",
-            size: 100,
           },
           {
             accessorKey: "pnr",
@@ -181,12 +169,13 @@ export const AllCustomersTable: React.FC<AllCustomersTableProps> = ({
           return sDay;
         },
         id: "createdAt",
-        header: "Case  Date",
+        header: "Case Date",
         filterVariant: "date-range",
         sortingFn: "datetime",
         enableColumnFilterModes: false, //keep this as only date-range filter with between inclusive filterFn
         Cell: ({ cell }) => {
-          return cell.getValue<Date>()?.toLocaleDateString();
+          const date = cell.getValue<Date>();
+          return date ? date.toLocaleDateString() : "N/A";
         }, //render Date as a string
         Header: ({ column }) => <em>{column.columnDef.header}</em>, //custom header markup
       },
@@ -304,67 +293,6 @@ export const AllCustomersTable: React.FC<AllCustomersTableProps> = ({
         <Menu.Item icon={<IconSend />}>Send Email</Menu.Item>
       </>
     ),
-    // renderTopToolbar: ({ table }) => {
-    //   const handleDeactivate = () => {
-    //     table.getSelectedRowModel().flatRows.map((row) => {
-    //       alert("deactivating " + row.getValue("name"));
-    //     });
-    //   };
-
-    //   const handleActivate = () => {
-    //     table.getSelectedRowModel().flatRows.map((row) => {
-    //       alert("activating " + row.getValue("name"));
-    //     });
-    //   };
-
-    //   const handleContact = () => {
-    //     table.getSelectedRowModel().flatRows.map((row) => {
-    //       alert("contact " + row.getValue("name"));
-    //     });
-    //   };
-
-    //   if (loading) {
-    //     return <p>Loading...</p>;
-    //   }
-
-    //   return (
-    //     <div>
-    //       <Flex p="md" justify="space-between">
-    //         <Flex gap="xs">
-    //           {/* import MRT sub-components */}
-    //           <MRT_GlobalFilterTextInput table={table} />
-    //           <MRT_ToggleFiltersButton table={table} />
-    //         </Flex>
-    //         <Flex sx={{ gap: "8px" }}>
-    //           <Button
-    //             color="red"
-    //             disabled={!table.getIsSomeRowsSelected()}
-    //             onClick={handleDeactivate}
-    //             variant="filled"
-    //           >
-    //             Deactivate
-    //           </Button>
-    //           <Button
-    //             color="green"
-    //             disabled={!table.getIsSomeRowsSelected()}
-    //             onClick={handleActivate}
-    //             variant="filled"
-    //           >
-    //             Activate
-    //           </Button>
-    //           <Button
-    //             color="blue"
-    //             disabled={!table.getIsSomeRowsSelected()}
-    //             onClick={handleContact}
-    //             variant="filled"
-    //           >
-    //             Contact
-    //           </Button>
-    //         </Flex>
-    //       </Flex>
-    //     </div>
-    //   );
-    // },
   });
 
   if (loading) {

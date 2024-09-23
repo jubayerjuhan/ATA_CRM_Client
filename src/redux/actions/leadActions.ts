@@ -65,6 +65,27 @@ export const getAllLeads = () => {
   };
 };
 
+export const getAllCustomers = () => {
+  return async (dispatch: Dispatch) => {
+    dispatch({ type: FETCH_LEADS_PENDING });
+    try {
+      const response = await client.get("/customers");
+
+      dispatch({
+        type: FETCH_LEADS_SUCCESS,
+        payload: response.data.customers,
+      });
+    } catch (error: any) {
+      dispatch({
+        type: FETCH_LEADS_ERROR,
+        payload: {
+          message: error.response?.data?.message || "Something went wrong",
+        },
+      });
+    }
+  };
+};
+
 // Get leads by user id
 export const getLeadsByUserId = (userId: string) => {
   return async (dispatch: Dispatch) => {

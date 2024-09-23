@@ -3,17 +3,17 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { DashboardLayout } from "@/app_components/DashboardLayout";
 
-import { getAllLeads } from "@/redux/actions";
+import { getAllCustomers } from "@/redux/actions";
 import { AppDispatch, AppState } from "@/types";
-import { AllLeadsTable } from "@/app_components";
+import { AllCustomersTable } from "@/app_components";
 
-export const Leads = () => {
+export const AllCustomers = () => {
   const { lead: leadState } = useSelector((state: AppState) => state);
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     const fetchAllLeads = async () => {
-      await dispatch(getAllLeads());
+      await dispatch(getAllCustomers());
     };
     fetchAllLeads();
   }, [dispatch]);
@@ -21,7 +21,10 @@ export const Leads = () => {
   console.log("object");
   return (
     <DashboardLayout>
-      <AllLeadsTable customers={leadState.leads} loading={leadState.loading} />
+      <AllCustomersTable
+        customers={leadState.leads}
+        loading={leadState.loading}
+      />
     </DashboardLayout>
   );
 };

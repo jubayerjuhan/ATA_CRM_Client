@@ -9,3 +9,4 @@ export * from "./Leads/Leads";
 export * from "./NewLeads/NewLeads";
 export * from "./SuccessPage/SuccessPage";
 export * from "./ConvertedCustomers/ConvertedCustomers";
+export * from "./AllCustomers/AllCustomers";

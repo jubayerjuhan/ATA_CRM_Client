@@ -18,6 +18,7 @@ import type { E164Number } from "libphonenumber-js";
 
 export const ClientFormPage = () => {
   const [formPart, setFormPart] = useState(1);
+  const [tripType, setTripType] = useState("One Way");
   const { lead: leadState } = useSelector((state: AppState) => state);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ export const ClientFormPage = () => {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm();
 
@@ -35,6 +37,17 @@ export const ClientFormPage = () => {
       dispatch({ type: CLEAR_ERROR });
     }
   }, [leadState.error?.message, dispatch]);
+
+  useEffect(() => {
+    const subscription = watch((value) => {
+      setTripType(value.tripType);
+
+      if (value.tripType === "One Way") {
+        setValue("returnDate", null);
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [watch, setValue]);
 
   const onSubmitPartOne = async (data: any) => {
     try {
@@ -242,11 +255,11 @@ export const ClientFormPage = () => {
                   )}
                 </div>
                 <div className="form-group">
-                  <label>Address</label>
+                  <label>Post Code</label>
                   <input
                     type="text"
-                    placeholder="Address here"
-                    {...register("address")}
+                    placeholder="Post Code here"
+                    {...register("postCode")}
                   />
                 </div>
               </motion.div>
@@ -321,20 +334,40 @@ export const ClientFormPage = () => {
                     </span>
                   )}
                 </div>
+
+                {/* One way or two way */}
                 <div className="form-group">
-                  <DatePicker
-                    required
-                    label="Return Date"
-                    name="returnDate"
-                    style={{ height: "50px" }}
-                    onDateChange={(date) => setValue("returnDate", date)}
-                  />
-                  {errors.returnDate && (
+                  <label>Trip Type</label>
+                  <select
+                    {...register("tripType", {
+                      required: "Trip Type is required",
+                    })}
+                  >
+                    <option value="One Way">One Way</option>
+                    <option value="Round Trip">Round Trip</option>
+                  </select>
+                  {errors.tripType && (
                     <span className="error-message">
-                      {errors.returnDate.message as string}
+                      {errors.tripType.message as string}
                     </span>
                   )}
                 </div>
+                {tripType === "Round Trip" && (
+                  <div className="form-group">
+                    <DatePicker
+                      required
+                      label="Return Date"
+                      name="returnDate"
+                      style={{ height: "50px" }}
+                      onDateChange={(date) => setValue("returnDate", date)}
+                    />
+                    {errors.returnDate && (
+                      <span className="error-message">
+                        {errors.returnDate.message as string}
+                      </span>
+                    )}
+                  </div>
+                )}
                 <div className="form-group">
                   <label>
                     Adult <span className="required">*</span>
@@ -383,34 +416,6 @@ export const ClientFormPage = () => {
                   )}
                 </div>
 
-                <div className="form-group">
-                  <label>
-                    Case Date <span className="required">*</span>
-                  </label>
-                  <input
-                    type="datetime-local"
-                    {...register("caseDate", {
-                      required: "Case Date is required",
-                    })}
-                  />
-                  {errors.caseDate && (
-                    <span className="error-message">
-                      {errors.caseDate.message as string}
-                    </span>
-                  )}
-                </div>
-                <div className="form-group">
-                  <label>Quoted Amount</label>
-                  <input
-                    type="text"
-                    placeholder="Quoted here"
-                    {...register("quotedAmount")}
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Next Follow-up Date</label>
-                  <input type="date" {...register("followUpDate")} />
-                </div>
                 <div className="form-group">
                   <label>Notes</label>
                   <textarea placeholder="Notes" {...register("notes")} />

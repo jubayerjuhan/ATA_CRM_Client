@@ -7,7 +7,7 @@ import { FaUsersViewfinder } from "react-icons/fa6";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { PiUserList } from "react-icons/pi";
 import { CiLogout } from "react-icons/ci";
-import { MdMyLocation, MdFiberNew } from "react-icons/md";
+import { MdMyLocation, MdFiberNew, MdEmojiPeople } from "react-icons/md";
 
 import { SidebarLinksType } from "./index";
 
@@ -15,6 +15,7 @@ import { SidebarLinksType } from "./index";
 import logo from "../../assets/air_ticket_agency.png";
 import "./Sidebar.scss";
 import {
+  AllCustomersURL,
   ConvertedCustomersURL,
   DashboardURL,
   FormPageURL,
@@ -69,9 +70,14 @@ const Sidebar = () => {
       pathname: UsersManagementURL,
     },
     {
-      title: "All Customers",
+      title: "All Leads",
       icon: <FaUsersViewfinder />,
       pathname: LeadsManagementURL,
+    },
+    {
+      title: "All Customers",
+      icon: <MdEmojiPeople />,
+      pathname: AllCustomersURL,
     },
     {
       title: "New Leads",
