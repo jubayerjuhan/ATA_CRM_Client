@@ -186,3 +186,15 @@ export const claimLead = async (data: LeadType) => {
     return false;
   }
 };
+
+// Search Lead With email
+export const searchLeadWithEmail = async (email: string) => {
+  try {
+    const response = await client.post(`/leads/search`, { email });
+    toast.success("Existing Information Found");
+
+    return response.data.lead;
+  } catch (error: any) {
+    return null;
+  }
+};

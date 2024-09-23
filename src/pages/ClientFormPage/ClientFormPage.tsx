@@ -26,13 +26,8 @@ const isValidEmail = (email: string): boolean => {
 };
 
 export const ClientFormPage = () => {
-  const [formPart, setFormPart] = useState(1);
-  const [userSearchingEmail, setUserSearchingEmail] = useState<string | null>(
-    null
-  );
-
-  const [tripType, setTripType] = useState("One Way");
   const { lead: leadState } = useSelector((state: AppState) => state);
+
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const {
@@ -43,6 +38,14 @@ export const ClientFormPage = () => {
     watch,
     formState: { errors },
   } = useForm();
+
+  const [formPart, setFormPart] = useState(1);
+  const [userSearchingEmail, setUserSearchingEmail] = useState<string | null>(
+    null
+  );
+
+  const [tripType, setTripType] = useState("One Way");
+  const [showExistingLeadPopup, setShowExistingLeadPopup] = useState(true);
 
   useEffect(() => {
     if (leadState.error?.message) {
@@ -78,11 +81,12 @@ export const ClientFormPage = () => {
       console.log(leadState.insertedLeadId, "inserted lead id");
 
       setFormPart(2);
-      window.scrollTo(0, 0);
 
       toast.success(
         "Lead information saved. Please complete the journey details."
       );
+      setShowExistingLeadPopup(false);
+      window.scrollTo(0, 0);
     } catch (error) {
       console.error("Error saving lead:", error);
       toast.error("Failed to save lead information. Please try again.");
@@ -123,20 +127,23 @@ export const ClientFormPage = () => {
     }
   };
 
+  const onExistingLeadAdd = (lead: LeadType | null) => {
+    setValue("firstName", lead?.firstName || "");
+    setValue("lastName", lead?.lastName || "");
+    setValue("phone", lead?.phone || "");
+    setValue("email", lead?.email || "");
+    setValue("postCode", lead?.postCode || "");
+  };
+
   return (
     <>
       <div className="client-form-page">
-        <SearchExistingLeadPopup
-          lead={{
-            email: "jubayerjuhan.info@gmail.com",
-            name: "Jubayer Juhan",
-            phone: "01700000000",
-            postCode: "1212",
-          }}
-          onAdd={() => {
-            console.log("Add to");
-          }}
-        />
+        {showExistingLeadPopup && (
+          <SearchExistingLeadPopup
+            email={userSearchingEmail}
+            onAdd={onExistingLeadAdd}
+          />
+        )}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
