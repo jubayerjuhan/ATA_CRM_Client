@@ -152,7 +152,7 @@ export const getSingleLead = (leadId: string) => {
 };
 
 // edit lead
-export const editLead = (data: LeadType) => {
+export const editLead = async (data: LeadType) => {
   return async (dispatch: Dispatch) => {
     dispatch({ type: EDIT_LEAD_PENDING });
     try {

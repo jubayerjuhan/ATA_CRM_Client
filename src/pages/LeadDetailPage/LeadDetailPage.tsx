@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { DashboardLayout } from "@/app_components/DashboardLayout";
-import { AddCallLogModal } from "@/app_components";
+import { AddCallLogModal, EditTravelDetails } from "@/app_components";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { AppDispatch, AppState } from "@/types";
@@ -19,7 +19,7 @@ const LeadDetailPage = () => {
   const [quotedAmount, setQuotedAmount] = useState("");
   const dispatch = useDispatch<AppDispatch>();
   const { leadId } = useParams<{ leadId: string }>();
-  const { lead, loading } = useSelector((state: AppState) => state.lead);
+  const { lead } = useSelector((state: AppState) => state.lead);
 
   useEffect(() => {
     if (leadId) {
@@ -149,6 +149,7 @@ const LeadDetailPage = () => {
             <InfoItem label="Post Code" value={lead.postCode} />
           </InfoCard>
           <InfoCard title="Travel Details">
+            <EditTravelDetails lead={lead} />
             <InfoItem
               label="Departure"
               value={
@@ -166,9 +167,15 @@ const LeadDetailPage = () => {
               }
             />
             <InfoItem label="Airlines Code" value={lead.airlinesCode} />
-            <InfoItem label="PNR" value={lead.pnr} />
-            <InfoItem label="Travel Date" value={lead.travelDate} />
-            <InfoItem label="Return Date" value={lead.returnDate} />
+            <InfoItem label="PNR" value={lead.pnr ? lead.pnr : "N/A"} />
+            <InfoItem
+              label="Travel Date"
+              value={moment(lead.travelDate).format("DD-MM-YYYY")}
+            />
+            <InfoItem
+              label="Return Date"
+              value={moment(lead.returnDate).format("DD-MM-YYYY")}
+            />
           </InfoCard>
           <InfoCard title="Call Information">
             <AddCallLogModal leadId={leadId as string} />

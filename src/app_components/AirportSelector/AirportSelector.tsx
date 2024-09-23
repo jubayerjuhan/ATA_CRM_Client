@@ -10,13 +10,17 @@ type AirportSelectorProps = {
   setValue: UseFormSetValue<FieldValues>;
   required?: boolean;
   errorMessage?: string;
+  defaultValue?: string;
+  defaultDisplayValue?: string;
 };
 export const AirportSelector = ({
   label,
   name,
   register,
   setValue,
+  defaultValue,
   errorMessage,
+  defaultDisplayValue,
   required = false,
 }: AirportSelectorProps): JSX.Element => {
   const [displayValue, setDisplayValue] = useState<string>("");
@@ -44,6 +48,10 @@ export const AirportSelector = ({
   };
 
   useEffect(() => {
+    if (defaultValue && defaultDisplayValue) {
+      setValue(name, defaultValue);
+      setDisplayValue(defaultDisplayValue);
+    }
     const handleClickOutside = (event: MouseEvent) => {
       if (
         dropdownRef.current &&
@@ -56,7 +64,7 @@ export const AirportSelector = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [defaultDisplayValue, defaultValue, name, setValue]);
 
   const handleSelectAirport = (airport: any) => {
     setDisplayValue(`${airport.name} (${airport.code})`);
@@ -75,9 +83,6 @@ export const AirportSelector = ({
           placeholder="Search airports"
           className={styles.input}
           id={name}
-          {...register(name, {
-            required: required ? `${label} is required` : false,
-          })}
           value={displayValue}
           onChange={(e) => {
             setDisplayValue(e.target.value);
