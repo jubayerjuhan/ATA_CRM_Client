@@ -6,7 +6,11 @@ import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
-import { AirportSelector, DatePicker } from "@/app_components";
+import {
+  AirportSelector,
+  DatePicker,
+  SearchExistingLeadPopup,
+} from "@/app_components";
 import { PhoneInput } from "@/app_components/PhoneInput/PhoneInput";
 
 import { AppDispatch, AppState, LeadType } from "@/types";
@@ -16,8 +20,17 @@ import { CLEAR_ERROR } from "@/constants";
 import "./FormComponent.scss";
 import type { E164Number } from "libphonenumber-js";
 
+const isValidEmail = (email: string): boolean => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
 export const ClientFormPage = () => {
   const [formPart, setFormPart] = useState(1);
+  const [userSearchingEmail, setUserSearchingEmail] = useState<string | null>(
+    null
+  );
+
   const [tripType, setTripType] = useState("One Way");
   const { lead: leadState } = useSelector((state: AppState) => state);
   const dispatch = useDispatch<AppDispatch>();
@@ -44,6 +57,13 @@ export const ClientFormPage = () => {
 
       if (value.tripType === "One Way") {
         setValue("returnDate", null);
+      }
+
+      if (value.email) {
+        const validEmail = isValidEmail(value.email);
+        if (validEmail) {
+          setUserSearchingEmail(value.email);
+        }
       }
     });
     return () => subscription.unsubscribe();
@@ -106,6 +126,17 @@ export const ClientFormPage = () => {
   return (
     <>
       <div className="client-form-page">
+        <SearchExistingLeadPopup
+          lead={{
+            email: "jubayerjuhan.info@gmail.com",
+            name: "Jubayer Juhan",
+            phone: "01700000000",
+            postCode: "1212",
+          }}
+          onAdd={() => {
+            console.log("Add to");
+          }}
+        />
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -319,22 +350,6 @@ export const ClientFormPage = () => {
                     </span>
                   )}
                 </div>
-
-                <div className="form-group">
-                  <DatePicker
-                    required
-                    label="Travel Date"
-                    name="travelDate"
-                    style={{ height: "50px" }}
-                    onDateChange={(date) => setValue("travelDate", date)}
-                  />
-                  {errors.travelDate && (
-                    <span className="error-message">
-                      {errors.travelDate.message as string}
-                    </span>
-                  )}
-                </div>
-
                 {/* One way or two way */}
                 <div className="form-group">
                   <label>Trip Type</label>
@@ -352,6 +367,21 @@ export const ClientFormPage = () => {
                     </span>
                   )}
                 </div>
+                <div className="form-group">
+                  <DatePicker
+                    required
+                    label="Travel Date"
+                    name="travelDate"
+                    style={{ height: "50px" }}
+                    onDateChange={(date) => setValue("travelDate", date)}
+                  />
+                  {errors.travelDate && (
+                    <span className="error-message">
+                      {errors.travelDate.message as string}
+                    </span>
+                  )}
+                </div>
+
                 {tripType === "Round Trip" && (
                   <div className="form-group">
                     <DatePicker
