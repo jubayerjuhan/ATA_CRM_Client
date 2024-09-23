@@ -27,7 +27,6 @@ const persistedReducer = persistReducer(
 // Configure the store
 export const store = configureStore({
   reducer: persistedReducer, // use the persisted rootReducer
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });
 
 // Persistor for the store
