@@ -1,6 +1,4 @@
 import { client } from "@/api/api";
-import { AirportSelector } from "@/app_components/AirportSelector/AirportSelector";
-import { DatePicker } from "@/app_components/DatePicker/DatePicker";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -14,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { getSingleLead } from "@/redux/actions";
-import { AppDispatch, LeadType } from "@/types";
+import { AppDispatch } from "@/types";
 import React from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -33,7 +31,6 @@ export const AddSplittedQuotedAmount: React.FC<
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm();
 
