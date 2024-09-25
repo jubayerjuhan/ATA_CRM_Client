@@ -221,7 +221,7 @@ export const LeadDetailPage = () => {
           </InfoCard>
 
           {/* Here is the Email Sending Section Card */}
-          <EmailSendingSection />
+          <EmailSendingSection lead={lead} />
           <InfoCard title="Comments" fullWidth>
             <p>{lead.comments}</p>
           </InfoCard>

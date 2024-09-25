@@ -1,8 +1,19 @@
 import React from "react";
 
 import { InfoCard, InfoItem } from "@/pages";
+import { LeadType } from "@/types";
 
-export const EmailSendingSection = () => {
+interface EmailSendingSectionProps {
+  lead: LeadType;
+}
+
+export const EmailSendingSection: React.FC<EmailSendingSectionProps> = ({
+  lead,
+}) => {
+  const sendItenaryEmail = () => {
+    console.log("Sending Itenary Email");
+  };
+
   return (
     <div>
       <InfoCard title="Email Section">
@@ -10,7 +21,7 @@ export const EmailSendingSection = () => {
         <InfoItem
           label={"Itenary Email"}
           value={"Not Sent"}
-          onClick={() => {}}
+          onClick={sendItenaryEmail}
         />
       </InfoCard>
     </div>
