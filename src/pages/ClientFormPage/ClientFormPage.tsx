@@ -19,6 +19,7 @@ import { CLEAR_ERROR } from "@/constants";
 
 import "./FormComponent.scss";
 import type { E164Number } from "libphonenumber-js";
+import { client } from "@/api/api";
 
 const isValidEmail = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -112,14 +113,14 @@ export const ClientFormPage = () => {
     }
 
     try {
-      await dispatch(
-        editLead({ _id: leadState.insertedLeadId, ...leadWithLogs } as LeadType)
-      );
+      const { data: leadData } = await client.post("/leads", leadWithLogs);
+
       const queryParams = new URLSearchParams({
         title: "Lead Updated Successfully",
         message: `Name: ${data.firstName} ${data.lastName}`,
         redirectLink: "/form",
       }).toString();
+
       navigate(`/lead-success?${queryParams}`);
     } catch (error) {
       console.error("Error updating lead:", error);

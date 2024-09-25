@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { DashboardLayout } from "@/app_components/DashboardLayout";
-import { AddCallLogModal, EditTravelDetails } from "@/app_components";
+import {
+  AddCallLogModal,
+  AddSplittedQuotedAmount,
+  EditTravelDetails,
+} from "@/app_components";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { AppDispatch, AppState } from "@/types";
@@ -200,7 +204,18 @@ const LeadDetailPage = () => {
             <InfoItem label="Infant" value={lead.infant} />
           </InfoCard>
           <InfoCard title="Pricing Information">
-            <InfoItem label="Quoted Amount" value={lead.quotedAmount} />
+            <AddSplittedQuotedAmount lead={lead} />
+            <InfoItem
+              label="Total Quoted Amount"
+              value={lead.quoted_amount.total}
+            />
+            {Object.entries(lead.quoted_amount).map(([key, value]) => {
+              const formattedKey = key
+                .split("_")
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(" ");
+              return <InfoItem key={key} label={formattedKey} value={value} />;
+            })}
             <InfoItem label="Follow-up Date" value={lead.followUpDate} />
           </InfoCard>
           <InfoCard title="Comments" fullWidth>

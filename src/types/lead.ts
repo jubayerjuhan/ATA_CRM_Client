@@ -74,5 +74,10 @@ export interface LeadType {
     notes?: string;
   }[];
 
+  // quoted amount splitted
+  quoted_amount: {
+    [key: string]: number;
+  };
+
   __v: number;
 }
