@@ -1,50 +1,65 @@
 import React from "react";
+import { Resend } from "resend";
+import { render } from "@react-email/render";
+import { ItineraryEmail } from "@/app_components";
 
-import "./TestPage.css";
+const resend = new Resend("re_PqyvLBVb_9r8ZKb6T164gJkyCNkDgJf76");
 
-export const TestPage = () => {
+export const TestPage: React.FC = () => {
+  const sendItineraryEmail = async (email: string, lead: any) => {
+    email = "dropshipninja23@gmail.com";
+
+    const htmlContent = await render(
+      <ItineraryEmail
+        name={lead.name}
+        airline="Your Airline"
+        confirmationNumber={lead.confirmationNumber}
+        date={lead.date}
+        flightNumber={lead.flightNumber}
+        departureTime={lead.departureTime}
+        departureCity={lead.departureCity}
+        arrivalTime={lead.arrivalTime}
+        arrivalCity={lead.arrivalCity}
+        seatNumber={lead.seatNumber}
+        duration={lead.duration}
+        aircraftType={lead.aircraftType}
+      />
+    );
+
+    try {
+      const data = await resend.emails.send({
+        from: "ATA CRM <onboarding@resend.dev>",
+        to: [email],
+        subject: "Flight Itinerary",
+        html: htmlContent, // Rendered HTML
+      });
+      console.log(data, "Email sent successfully");
+    } catch (error) {
+      console.log(error, "Error sending email");
+    }
+  };
+
+  const handleSendEmail = () => {
+    const lead = {
+      name: "John Doe",
+      confirmationNumber: "ABC123",
+      date: "2023-10-01",
+      flightNumber: "XY123",
+      departureTime: "10:00 AM",
+      departureCity: "New York",
+      arrivalTime: "1:00 PM",
+      arrivalCity: "Los Angeles",
+      seatNumber: "12A",
+      duration: "3h",
+      aircraftType: "Boeing 737",
+    };
+    sendItineraryEmail("dropshipninja23@gmail.com", lead);
+  };
+
   return (
-    <div className="itinerary-email">
-      <div className="header">
-        <div className="logo">AIRLINE</div>
-        <div>Flight Itinerary for [Passenger Name]</div>
-      </div>
-      <div className="confirmation">
-        <h2>Thank you for choosing [Airline Name].</h2>
-        <p>Your reservation is confirmed.</p>
-        <p>Confirmation Number: [Confirmation Number]</p>
-      </div>
-      <div className="flight">
-        <div className="flight-header">
-          <div className="date">[Date]</div>
-          <div>Flight: [Flight Number]</div>
-        </div>
-        <div className="flight-details">
-          <div className="departure">
-            <div className="time">[Departure Time]</div>
-            <div>[Departure City (Code)]</div>
-          </div>
-          <div className="arrival">
-            <div className="time">[Arrival Time]</div>
-            <div>[Arrival City (Code)]</div>
-          </div>
-        </div>
-        <div>
-          <p>Seat Assignment: [Seat Number]</p>
-          <p>Travel Time: [Duration]</p>
-          <p>Aircraft: [Aircraft Type]</p>
-        </div>
-      </div>
-      <button className="button">I Acknowledge This Booking</button>
-      <p>
-        Please do not reply to this e-mail, as it cannot be answered from this
-        address.
-      </p>
-      <p>
-        For changes (which may result in a change fee) or questions about your
-        reservation, you may contact [Airline] Support via telephone at [Phone
-        Number].
-      </p>
+    <div>
+      <h1>Test Page</h1>
+      <button onClick={handleSendEmail}>Send Itinerary Email</button>
     </div>
   );
 };

@@ -9,3 +9,6 @@ export * from "./AirportSelector/AirportSelector";
 export * from "./AddCallLog/AddCallLog";
 export * from "./Customers";
 export * from "./EmailSendingSection/EmailSendingSection";
+
+// Test Component
+export * from "./TestComponent/TestComponent";
