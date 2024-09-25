@@ -67,11 +67,18 @@
   .info-item {
     margin-bottom: 0.5rem;
     display: flex;
+    align-items: center;
     justify-content: space-between;
 
     .label {
       font-weight: bold;
       color: #7f8c8d;
+    }
+
+    .info-item_content {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
     }
 
     .value {

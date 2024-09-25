@@ -6,6 +6,7 @@ import {
   AddCallLogModal,
   AddSplittedQuotedAmount,
   EditTravelDetails,
+  EmailSendingSection,
 } from "@/app_components";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -17,7 +18,7 @@ import "./LeadDetailPage.scss";
 import toast from "react-hot-toast";
 import { FaWhatsapp } from "react-icons/fa";
 
-const LeadDetailPage = () => {
+export const LeadDetailPage = () => {
   const [pageLoading, setPageLoading] = useState(false);
   const [pnr, setPnr] = useState("");
   const [quotedAmount, setQuotedAmount] = useState("");
@@ -218,6 +219,9 @@ const LeadDetailPage = () => {
             })}
             <InfoItem label="Follow-up Date" value={lead.followUpDate} />
           </InfoCard>
+
+          {/* Here is the Email Sending Section Card */}
+          <EmailSendingSection />
           <InfoCard title="Comments" fullWidth>
             <p>{lead.comments}</p>
           </InfoCard>
@@ -242,7 +246,11 @@ interface InfoCardProps {
   fullWidth?: boolean;
 }
 
-const InfoCard: React.FC<InfoCardProps> = ({ title, children, fullWidth }) => (
+export const InfoCard: React.FC<InfoCardProps> = ({
+  title,
+  children,
+  fullWidth,
+}) => (
   <div className={`info-card ${fullWidth ? "full-width" : ""}`}>
     <h2>{title}</h2>
     <div className="info-content">{children}</div>
@@ -252,13 +260,23 @@ const InfoCard: React.FC<InfoCardProps> = ({ title, children, fullWidth }) => (
 interface InfoItemProps {
   label: string;
   value: string | number | undefined;
+  onClick?: () => void;
 }
 
-const InfoItem: React.FC<InfoItemProps> = ({ label, value }) => (
+export const InfoItem: React.FC<InfoItemProps> = ({
+  label,
+  value,
+  onClick,
+}) => (
   <div className="info-item">
     <span className="label">{label}:</span>
-    <span className="value">{value}</span>
+    <div className="info-item_content">
+      <span className="value">{value}</span>
+      {onClick && (
+        <Button className="edit-button" onClick={onClick}>
+          Edit
+        </Button>
+      )}
+    </div>
   </div>
 );
-
-export default LeadDetailPage;

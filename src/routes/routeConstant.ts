@@ -17,6 +17,7 @@ const FormPageURL = "/form";
 const SettingsURL = "/settings";
 const LeadSuccessURL = "/lead-success";
 const NotFoundURL = "/not-found";
+const TestRouteURL = "/test";
 
 export {
   BaseURL,
@@ -38,4 +39,5 @@ export {
   FormFieldManagementURL,
   LeadSuccessURL,
   FormPageURL,
+  TestRouteURL,
 };

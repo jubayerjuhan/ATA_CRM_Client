@@ -3,15 +3,19 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 import {
   AllCustomers,
+  ClientFormPage,
   ConvertedCustomers,
   Dashboard,
   ForgotPassword,
   Home,
+  LeadDetailPage,
   Leads,
   Login,
+  MyCustomers,
   NewLeads,
   ResetPassword,
   SuccessPage,
+  TestPage,
   Users,
 } from "@/pages";
 
@@ -32,12 +36,10 @@ import {
   MyCustomersURL,
   ConvertedCustomersURL,
   AllCustomersURL,
+  TestRouteURL,
 } from "./routeConstant";
 import PrivateRoute from "@/app_components/PrivateRoute/PrivateRoute";
 import FormManager from "@/pages/FormManager/FormManager";
-import { ClientFormPage } from "@/pages/ClientFormPage/ClientFormPage";
-import LeadDetailPage from "@/pages/LeadDetailPage/LeadDetailPage";
-import { MyCustomers } from "@/pages/MyCustomers/MyCustomers";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -94,6 +96,10 @@ const AppRoutes: React.FC = () => {
         <Route
           path={ConvertedCustomersURL}
           element={<PrivateRoute component={ConvertedCustomers} />}
+        />
+        <Route
+          path={TestRouteURL}
+          element={<PrivateRoute component={TestPage} />}
         />
       </Routes>
     </Router>
