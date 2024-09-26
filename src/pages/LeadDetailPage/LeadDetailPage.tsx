@@ -110,7 +110,7 @@ export const LeadDetailPage = () => {
               </Button>
             </div>
           )}
-          {lead.pnr && !lead.quotedAmount && (
+          {/* {lead.pnr && !lead.quotedAmount && (
             <div className="flex space-x-2 mb-[2rem]">
               <Input
                 type="number"
@@ -127,7 +127,7 @@ export const LeadDetailPage = () => {
                 Send Payment Link
               </Button>
             </div>
-          )}
+          )} */}
         </div>
 
         <div className="mb-8">
@@ -172,7 +172,11 @@ export const LeadDetailPage = () => {
               }
             />
             <InfoItem label="Airlines Code" value={lead.airlinesCode} />
-            <InfoItem label="PNR" value={lead.pnr ? lead.pnr : "N/A"} />
+            <InfoItem
+              label="PNR"
+              value={lead.pnr ? lead.pnr : "N/A"}
+              style={{ whiteSpace: "pre-wrap" }}
+            />
             <InfoItem
               label="Travel Date"
               value={moment(lead.travelDate).format("DD-MM-YYYY")}
@@ -221,7 +225,7 @@ export const LeadDetailPage = () => {
           </InfoCard>
 
           {/* Here is the Email Sending Section Card */}
-          <EmailSendingSection lead={lead} />
+          <EmailSendingSection lead={lead} dispatch={dispatch} />
           <InfoCard title="Comments" fullWidth>
             <p>{lead.comments}</p>
           </InfoCard>
@@ -260,23 +264,23 @@ export const InfoCard: React.FC<InfoCardProps> = ({
 interface InfoItemProps {
   label: string;
   value: string | number | undefined;
-  onClick?: () => void;
+  children?: React.ReactNode;
+  [key: string]: any;
 }
 
 export const InfoItem: React.FC<InfoItemProps> = ({
   label,
   value,
-  onClick,
+  children,
+  icon,
+  ...props
 }) => (
-  <div className="info-item">
+  <div className="info-item" {...props}>
     <span className="label">{label}:</span>
     <div className="info-item_content">
+      {icon}
       <span className="value">{value}</span>
-      {onClick && (
-        <Button className="edit-button" onClick={onClick}>
-          Edit
-        </Button>
-      )}
+      {children && <div className="extra-content">{children}</div>}
     </div>
   </div>
 );

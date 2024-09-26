@@ -69,6 +69,9 @@ export interface LeadType {
   claimed_by: User | string | null;
   createdAt: string;
   updatedAt?: string;
+  // email
+  itenary_email_sent: boolean;
+  // call logs
   call_logs?: {
     dateTime: string | Date;
     callType: string;
