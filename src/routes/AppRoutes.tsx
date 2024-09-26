@@ -13,6 +13,7 @@ import {
   Login,
   MyCustomers,
   NewLeads,
+  PaymentMethodSelectPage,
   ResetPassword,
   SuccessPage,
   TestPage,
@@ -37,6 +38,7 @@ import {
   ConvertedCustomersURL,
   AllCustomersURL,
   TestRouteURL,
+  PaymentMethodSelectURL,
 } from "./routeConstant";
 import PrivateRoute from "@/app_components/PrivateRoute/PrivateRoute";
 import FormManager from "@/pages/FormManager/FormManager";
@@ -49,6 +51,10 @@ const AppRoutes: React.FC = () => {
         <Route Component={Login} path={LoginURL} />
         <Route Component={ForgotPassword} path={ForgotPasswordURL} />
         <Route Component={ResetPassword} path={ResetPasswordURL} />
+        <Route
+          Component={PaymentMethodSelectPage}
+          path={PaymentMethodSelectURL}
+        />
 
         {/* Private routes */}
         <Route path={BaseURL} element={<PrivateRoute component={Home} />} />

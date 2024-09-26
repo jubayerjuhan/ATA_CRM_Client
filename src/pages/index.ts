@@ -13,4 +13,5 @@ export * from "./ClientFormPage/ClientFormPage";
 export * from "./AllCustomers/AllCustomers";
 export * from "./MyCustomers/MyCustomers";
 export * from "./LeadDetailPage/LeadDetailPage";
+export * from "./PaymentMethodSelect/PaymentMethodSelect";
 export * from "./TestPage/TestPage";
