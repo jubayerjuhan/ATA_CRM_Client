@@ -47,7 +47,6 @@ export const AcknowledgementPage: React.FC = () => {
 
   return (
     <div className="acknowledgement-page">
-      <h1>Hello</h1>
       <div className="acknowledgement-content">
         <div className="acknowledgement-icon">
           {loading ? (
