@@ -2,6 +2,7 @@ import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 import {
+  AcknowledgementPage,
   AllCustomers,
   ClientFormPage,
   ConvertedCustomers,
@@ -39,6 +40,7 @@ import {
   AllCustomersURL,
   TestRouteURL,
   PaymentMethodSelectURL,
+  AcknowledgementPageURL,
 } from "./routeConstant";
 import PrivateRoute from "@/app_components/PrivateRoute/PrivateRoute";
 import FormManager from "@/pages/FormManager/FormManager";
@@ -51,6 +53,7 @@ const AppRoutes: React.FC = () => {
         <Route Component={Login} path={LoginURL} />
         <Route Component={ForgotPassword} path={ForgotPasswordURL} />
         <Route Component={ResetPassword} path={ResetPasswordURL} />
+        <Route Component={AcknowledgementPage} path={AcknowledgementPageURL} />
         <Route
           Component={PaymentMethodSelectPage}
           path={PaymentMethodSelectURL}

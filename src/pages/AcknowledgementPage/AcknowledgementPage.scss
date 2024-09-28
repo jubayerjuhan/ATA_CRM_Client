@@ -1,0 +1,85 @@
+.acknowledgement-page {
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f4f8;
+}
+
+.acknowledgement-content {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.acknowledgement-icon {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 20px;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .circle {
+    stroke: #4caf50;
+    stroke-width: 2;
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+  }
+
+  .check {
+    stroke: #4caf50;
+    stroke-width: 2;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+  }
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.acknowledgement-title {
+  // color: #4caf50;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.acknowledgement-message {
+  color: #333;
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+.lead-name {
+  font-weight: 600;
+  color: #2196f3;
+}
+
+.back-button {
+  display: inline-block;
+  background-color: #2196f3;
+  color: #ffffff;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #1976d2;
+  }
+}

@@ -18,6 +18,7 @@ const SettingsURL = "/settings";
 const LeadSuccessURL = "/lead-success";
 const NotFoundURL = "/not-found";
 const PaymentMethodSelectURL = "/select-payment-method";
+const AcknowledgementPageURL = "/acknowledgement";
 const TestRouteURL = "/test";
 
 export {
@@ -40,6 +41,7 @@ export {
   FormFieldManagementURL,
   LeadSuccessURL,
   FormPageURL,
+  AcknowledgementPageURL,
   PaymentMethodSelectURL,
   TestRouteURL,
 };
