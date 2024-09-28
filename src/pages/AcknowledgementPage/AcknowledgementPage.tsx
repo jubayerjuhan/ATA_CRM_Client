@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { client } from "@/api/api";
 
 export const AcknowledgementPage: React.FC = () => {
+  console.log("Redeploy");
   const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const [message, setMessage] = React.useState("");
