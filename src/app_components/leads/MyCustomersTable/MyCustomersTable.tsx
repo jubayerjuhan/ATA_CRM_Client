@@ -100,16 +100,16 @@ export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
             header: "Airlines Code",
             size: 120,
           },
-          {
-            accessorKey: "pnr",
-            header: "PNR",
-            size: 100,
-          },
-          {
-            accessorKey: "pnr",
-            header: "PNR",
-            size: 100,
-          },
+          // {
+          //   accessorKey: "pnr",
+          //   header: "PNR",
+          //   size: 100,
+          // },
+          // {
+          //   accessorKey: "pnr",
+          //   header: "PNR",
+          //   size: 100,
+          // },
         ],
       },
       {
