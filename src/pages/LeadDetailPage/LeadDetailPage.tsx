@@ -188,20 +188,25 @@ export const LeadDetailPage = () => {
           </InfoCard>
           <InfoCard title="Call Information">
             <AddCallLogModal leadId={leadId as string} />
-            {lead.call_logs?.map((log, index) => (
-              <div
-                key={index}
-                style={{ backgroundColor: "#F9F9F9" }}
-                className="p-4 rounded-md mb-4"
-              >
-                <InfoItem label="Call Type" value={log.callType} />
-                <InfoItem
-                  label="Date & Time"
-                  value={moment(log.dateTime).format("DD-MM-YYYY hh:mm a")}
-                />
-                <InfoItem label="Notes" value={log.notes} />
-              </div>
-            ))}
+            {lead.call_logs?.map((log, index) => {
+              console.log(log, "log...");
+              return (
+                <div
+                  key={index}
+                  style={{ backgroundColor: "#F9F9F9" }}
+                  className="p-4 rounded-md mb-4"
+                >
+                  <InfoItem label="Call Type" value={log.callType} />
+                  <InfoItem
+                    label="Date & Time"
+                    value={moment(Number(log.dateTime)).format(
+                      "DD-MM-YYYY hh:mm a"
+                    )}
+                  />
+                  <InfoItem label="Notes" value={log.notes} />
+                </div>
+              );
+            })}
           </InfoCard>
           <InfoCard title="Passengers">
             <InfoItem label="Adult" value={lead.adult} />
@@ -225,7 +230,7 @@ export const LeadDetailPage = () => {
           </InfoCard>
 
           {/* Here is the Email Sending Section Card */}
-          <EmailSendingSection lead={lead} dispatch={dispatch} />
+          <EmailSendingSection lead={lead} />
           <InfoCard title="Comments" fullWidth>
             <p>{lead.comments}</p>
           </InfoCard>

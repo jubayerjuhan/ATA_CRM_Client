@@ -9,6 +9,7 @@ export * from "./AirportSelector/AirportSelector";
 export * from "./AddCallLog/AddCallLog";
 export * from "./Customers";
 export * from "./EmailSendingSection/EmailSendingSection";
+export * from "./ItineraryEmail/ItineraryEmal";
 
 // Test Component
 export * from "./TestComponent/TestComponent";

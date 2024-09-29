@@ -25,7 +25,7 @@ interface ItineraryEmailProps {
   aircraftType: string;
 }
 
-export const ItineraryEmail = ({
+export const ItineraryEmailTest = ({
   name,
   airline,
   confirmationNumber,
@@ -173,4 +173,4 @@ const buttonStyle = {
   cursor: "pointer",
 };
 
-export default ItineraryEmail;
+export default ItineraryEmailTest;
