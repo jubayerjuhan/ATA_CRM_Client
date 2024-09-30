@@ -67,6 +67,7 @@ export interface LeadType {
   comments?: string;
   leadOrigin?: string;
   claimed_by: User | string | null;
+  selectedPaymentMethod?: string;
   stripe_payment_link?: string;
   createdAt: string;
   updatedAt?: string;

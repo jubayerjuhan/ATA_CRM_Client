@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 import "./AcknowledgementPage.scss";
 import toast from "react-hot-toast";
@@ -9,10 +8,8 @@ import {
   Calendar,
   CreditCard,
   DollarSign,
-  LocateIcon,
   MapPin,
   Plane,
-  User,
   Users,
   Wallet,
 } from "lucide-react";
@@ -22,6 +19,18 @@ import { getSingleLead } from "@/redux/actions";
 import { useSelector } from "react-redux";
 import { convertPNR } from "@/utils";
 import moment from "moment";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 
 type FlightTicket = {
   id: string;
@@ -44,6 +53,10 @@ type PaymentMethod = "stripe" | "cash" | "slicepay";
 export const AcknowledgementPage: React.FC = () => {
   const { lead } = useSelector((state: AppState) => state.lead);
   const [flights, setFlights] = useState<any[]>([]);
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<
+    string | null
+  >(null);
 
   const dispatch = useDispatch<AppDispatch>();
   const location = useLocation();
@@ -85,51 +98,61 @@ export const AcknowledgementPage: React.FC = () => {
     }
   }, [lead]);
 
-  const [invoice] = useState<Invoice>({
-    bookingReference: "BK123456",
-    passengerName: "John Doe",
-    tickets: [
-      {
-        id: "1",
-        from: "New York (JFK)",
-        to: "London (LHR)",
-        date: "2024-10-15",
-        passengerName: "John Doe",
-        price: 599.99,
-        flightNumber: "BA1234",
-      },
-      {
-        id: "2",
-        from: "London (LHR)",
-        to: "Paris (CDG)",
-        date: "2024-10-20",
-        passengerName: "Jane Doe",
-        price: 199.99,
-        flightNumber: "AF5678",
-      },
-    ],
-  });
+  const handlePayment = async (method: PaymentMethod) => {
+    setDialogOpen(true);
+    setSelectedPaymentMethod(method);
+  };
 
-  const [selectedPayment, setSelectedPayment] = useState<PaymentMethod | null>(
-    null
-  );
-
-  const handlePayment = (method: PaymentMethod) => {
-    setSelectedPayment(method);
-
-    if (method === "stripe" && lead) {
+  const updatePaymentMethod = async () => {
+    if (selectedPaymentMethod === "stripe" && lead) {
       // Redirect to Stripe payment page
+
+      if (!lead.stripe_payment_link) {
+        toast.error("Stripe payment link not found");
+        return;
+      }
       window.open(lead.stripe_payment_link as string);
+    } else {
+      await updateSelectedPaymentMethod(selectedPaymentMethod as string);
     }
   };
 
-  const totalPrice = invoice.tickets.reduce(
-    (sum, ticket) => sum + ticket.price,
-    0
-  );
+  const updateSelectedPaymentMethod = async (method: string) => {
+    try {
+      await client.put(`/leads/${leadId}`, {
+        selectedPaymentMethod: method,
+      });
+
+      toast.success("Payment method selected successfully");
+      dispatch(getSingleLead(leadId as string));
+    } catch (error) {
+      toast.error("Failed to update payment method");
+    }
+  };
 
   return (
-    <div style={{ minWidth: "100vh" }}>
+    <div style={{ minHeight: "100vh" }}>
+      <AlertDialog
+        open={dialogOpen}
+        onOpenChange={(open) => {
+          setDialogOpen(open);
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will send response to the agent
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={updatePaymentMethod}>
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       <div className="max-w-4xl mx-auto p-8 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl shadow-2xl">
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
           <div className="flex justify-between items-center mb-6">
@@ -207,35 +230,36 @@ export const AcknowledgementPage: React.FC = () => {
           ))}
         </div>
 
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-semibold mb-4 text-gray-800">
-            Select Payment Method
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <button
-              onClick={() => handlePayment("stripe")}
-              className="flex items-center justify-center space-x-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white p-3 rounded-lg hover:from-purple-600 hover:to-purple-700 transition duration-300"
-            >
-              <CreditCard size={20} />
-              <span>Pay with Stripe</span>
-            </button>
-            <button
-              onClick={() => handlePayment("cash")}
-              className="flex items-center justify-center space-x-2 bg-gradient-to-r from-green-500 to-green-600 text-white p-3 rounded-lg hover:from-green-600 hover:to-green-700 transition duration-300"
-            >
-              <DollarSign size={20} />
-              <span>Pay with Cash</span>
-            </button>
-            <button
-              onClick={() => handlePayment("slicepay")}
-              className="flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white p-3 rounded-lg hover:from-blue-600 hover:to-blue-700 transition duration-300"
-            >
-              <Wallet size={20} />
-              <span>Pay with SlicePay</span>
-            </button>
+        {!lead?.selectedPaymentMethod && lead?.quoted_amount.total && (
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800">
+              Select Payment Method
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <button
+                onClick={() => handlePayment("stripe")}
+                className="flex items-center justify-center space-x-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white p-3 rounded-lg hover:from-purple-600 hover:to-purple-700 transition duration-300"
+              >
+                <CreditCard size={20} />
+                <span>Pay with Stripe</span>
+              </button>
+              <button
+                onClick={() => handlePayment("cash")}
+                className="flex items-center justify-center space-x-2 bg-gradient-to-r from-green-500 to-green-600 text-white p-3 rounded-lg hover:from-green-600 hover:to-green-700 transition duration-300"
+              >
+                <DollarSign size={20} />
+                <span>Pay with Cash</span>
+              </button>
+              <button
+                onClick={() => handlePayment("slicepay")}
+                className="flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white p-3 rounded-lg hover:from-blue-600 hover:to-blue-700 transition duration-300"
+              >
+                <Wallet size={20} />
+                <span>Pay with SlicePay</span>
+              </button>
+            </div>
           </div>
-        </div>
-
+        )}
         {/* {selectedPayment && (
         <Alert className="mt-6 bg-indigo-100 border-indigo-200">
           <AlertTitle className="text-indigo-800">Payment Initiated</AlertTitle>
