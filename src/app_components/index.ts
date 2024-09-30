@@ -10,6 +10,7 @@ export * from "./AddCallLog/AddCallLog";
 export * from "./Customers";
 export * from "./EmailSendingSection/EmailSendingSection";
 export * from "./ItineraryEmail/ItineraryEmal";
+export * from "./ConfirmPaymentPopup/ConfirmPaymentPopup";
 
 // Test Component
 export * from "./TestComponent/TestComponent";

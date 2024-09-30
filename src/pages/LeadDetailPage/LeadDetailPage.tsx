@@ -5,6 +5,7 @@ import { DashboardLayout } from "@/app_components/DashboardLayout";
 import {
   AddCallLogModal,
   AddSplittedQuotedAmount,
+  ConfirmPaymentPopup,
   EditTravelDetails,
   EmailSendingSection,
 } from "@/app_components";
@@ -21,7 +22,6 @@ import { FaWhatsapp } from "react-icons/fa";
 export const LeadDetailPage = () => {
   const [pageLoading, setPageLoading] = useState(false);
   const [pnr, setPnr] = useState("");
-  const [quotedAmount, setQuotedAmount] = useState("");
   const dispatch = useDispatch<AppDispatch>();
   const { leadId } = useParams<{ leadId: string }>();
   const { lead } = useSelector((state: AppState) => state.lead);
@@ -53,36 +53,9 @@ export const LeadDetailPage = () => {
     }
   };
 
-  const handlePaymentLinkCreation = async (quotedAmount: string) => {
-    try {
-      setPageLoading(true);
-
-      // First, add the quoted amount
-      await client.put(`/leads/${leadId}`, {
-        ...lead,
-        quotedAmount,
-      });
-
-      // Then, create the payment link
-      await client.post(`/payment/create-payment-link`, {
-        currency: "USD",
-        leadId: lead._id,
-      });
-
-      toast.success("Payment link created and sent successfully");
-    } catch (error) {
-      console.error("Error creating payment link:", error);
-      toast.error("Failed to create and send payment link. Please try again.");
-    } finally {
-      if (leadId) {
-        dispatch(getSingleLead(leadId));
-      }
-      setPageLoading(false);
-    }
-  };
-
   return (
     <DashboardLayout>
+      <ConfirmPaymentPopup lead={lead} />
       <div className="lead-detail-page">
         <header>
           <h1>

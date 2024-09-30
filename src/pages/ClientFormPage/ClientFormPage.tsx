@@ -167,6 +167,51 @@ export const ClientFormPage = () => {
                 className="form-part"
               >
                 <div className="form-group">
+                  <label>
+                    Email <span className="required">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    placeholder="example@example.com"
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                        message: "Invalid email address",
+                      },
+                    })}
+                  />
+                  {errors.email && (
+                    <span className="error-message">
+                      {errors.email.message as string}
+                    </span>
+                  )}
+                </div>
+                <div className="form-group">
+                  <label>
+                    Phone Number <span className="required">*</span>
+                  </label>
+                  <Controller
+                    name="phone"
+                    control={control}
+                    rules={{ required: "Phone Number is required" }}
+                    render={({ field: { onChange, value } }) => (
+                      <PhoneInput
+                        defaultCountry="AU"
+                        value={value}
+                        onChange={(phone: E164Number | undefined) =>
+                          onChange(phone || "")
+                        }
+                      />
+                    )}
+                  />
+                  {errors.phone && (
+                    <span className="error-message">
+                      {errors.phone.message as string}
+                    </span>
+                  )}
+                </div>
+                <div className="form-group">
                   <label>Passenger Type</label>
                   <select
                     {...register("passengerType", {
@@ -246,52 +291,6 @@ export const ClientFormPage = () => {
                       </span>
                     )}
                   </div>
-                </div>
-
-                <div className="form-group">
-                  <label>
-                    Phone Number <span className="required">*</span>
-                  </label>
-                  <Controller
-                    name="phone"
-                    control={control}
-                    rules={{ required: "Phone Number is required" }}
-                    render={({ field: { onChange, value } }) => (
-                      <PhoneInput
-                        defaultCountry="AU"
-                        value={value}
-                        onChange={(phone: E164Number | undefined) =>
-                          onChange(phone || "")
-                        }
-                      />
-                    )}
-                  />
-                  {errors.phone && (
-                    <span className="error-message">
-                      {errors.phone.message as string}
-                    </span>
-                  )}
-                </div>
-                <div className="form-group">
-                  <label>
-                    Email <span className="required">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    placeholder="example@example.com"
-                    {...register("email", {
-                      required: "Email is required",
-                      pattern: {
-                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                        message: "Invalid email address",
-                      },
-                    })}
-                  />
-                  {errors.email && (
-                    <span className="error-message">
-                      {errors.email.message as string}
-                    </span>
-                  )}
                 </div>
                 <div className="form-group">
                   <label>Post Code</label>

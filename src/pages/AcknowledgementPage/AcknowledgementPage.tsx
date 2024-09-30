@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import "./AcknowledgementPage.scss";
 import toast from "react-hot-toast";
@@ -28,25 +28,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-
-type FlightTicket = {
-  id: string;
-  from: string;
-  to: string;
-  date: string;
-  passengerName: string;
-  price: number;
-  flightNumber: string;
-};
-
-type Invoice = {
-  bookingReference: string;
-  passengerName: string;
-  tickets: FlightTicket[];
-};
 
 type PaymentMethod = "stripe" | "cash" | "slicepay";
 
@@ -66,8 +48,6 @@ export const AcknowledgementPage: React.FC = () => {
   if (!leadId) {
     toast.error("Lead ID not found");
   }
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const sendPaymentMethodSelectionEmail = async (leadId: string | null) => {
