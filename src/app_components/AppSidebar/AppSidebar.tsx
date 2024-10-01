@@ -16,6 +16,7 @@ import logo from "../../assets/air_ticket_agency.png";
 import "./Sidebar.scss";
 import {
   AllCustomersURL,
+  CancelledCustomersURL,
   ConvertedCustomersURL,
   DashboardURL,
   FormPageURL,
@@ -24,6 +25,9 @@ import {
   NewLeadsURL,
   UsersManagementURL,
 } from "@/routes/routeConstant";
+import { TbUserCancel } from "react-icons/tb";
+import { FaUserCheck } from "react-icons/fa6";
+
 import { useSelector } from "react-redux";
 import { AppState } from "@/types";
 import Cookies from "js-cookie";
@@ -91,8 +95,13 @@ const Sidebar = () => {
     },
     {
       title: "Converted Customers",
-      icon: <MdMyLocation />,
+      icon: <FaUserCheck />,
       pathname: ConvertedCustomersURL,
+    },
+    {
+      title: "Cancelled Customers",
+      icon: <TbUserCancel />,
+      pathname: CancelledCustomersURL,
     },
     // {
     //   title: "Form Fields",
