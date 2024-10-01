@@ -1,4 +1,5 @@
 import React from "react";
+import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { InfoItem } from "@/pages";
 import {
   DialogContent,
@@ -10,7 +11,8 @@ import {
 } from "@/components/ui/dialog";
 import { Dialog } from "@radix-ui/react-dialog";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "@/components/ui/textarea"; // Assuming there's an Input component for simpler fields
+import { Input } from "@/components/ui/input"; // Assuming there's an Input component for simpler fields
 import { RxCross1 } from "react-icons/rx";
 import { IoMdDoneAll } from "react-icons/io";
 import toast from "react-hot-toast";
@@ -24,6 +26,11 @@ interface ItineraryEmailProps {
   type: string;
 }
 
+interface ItineraryEmailFormValues {
+  pnr: string;
+  itinerary_amounts: any[];
+}
+
 export const ItineraryEmail: React.FC<ItineraryEmailProps> = ({
   lead,
   type,
@@ -31,20 +38,62 @@ export const ItineraryEmail: React.FC<ItineraryEmailProps> = ({
   const dispatch = useDispatch<AppDispatch>();
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
-  const [pnr, setPNR] = React.useState<string | null>(lead.pnr || null);
 
-  const handleSendEmail = async (e: any) => {
-    e.preventDefault();
+  const defaultFields = [
+    { fieldName: "baggage_count", label: "Baggage Count" },
+    { fieldName: "each_bag_weight", label: "Each Bag Weight (kg)" },
+    { fieldName: "total_weight", label: "Total Weight (kg)" },
+    { fieldName: "date_changing_charge", label: "Date Changing Charge (AUD)" },
+    { fieldName: "cancellation_charge", label: "Cancellation Charge (AUD)" },
+    { fieldName: "handling_charge", label: "Handling Charge (AUD)" },
+  ];
 
-    if (!pnr) {
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ItineraryEmailFormValues>({
+    defaultValues: {
+      pnr: lead.pnr || "",
+      itinerary_amounts: defaultFields.map((field) => ({
+        fieldName: field.fieldName,
+        value: 0,
+        label: field.label,
+      })),
+    },
+  });
+
+  const { fields, append } = useFieldArray({
+    control,
+    name: "itinerary_amounts",
+  });
+
+  const onSubmit = async (data: ItineraryEmailFormValues) => {
+    if (!data.pnr) {
       return toast.error("Please enter PNR");
     }
 
+    data.itinerary_amounts.map((field) => {
+      if (field.value === 0) {
+        toast.error(`${field.label} is required`);
+      }
+    });
+
+    let itinerary_amounts = {};
+
+    data.itinerary_amounts.map((field, index) => {
+      itinerary_amounts = {
+        ...itinerary_amounts,
+        [defaultFields[index].fieldName]: Number(field.value),
+      };
+    });
     try {
       setLoading(true);
-      await client.post(`/customers/${lead._id}/send-itinerary-email`, {
-        pnr,
+      await client.put(`/leads/${lead._id}`, {
+        itinerary_amounts,
       });
+      await client.post(`/customers/${lead._id}/send-itinerary-email`, data);
 
       toast.success("PNR Confirmation Mail Sent");
 
@@ -54,6 +103,7 @@ export const ItineraryEmail: React.FC<ItineraryEmailProps> = ({
     } finally {
       setLoading(false);
       setDialogOpen(false);
+      reset(); // reset form after submission
     }
   };
 
@@ -88,33 +138,79 @@ export const ItineraryEmail: React.FC<ItineraryEmailProps> = ({
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Send Itenary Email</DialogTitle>
+            <DialogTitle>Send Itinerary Email</DialogTitle>
             <DialogDescription>
-              Please add the PNR to send the itenary email
+              Please add the necessary details to send the itinerary email
             </DialogDescription>
           </DialogHeader>
-          <form className="grid gap-4 py-4" onSubmit={handleSendEmail}>
-            <Textarea
-              defaultValue={lead.pnr}
-              placeholder="Please Enter PNR"
-              onChange={(e) => {
-                setPNR(e.target.value);
-              }}
-            />
+          <form className="grid gap-4 py-4" onSubmit={handleSubmit(onSubmit)}>
+            {/* PNR */}
+            <div>
+              <label className="block text-sm font-medium mb-1" htmlFor="pnr">
+                PNR
+              </label>
+              <Controller
+                name="pnr"
+                control={control}
+                rules={{ required: "PNR is required" }}
+                render={({ field }) => (
+                  <div>
+                    <Textarea
+                      id="pnr"
+                      {...field}
+                      placeholder="Please Enter PNR"
+                    />
+                    {errors.pnr && (
+                      <span className="text-red-500">{errors.pnr.message}</span>
+                    )}
+                  </div>
+                )}
+              />
+            </div>
+
+            {/* Dynamic Fields */}
+            {fields.map((field, index) => (
+              <div key={field.id}>
+                <label
+                  className="block text-sm font-medium mb-1"
+                  htmlFor={`dynamicField-${index}`}
+                >
+                  {defaultFields[index].label}
+                </label>
+                <Controller
+                  name={`itinerary_amounts.${index}.value`}
+                  control={control}
+                  rules={{
+                    required: `${defaultFields[index].label} is required`,
+                  }}
+                  render={({ field }) => (
+                    <div>
+                      <Input
+                        type="number"
+                        id={`dynamicField-${index}`}
+                        {...field}
+                        placeholder={defaultFields[index].label}
+                      />
+                    </div>
+                  )}
+                />
+              </div>
+            ))}
+
+            <DialogFooter>
+              <Button
+                variant={"outline"}
+                onClick={() => {
+                  setDialogOpen(false);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button type="submit" disabled={loading}>
+                {loading ? "Sending Email..." : "Send Email"}
+              </Button>
+            </DialogFooter>
           </form>
-          <DialogFooter>
-            <Button
-              variant={"outline"}
-              onClick={() => {
-                setDialogOpen(false);
-              }}
-            >
-              Cancel
-            </Button>
-            <Button type="submit" onClick={handleSendEmail} disabled={loading}>
-              {loading ? "Sending Email..." : "Send Email"}
-            </Button>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
     </InfoItem>
