@@ -12,6 +12,7 @@ interface CustomersDataType {
   leads: LeadType[];
   totalAmount: number;
   cancelledLeads: LeadType[];
+  followups: number;
 }
 
 export const Dashboard = () => {
@@ -19,6 +20,7 @@ export const Dashboard = () => {
     leads: [],
     totalAmount: 0,
     cancelledLeads: [],
+    followups: 0,
   });
 
   const [dateRange, setDateRange] = React.useState({
@@ -130,7 +132,7 @@ export const Dashboard = () => {
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Sales</CardTitle>
+              <CardTitle className="text-sm font-medium">Follow Up</CardTitle>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -145,9 +147,11 @@ export const Dashboard = () => {
               </svg>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">+12,234</div>
+              <div className="text-2xl font-bold">
+                {customersData.followups}
+              </div>
               <p className="mt-2 text-xs text-muted-foreground">
-                +19% from last month
+                Follow up required
               </p>
             </CardContent>
           </Card>

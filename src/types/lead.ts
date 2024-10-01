@@ -76,7 +76,7 @@ export interface LeadType {
   caseDate?: string;
   quotedAmount?: string;
   leadType?: LeadTypeEnum;
-  followUpDate?: string;
+  follow_up_date?: string;
   comments?: string;
   leadOrigin?: string;
   claimed_by: User | string | null;

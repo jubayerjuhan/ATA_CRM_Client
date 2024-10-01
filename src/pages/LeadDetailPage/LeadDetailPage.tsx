@@ -19,6 +19,7 @@ import moment from "moment";
 import "./LeadDetailPage.scss";
 import toast from "react-hot-toast";
 import { FaWhatsapp } from "react-icons/fa";
+import { FollowUpDatePicker } from "@/app_components/FollowupDatePicker/FollowupDatePicker";
 
 export const LeadDetailPage = () => {
   const [pageLoading, setPageLoading] = useState(false);
@@ -66,6 +67,7 @@ export const LeadDetailPage = () => {
             {lead.status}
           </span>
         </header>
+        <FollowUpDatePicker lead={lead} />
         <div className="flex space-x-4">
           {!lead.pnr && (
             <div className="flex space-x-2 mb-[2rem]">
@@ -201,7 +203,10 @@ export const LeadDetailPage = () => {
                 .join(" ");
               return <InfoItem key={key} label={formattedKey} value={value} />;
             })}
-            <InfoItem label="Follow-up Date" value={lead.followUpDate} />
+            <InfoItem
+              label="Follow-up Date"
+              value={moment(lead.follow_up_date).format("DD-MM-YYYY")}
+            />
           </InfoCard>
 
           {/* Here is the Email Sending Section Card */}
