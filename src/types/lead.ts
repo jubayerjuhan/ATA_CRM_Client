@@ -40,6 +40,12 @@ export interface User {
 export interface LeadType {
   _id?: string;
   converted?: boolean;
+  payment: {
+    date: string;
+    method: string;
+    amount: number;
+    status: string;
+  };
   status: "In Progress" | "PNR Sent" | "Payment Link Sent" | "Payment Complete";
   departure?: Airport;
   arrival?: Airport;

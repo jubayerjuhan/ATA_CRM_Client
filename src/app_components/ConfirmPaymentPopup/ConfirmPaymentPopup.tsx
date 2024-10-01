@@ -39,6 +39,11 @@ export const ConfirmPaymentPopup: React.FC<ConfirmPaymentPopupProps> = ({
   const handleConfirmPayment = async () => {
     try {
       await client.put(`/leads/${lead._id}`, {
+        payment: {
+          status: "completed",
+          date: new Date(),
+        },
+        status: "Payment Complete",
         converted: true,
       });
 
