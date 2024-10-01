@@ -21,9 +21,13 @@ import { AppDispatch, LeadType } from "@/types";
 
 interface ItineraryEmailProps {
   lead: LeadType;
+  type: string;
 }
 
-export const ItineraryEmail: React.FC<ItineraryEmailProps> = ({ lead }) => {
+export const ItineraryEmail: React.FC<ItineraryEmailProps> = ({
+  lead,
+  type,
+}) => {
   const dispatch = useDispatch<AppDispatch>();
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
@@ -55,7 +59,7 @@ export const ItineraryEmail: React.FC<ItineraryEmailProps> = ({ lead }) => {
 
   return (
     <InfoItem
-      label={"Itenary Email"}
+      label={type === "other" ? "Ticket Sending Email" : "Itenary Email"}
       value={lead.itenary_email_sent ? "Sent" : "Not Sent"}
       icon={
         lead.itenary_email_sent ? (

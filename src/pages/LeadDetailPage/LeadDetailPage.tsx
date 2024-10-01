@@ -69,7 +69,7 @@ export const LeadDetailPage = () => {
         </header>
         <FollowUpDatePicker lead={lead} />
         <div className="flex space-x-4">
-          {!lead.pnr && (
+          {/* {!lead.pnr && (
             <div className="flex space-x-2 mb-[2rem]">
               <Input
                 className="w-[200px]"
@@ -85,7 +85,7 @@ export const LeadDetailPage = () => {
                 Submit
               </Button>
             </div>
-          )}
+          )} */}
           {/* {lead.pnr && !lead.quotedAmount && (
             <div className="flex space-x-2 mb-[2rem]">
               <Input
