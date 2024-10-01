@@ -1,6 +1,5 @@
 import React from "react";
 
-import { TbDatabaseSearch } from "react-icons/tb";
 import { Button } from "@/components/ui/button";
 
 import { AppDispatch, LeadType } from "@/types";
@@ -16,41 +15,37 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
-import "./ConfirmPaymentPopup.scss";
 import { client } from "@/api/api";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { getSingleLead } from "@/redux/actions";
 
-interface ConfirmPaymentPopupProps {
+interface CancelBookingPopupProps {
   lead: LeadType;
 }
 
-export const ConfirmPaymentPopup: React.FC<ConfirmPaymentPopupProps> = ({
+export const CancelBookingPopup: React.FC<CancelBookingPopupProps> = ({
   lead,
 }) => {
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const dispatch = useDispatch<AppDispatch>();
 
-  if (lead.status === "Payment Complete" || lead.status === "Cancelled") {
+  if (lead.cancelled) {
     return <></>;
   }
 
   const handleConfirmPayment = async () => {
     try {
       await client.put(`/leads/${lead._id}`, {
-        payment: {
-          status: "completed",
-          date: new Date(),
-        },
-        status: "Payment Complete",
-        converted: true,
+        converted: false,
+        cancelled: true,
+        status: "Cancelled",
       });
 
-      toast.success("Payment Confirmed");
+      toast.success("Booking Cancelled");
       dispatch(getSingleLead(lead._id as string));
     } catch (error) {
-      toast.error("Failed to confirm the payment");
+      toast.error("Failed to cancel the booking");
     }
   };
   return (
@@ -65,7 +60,7 @@ export const ConfirmPaymentPopup: React.FC<ConfirmPaymentPopupProps> = ({
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you got the payment from the customer?
+              Are you sure you want to cancel the booking?
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -76,18 +71,10 @@ export const ConfirmPaymentPopup: React.FC<ConfirmPaymentPopupProps> = ({
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      <div className={`confirm-payment_popup ${lead ? "open" : ""}`}>
-        <div className="header">
-          <TbDatabaseSearch />
-          <h2>Payment Method Selected</h2>
-        </div>{" "}
-        <p>
-          Selected Method: {lead?.selectedPaymentMethod?.toLocaleUpperCase()}
-        </p>
-        <Button className="mt-4" onClick={() => setDialogOpen(true)}>
-          Confirm Payment
-        </Button>
-      </div>
+
+      <Button className="mt-4" onClick={() => setDialogOpen(true)}>
+        Cancel Booking
+      </Button>
     </>
   );
 };

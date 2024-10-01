@@ -5,6 +5,7 @@ import { DashboardLayout } from "@/app_components/DashboardLayout";
 import {
   AddCallLogModal,
   AddSplittedQuotedAmount,
+  CancelBookingPopup,
   ConfirmPaymentPopup,
   EditTravelDetails,
   EmailSendingSection,
@@ -103,7 +104,7 @@ export const LeadDetailPage = () => {
           )} */}
         </div>
 
-        <div className="mb-8">
+        <div className="mb-8 flex justify-between">
           <a
             href={`https://wa.me/${lead.phone}`}
             target="_blank"
@@ -114,6 +115,7 @@ export const LeadDetailPage = () => {
             <span className="text-[#3498db]">WhatsApp:</span>
             <FaWhatsapp size={32} />
           </a>
+          <CancelBookingPopup lead={lead} />
         </div>
         <div className="lead-info-grid">
           <InfoCard title="Customer Information">

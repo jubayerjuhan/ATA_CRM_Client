@@ -6,51 +6,37 @@ import { DashboardLayout } from "@/app_components/DashboardLayout";
 import { client } from "@/api/api";
 import { LeadType } from "@/types";
 import moment from "moment";
+import { DateRangePicker } from "@/app_components/DateRangePicker/DateRangePicker";
 
-const recentSales = [
-  {
-    name: "Olivia Martin",
-    email: "olivia.martin@email.com",
-    amount: "$1,999.00",
-  },
-  {
-    name: "Jackson Lee",
-    email: "isabella.nguyen@email.com",
-    amount: "$1,999.00",
-  },
-  {
-    name: "Isabella Nguyen",
-    email: "isabella.nguyen@email.com",
-    amount: "$39.00",
-  },
-  { name: "William Kim", email: "will@email.com", amount: "$299.00" },
-  { name: "Sofia Davis", email: "sofia.davis@email.com", amount: "$39.00" },
-];
-
-interface ConvertedCustomersDataType {
+interface CustomersDataType {
   leads: LeadType[];
   totalAmount: number;
+  cancelledLeads: LeadType[];
 }
 
 export const Dashboard = () => {
-  const [convertedCustomersData, setConvertedCustomersData] =
-    React.useState<ConvertedCustomersDataType>({
-      leads: [],
-      totalAmount: 0,
-    });
+  const [customersData, setCustomersData] = React.useState<CustomersDataType>({
+    leads: [],
+    totalAmount: 0,
+    cancelledLeads: [],
+  });
 
   const [dateRange, setDateRange] = React.useState({
-    startDate: moment().startOf("month").toISOString(),
-    endDate: moment().endOf("month").toISOString(),
+    startDate: moment().startOf("month").toDate(),
+    endDate: moment().endOf("month").toDate(),
   });
+
+  console.log(dateRange);
 
   useEffect(() => {
     const fetchCustomersByDate = async () => {
       try {
         const { data } = await client.get(
-          `/customers/filter/converted?startDate=${dateRange.startDate}&endDate=${dateRange.endDate}`
+          `/customers/filter/converted?startDate=${moment(
+            dateRange.startDate
+          ).toISOString()}&endDate=${moment(dateRange.endDate).toISOString()}`
         );
-        setConvertedCustomersData(data);
+        setCustomersData(data);
       } catch (error) {
         console.error(error);
       }
@@ -62,17 +48,28 @@ export const Dashboard = () => {
   const data = Array.from({ length: 7 })
     .map((_, index) => {
       const date = moment().subtract(index, "days").format("ddd");
-      const value = convertedCustomersData.leads
+      const value = customersData.leads
         .filter((lead) => moment(lead.payment.date).format("ddd") === date)
         .reduce((total, lead) => total + lead.quoted_amount.total, 0);
       return { name: date, value };
     })
     .reverse();
 
+  console.log(dateRange, "dateRange");
+
   return (
     <DashboardLayout>
       <div className="p-4 space-y-4">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <div className="flex justify-between">
+          <h1 className="text-2xl font-bold">Dashboard</h1>
+          <DateRangePicker
+            dateRange={{
+              startDate: dateRange.startDate,
+              endDate: dateRange.endDate,
+            }}
+            setDateRange={setDateRange}
+          />
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <Card>
@@ -95,7 +92,7 @@ export const Dashboard = () => {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                ${convertedCustomersData.totalAmount}
+                ${customersData.totalAmount}
               </div>
               <p className="text-xs mt-2 text-muted-foreground">
                 Revenue generated from customers
@@ -124,10 +121,10 @@ export const Dashboard = () => {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {convertedCustomersData.leads.length}
+                {customersData.leads.length}
               </div>
               <p className="text-xs mt-2 text-muted-foreground">
-                +180.1% from last month
+                Customers who purchased
               </p>
             </CardContent>
           </Card>
@@ -142,22 +139,23 @@ export const Dashboard = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                className="h-4 w-4 text-muted-foreground"
+                className="h-8 w-8 text-muted-foreground"
               >
-                <rect width="20" height="14" x="2" y="5" rx="2" />
-                <path d="M2 10h20" />
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
               </svg>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">+12,234</div>
-              <p className="text-xs text-muted-foreground">
+              <p className="mt-2 text-xs text-muted-foreground">
                 +19% from last month
               </p>
             </CardContent>
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Active Now</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                Cancelled Customers
+              </CardTitle>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -166,15 +164,17 @@ export const Dashboard = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                className="h-4 w-4 text-muted-foreground"
+                className="h-8 w-8 text-muted-foreground"
               >
                 <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
               </svg>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">+573</div>
-              <p className="text-xs text-muted-foreground">
-                +201 since last hour
+              <div className="text-2xl font-bold">
+                {customersData.cancelledLeads.length}
+              </div>
+              <p className="mt-2 text-xs text-muted-foreground">
+                Cancelled customers
               </p>
             </CardContent>
           </Card>
@@ -200,12 +200,12 @@ export const Dashboard = () => {
             <CardHeader>
               <CardTitle>Recent Sales</CardTitle>
               <p className="text-sm text-muted-foreground">
-                You made {convertedCustomersData.leads.length} sales
+                You made {customersData.leads.length} sales
               </p>
             </CardHeader>
             <CardContent>
               <div className="space-y-8">
-                {convertedCustomersData.leads.map((lead, index) => (
+                {customersData.leads.map((lead, index) => (
                   <div key={index} className="flex items-center">
                     <Avatar className="h-9 w-9">
                       <AvatarImage
