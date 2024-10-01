@@ -36,6 +36,10 @@ export const ConfirmPaymentPopup: React.FC<ConfirmPaymentPopupProps> = ({
     return <></>;
   }
 
+  if (!lead.selectedPaymentMethod) {
+    return <></>;
+  }
+
   const handleConfirmPayment = async () => {
     try {
       await client.put(`/leads/${lead._id}`, {
