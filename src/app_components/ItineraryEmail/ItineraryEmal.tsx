@@ -20,6 +20,7 @@ import { client } from "@/api/api";
 import { getSingleLead } from "@/redux/actions";
 import { useDispatch } from "react-redux";
 import { AppDispatch, LeadType } from "@/types";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface ItineraryEmailProps {
   lead: LeadType;
@@ -136,14 +137,17 @@ export const ItineraryEmail: React.FC<ItineraryEmailProps> = ({
             Send Email
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px] ">
           <DialogHeader>
             <DialogTitle>Send Itinerary Email</DialogTitle>
             <DialogDescription>
               Please add the necessary details to send the itinerary email
             </DialogDescription>
           </DialogHeader>
-          <form className="grid gap-4 py-4" onSubmit={handleSubmit(onSubmit)}>
+          <form
+            className="grid gap-4 py-4 h-[500px] overflow-y-scroll"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             {/* PNR */}
             <div>
               <label className="block text-sm font-medium mb-1" htmlFor="pnr">

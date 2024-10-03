@@ -39,7 +39,7 @@ export const CancelBookingPopup: React.FC<CancelBookingPopupProps> = ({
       await client.put(`/leads/${lead._id}`, {
         converted: false,
         cancelled: true,
-        status: "Cancelled",
+        status: "cancelled",
       });
 
       toast.success("Booking Cancelled");

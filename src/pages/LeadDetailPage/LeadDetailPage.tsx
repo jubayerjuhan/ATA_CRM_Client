@@ -68,43 +68,6 @@ export const LeadDetailPage = () => {
           </span>
         </header>
         <FollowUpDatePicker lead={lead} />
-        <div className="flex space-x-4">
-          {/* {!lead.pnr && (
-            <div className="flex space-x-2 mb-[2rem]">
-              <Input
-                className="w-[200px]"
-                placeholder="Enter PNR Number"
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                  setPnr(event.target.value)
-                }
-              />
-              <Button
-                disabled={pageLoading}
-                onClick={() => handlePNRSubmit(pnr)}
-              >
-                Submit
-              </Button>
-            </div>
-          )} */}
-          {/* {lead.pnr && !lead.quotedAmount && (
-            <div className="flex space-x-2 mb-[2rem]">
-              <Input
-                type="number"
-                className="w-[200px]"
-                placeholder="Enter Quoted Amount"
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                  setQuotedAmount(event.target.value)
-                }
-              />
-              <Button
-                disabled={pageLoading}
-                onClick={() => handlePaymentLinkCreation(quotedAmount)}
-              >
-                Send Payment Link
-              </Button>
-            </div>
-          )} */}
-        </div>
 
         <div className="mb-8 flex justify-between">
           <a

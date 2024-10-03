@@ -12,6 +12,7 @@ export * from "./EmailSendingSection/EmailSendingSection";
 export * from "./ItineraryEmail/ItineraryEmal";
 export * from "./ConfirmPaymentPopup/ConfirmPaymentPopup";
 export * from "./CancelBookingPopup/CancelBookingPopup";
+export * from "./TicketEmail/TicketEmail";
 
 // Test Component
 export * from "./TestComponent/TestComponent";
