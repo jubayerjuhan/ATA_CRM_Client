@@ -7,7 +7,9 @@ import { FaUsersViewfinder } from "react-icons/fa6";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { PiUserList } from "react-icons/pi";
 import { CiLogout } from "react-icons/ci";
+import { HiOutlineReceiptRefund } from "react-icons/hi";
 import { MdMyLocation, MdFiberNew, MdEmojiPeople } from "react-icons/md";
+import { RiRefund2Fill } from "react-icons/ri";
 
 import { SidebarLinksType } from "./index";
 
@@ -23,6 +25,8 @@ import {
   LeadsManagementURL,
   MyCustomersURL,
   NewLeadsURL,
+  RefundListURL,
+  RefundPageURL,
   UsersManagementURL,
 } from "@/routes/routeConstant";
 import { TbUserCancel } from "react-icons/tb";
@@ -59,6 +63,11 @@ const Sidebar = () => {
       title: "Lead Sub Form",
       icon: <FaWpforms />,
       pathname: FormPageURL,
+    },
+    {
+      title: "Refund Form",
+      icon: <HiOutlineReceiptRefund />,
+      pathname: RefundPageURL,
     },
   ];
 
@@ -103,6 +112,11 @@ const Sidebar = () => {
       icon: <TbUserCancel />,
       pathname: CancelledCustomersURL,
     },
+    {
+      title: "Refund Requests",
+      icon: <RiRefund2Fill />,
+      pathname: RefundListURL,
+    },
     // {
     //   title: "Form Fields",
     //   icon: <MdFormatAlignLeft />,
@@ -112,6 +126,11 @@ const Sidebar = () => {
       title: "Lead Sub Form",
       icon: <FaWpforms />,
       pathname: FormPageURL,
+    },
+    {
+      title: "Refund Form",
+      icon: <HiOutlineReceiptRefund />,
+      pathname: RefundPageURL,
     },
   ];
 

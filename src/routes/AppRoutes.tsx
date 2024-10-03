@@ -44,16 +44,19 @@ import {
   AcknowledgementPageURL,
   CancelledCustomersURL,
   RefundPageURL,
+  RefundListURL,
 } from "./routeConstant";
 import PrivateRoute from "@/app_components/PrivateRoute/PrivateRoute";
 import FormManager from "@/pages/FormManager/FormManager";
 import { CancelledCustomers } from "@/pages/CancelledCustomersPage/CancelledCustomerPage";
+import RefundList from "@/pages/RefundList/RefundList";
 
 const AppRoutes: React.FC = () => {
   return (
     <Router>
       <Routes>
         <Route Component={Home} path={HomepageURL} />
+        <Route Component={RefundFormPage} path={RefundPageURL} />
         <Route Component={Login} path={LoginURL} />
         <Route Component={ForgotPassword} path={ForgotPasswordURL} />
         <Route Component={ResetPassword} path={ResetPasswordURL} />
@@ -121,6 +124,10 @@ const AppRoutes: React.FC = () => {
         <Route
           path={RefundPageURL}
           element={<PrivateRoute component={RefundFormPage} />}
+        />
+        <Route
+          path={RefundListURL}
+          element={<PrivateRoute component={RefundList} />}
         />
       </Routes>
     </Router>
