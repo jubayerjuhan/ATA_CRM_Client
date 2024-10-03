@@ -16,7 +16,6 @@ type AirportSelectorProps = {
 export const AirportSelector = ({
   label,
   name,
-  register,
   setValue,
   defaultValue,
   errorMessage,
@@ -72,6 +71,7 @@ export const AirportSelector = ({
     setIsDropdownVisible(false);
   };
 
+  console.log(isDropdownVisible, "drop");
   return (
     <div className={styles.airportSelector}>
       <div className={styles.inputWrapper}>

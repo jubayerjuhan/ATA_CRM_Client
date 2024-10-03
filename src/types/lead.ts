@@ -52,7 +52,8 @@ export interface LeadType {
     | "PNR Sent"
     | "Payment Link Sent"
     | "Payment Complete"
-    | "Cancelled";
+    | "Cancelled"
+    | "Ticket Sent";
   departure?: Airport;
   arrival?: Airport;
   passengerType: string;
@@ -86,6 +87,7 @@ export interface LeadType {
   updatedAt?: string;
   // email
   itenary_email_sent: boolean;
+  ticket_sent: boolean;
   // call logs
   call_logs?: {
     dateTime: string | Date;
@@ -100,3 +102,5 @@ export interface LeadType {
 
   __v: number;
 }
+
+// Please make a form like this in react component. You can you scss for the styling. please make it like this or if you can do better you can do it better. Do it like a professional designer

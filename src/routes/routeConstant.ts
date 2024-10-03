@@ -20,6 +20,7 @@ const LeadSuccessURL = "/lead-success";
 const NotFoundURL = "/not-found";
 const PaymentMethodSelectURL = "/select-payment-method";
 const AcknowledgementPageURL = "/acknowledgement";
+const RefundPageURL = "/refund";
 const TestRouteURL = "/test";
 
 export {
@@ -45,5 +46,6 @@ export {
   FormPageURL,
   AcknowledgementPageURL,
   PaymentMethodSelectURL,
+  RefundPageURL,
   TestRouteURL,
 };

@@ -4,6 +4,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { IoChevronBackCircleOutline } from "react-icons/io5";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,12 +30,14 @@ import {
 import { PhoneInput } from "@/app_components/PhoneInput/PhoneInput";
 
 import { AppDispatch, AppState, LeadType } from "@/types";
-import { addLead, editLead } from "@/redux/actions";
+import { addLead } from "@/redux/actions";
 import { CLEAR_ERROR } from "@/constants";
+import airlines from "../../assets/airlines.json";
 
-import "./FormComponent.scss";
 import type { E164Number } from "libphonenumber-js";
 import { client } from "@/api/api";
+
+import "./FormComponent.scss";
 
 const isValidEmail = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -136,8 +154,16 @@ export const ClientFormPage = () => {
     setValue("postCode", lead?.postCode || "");
   };
 
+  const [open, setOpen] = React.useState(false);
+
   return (
     <>
+      <IoChevronBackCircleOutline
+        className="back-icon"
+        onClick={() => {
+          navigate("/");
+        }}
+      />
       <div className="client-form-page">
         {showExistingLeadPopup && (
           <SearchExistingLeadPopup
@@ -343,6 +369,58 @@ export const ClientFormPage = () => {
                   setValue={setValue}
                   required
                 />
+                <div className="form-group">
+                  <label>Preferred Airlines</label>
+
+                  <Popover open={open} onOpenChange={setOpen}>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        aria-expanded={open}
+                        className="w-[100%] justify-between"
+                      >
+                        {watch("airlinesName")
+                          ? airlines.find(
+                              (airline) =>
+                                airline.name === watch("airlinesName")
+                            )?.name
+                          : "Select Airlines..."}
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[100%] p-0">
+                      <Command>
+                        <CommandInput placeholder="Search Airlines..." />
+                        <CommandList>
+                          <CommandEmpty>No airlines found.</CommandEmpty>
+                          <CommandGroup>
+                            {airlines.map((airline) => (
+                              <CommandItem
+                                key={airline.name}
+                                value={airline.name}
+                                onSelect={(currentValue) => {
+                                  setValue("airlinesName", currentValue);
+                                  setOpen(false);
+                                }}
+                              >
+                                <Check
+                                  className={cn(
+                                    "mr-2 h-4 w-4",
+                                    watch("airlinesName") === airline.name
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                                {airline.name}
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                </div>
 
                 <div className="form-group">
                   <label>Preferred Airlines</label>

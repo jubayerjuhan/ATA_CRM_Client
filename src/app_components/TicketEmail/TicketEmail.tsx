@@ -90,9 +90,9 @@ export const TicketEmail: React.FC<TicketEmailProps> = ({ lead, type }) => {
   return (
     <InfoItem
       label={"Ticket Email"}
-      value={lead.converted ? "Sent" : "Not Sent"}
+      value={lead.ticket_sent ? "Sent" : "Not Sent"}
       icon={
-        lead.converted ? (
+        lead.ticket_sent ? (
           <IoMdDoneAll color="green" />
         ) : (
           <RxCross1 color="red" />
