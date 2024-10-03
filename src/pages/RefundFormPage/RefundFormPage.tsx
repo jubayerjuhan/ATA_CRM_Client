@@ -2,15 +2,19 @@ import React, { useState } from "react";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 
 import "./RefundFormPage.scss";
+import { client } from "@/api/api";
+import toast from "react-hot-toast";
 
 export const RefundFormPage: React.FC = () => {
+  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     surname: "",
     firstName: "",
     mobileNumber: "",
     email: "",
-    photoId: null,
+    // photoId: null,
     airline: "",
     ticketNumber: "",
     dateOfTravel: "",
@@ -32,25 +36,54 @@ export const RefundFormPage: React.FC = () => {
     }));
   };
 
-  const handleFileChange = (e: any) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      photoId: e.target.files[0],
-    }));
-  };
+  // const handleFileChange = (e: any) => {
+  //   setFormData((prevState) => ({
+  //     ...prevState,
+  //     // photoId: e.target.files[0],
+  //   }));
+  // };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Here you would typically send the data to your backend
+
+    try {
+      setLoading(true);
+      const { data } = await client.post("/refund", formData);
+      setSuccess(true);
+    } catch (error) {
+      toast.error("An error occurred. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
   };
 
+  if (success) {
+    return (
+      <div className="success-page">
+        <div className="success-content">
+          <div className="success-icon">
+            <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+              <circle className="circle" cx="26" cy="26" r="25" fill="none" />
+              <path
+                className="check"
+                d="M14.1 27.2l7.1 7.2 16.7-16.8"
+                fill="none"
+              />
+            </svg>
+          </div>
+          <h1 className="success-title">{"Refund Request Submitted"}</h1>
+          <p className="success-message">
+            {"Your refund request has been submitted successfully"}
+          </p>
+        </div>
+      </div>
+    );
+  }
   const renderStep = () => {
     switch (step) {
       case 1:
         return (
           <>
-            <h2>Traveler Details</h2>
             <div className="form-group">
               <label htmlFor="surname">Surname Name *</label>
               <input
@@ -95,7 +128,7 @@ export const RefundFormPage: React.FC = () => {
                 required
               />
             </div>
-            <div className="form-group">
+            {/* <div className="form-group">
               <label htmlFor="photoId">Photo ID *</label>
               <input
                 type="file"
@@ -104,7 +137,7 @@ export const RefundFormPage: React.FC = () => {
                 onChange={handleFileChange}
                 required
               />
-            </div>
+            </div> */}
           </>
         );
       case 2:

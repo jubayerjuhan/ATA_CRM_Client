@@ -380,10 +380,10 @@ export const ClientFormPage = () => {
                         aria-expanded={open}
                         className="w-[100%] justify-between"
                       >
-                        {watch("airlinesName")
+                        {watch("airlinesCode")
                           ? airlines.find(
                               (airline) =>
-                                airline.name === watch("airlinesName")
+                                airline.name === watch("airlinesCode")
                             )?.name
                           : "Select Airlines..."}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -400,7 +400,7 @@ export const ClientFormPage = () => {
                                 key={airline.name}
                                 value={airline.name}
                                 onSelect={(currentValue) => {
-                                  setValue("airlinesName", currentValue);
+                                  setValue("airlinesCode", currentValue);
                                   setOpen(false);
                                 }}
                               >
@@ -420,21 +420,13 @@ export const ClientFormPage = () => {
                       </Command>
                     </PopoverContent>
                   </Popover>
-                </div>
-
-                <div className="form-group">
-                  <label>Preferred Airlines</label>
-                  <input
-                    type="text"
-                    {...register("airlinesCode")}
-                    placeholder="Enter Preferred Airlines"
-                  />
                   {errors.airlinesCode && (
                     <span className="error-message">
                       {errors.airlinesCode.message as string}
                     </span>
                   )}
                 </div>
+
                 {/* One way or two way */}
                 <div className="form-group">
                   <label>Trip Type</label>

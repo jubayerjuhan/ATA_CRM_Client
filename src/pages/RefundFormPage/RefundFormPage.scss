@@ -1,5 +1,6 @@
 .flight-refund-form {
   max-width: 600px;
+  min-height: 100vh;
   margin: 0 auto;
   padding: 20px;
   font-family: Arial, sans-serif;
@@ -105,6 +106,7 @@
 
     &.checkbox {
       display: flex;
+      flex-direction: row;
       align-items: flex-start;
 
       input[type="checkbox"] {
@@ -138,6 +140,7 @@
       &-primary {
         background-color: #007bff;
         color: white;
+        justify-content: flex-end;
 
         &:hover {
           background-color: #0056b3;
