@@ -49,16 +49,6 @@ export const AcknowledgementPage: React.FC = () => {
     toast.error("Lead ID not found");
   }
 
-  useEffect(() => {
-    const sendPaymentMethodSelectionEmail = async (leadId: string | null) => {
-      await client.post(`/payment/${leadId}/send-payment-email`);
-    };
-
-    if (leadId) {
-      sendPaymentMethodSelectionEmail(leadId);
-    }
-  }, [leadId]);
-
   const getFlightFromPNR = async (pnr: string) => {
     const flights = await convertPNR(pnr);
     console.log(flights);
@@ -73,7 +63,7 @@ export const AcknowledgementPage: React.FC = () => {
   }, [dispatch, leadId]);
 
   useEffect(() => {
-    if (lead) {
+    if (lead && !lead.selectedPaymentMethod) {
       getFlightFromPNR(lead.pnr as string);
     }
   }, [lead]);
@@ -109,6 +99,32 @@ export const AcknowledgementPage: React.FC = () => {
       toast.error("Failed to update payment method");
     }
   };
+
+  if (lead?.selectedPaymentMethod) {
+    return (
+      <div className="success-page">
+        <div className="success-content">
+          <div className="success-icon">
+            <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+              <circle className="circle" cx="26" cy="26" r="25" fill="none" />
+              <path
+                className="check"
+                d="M14.1 27.2l7.1 7.2 16.7-16.8"
+                fill="none"
+              />
+            </svg>
+          </div>
+          <h1 className="success-title">
+            Your Payment Method Has Been Selected
+          </h1>
+          <p className="success-message">
+            Thank you for selecting your payment method. Our agent will reach
+            out with you shortly
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ minHeight: "100vh" }}>
