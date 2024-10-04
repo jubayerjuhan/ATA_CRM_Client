@@ -145,7 +145,7 @@ const Sidebar = () => {
       <div className="sidebar-logo-container">
         <img src={logo} alt="Company Logo" className="sidebar-logo" />
       </div>
-      <div className="sidebar-links-list">
+      <div className="sidebar-links-list overflow-y-scroll h-[100vh]">
         {sidebarLinks.map((link, index) => (
           <div
             className="menu-item px-10"

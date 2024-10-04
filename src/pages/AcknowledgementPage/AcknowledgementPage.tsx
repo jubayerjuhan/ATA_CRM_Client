@@ -49,6 +49,10 @@ export const AcknowledgementPage: React.FC = () => {
     toast.error("Lead ID not found");
   }
 
+  const sendPaymentMethodSelectionEmail = async (leadId: string | null) => {
+    await client.post(`/payment/${leadId}/send-payment-email`);
+  };
+
   const getFlightFromPNR = async (pnr: string) => {
     const flights = await convertPNR(pnr);
     console.log(flights);
@@ -76,13 +80,15 @@ export const AcknowledgementPage: React.FC = () => {
   const updatePaymentMethod = async () => {
     if (selectedPaymentMethod === "stripe" && lead) {
       // Redirect to Stripe payment page
-
       if (!lead.stripe_payment_link) {
         toast.error("Stripe payment link not found");
         return;
       }
       window.open(lead.stripe_payment_link as string);
     } else {
+      if (leadId && !lead?.selectedPaymentMethod) {
+        sendPaymentMethodSelectionEmail(leadId);
+      }
       await updateSelectedPaymentMethod(selectedPaymentMethod as string);
     }
   };
@@ -100,7 +106,7 @@ export const AcknowledgementPage: React.FC = () => {
     }
   };
 
-  if (lead?.selectedPaymentMethod) {
+  if (lead?.selectedPaymentMethod || lead?.converted) {
     return (
       <div className="success-page">
         <div className="success-content">
