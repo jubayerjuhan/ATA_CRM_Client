@@ -8,4 +8,20 @@
 .layout-content {
   padding: 20px;
   width: 100%;
+  position: relative;
+  z-index: 1;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../../assets/airplane-background.jpg");
+    background-size: contain;
+    background-position: center;
+    opacity: 0.4; // Adjust this value for desired opacity
+    z-index: -1; // Ensures the background is behind the content
+  }
 }

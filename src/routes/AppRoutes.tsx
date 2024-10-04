@@ -55,7 +55,6 @@ const AppRoutes: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route Component={Home} path={HomepageURL} />
         <Route Component={RefundFormPage} path={RefundPageURL} />
         <Route Component={Login} path={LoginURL} />
         <Route Component={ForgotPassword} path={ForgotPasswordURL} />
@@ -67,7 +66,10 @@ const AppRoutes: React.FC = () => {
         />
 
         {/* Private routes */}
-        <Route path={BaseURL} element={<PrivateRoute component={Home} />} />
+        <Route
+          path={BaseURL}
+          element={<PrivateRoute component={Dashboard} />}
+        />
         <Route path={HomepageURL} element={<PrivateRoute component={Home} />} />
         <Route
           path={LeadSuccessURL}
