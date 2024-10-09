@@ -18,6 +18,14 @@
     transform: translateY(0);
   }
 
+  .cross_logo {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    cursor: pointer;
+    font-size: 25px;
+  }
+
   .header {
     display: flex;
     align-items: center;

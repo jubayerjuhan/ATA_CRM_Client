@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 
 import { TbDatabaseSearch } from "react-icons/tb";
+import { FaRegTimesCircle } from "react-icons/fa";
 
-import "./SearchExistingLeadPopup.scss";
 import { Button } from "@/components/ui/button";
 import { searchLeadWithEmail } from "@/redux/actions";
 import { LeadType } from "@/types";
+
+import "./SearchExistingLeadPopup.scss";
 
 interface SearchExistingLeadPopupProps {
   email: string | null;
@@ -37,6 +39,7 @@ export const SearchExistingLeadPopup: React.FC<
 
   return (
     <div className={`search-existing-lead_popup ${lead ? "open" : ""}`}>
+      <FaRegTimesCircle className="cross_logo" onClick={() => setLead(null)} />
       <div className="header">
         <TbDatabaseSearch />
         <h2>Existing Information Found</h2>

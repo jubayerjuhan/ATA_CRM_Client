@@ -59,6 +59,7 @@ export const ClientFormPage = () => {
   } = useForm();
 
   const [formPart, setFormPart] = useState(1);
+  const [leadId, setLeadId] = useState<string | null>(null);
   const [userSearchingEmail, setUserSearchingEmail] = useState<string | null>(
     null
   );
@@ -93,9 +94,7 @@ export const ClientFormPage = () => {
 
   const onSubmitPartOne = async (data: any) => {
     try {
-      await dispatch(
-        addLead({ ...data, leadOrigin: "Website Form" } as LeadType)
-      );
+      await dispatch(addLead({ ...data }));
 
       console.log(leadState.insertedLeadId, "inserted lead id");
 
@@ -113,6 +112,10 @@ export const ClientFormPage = () => {
   };
 
   const onSubmitPartTwo = async (data: any) => {
+    if (data.returnDate && data.returnDate < data.travelDate) {
+      toast.error("Return date cannot be before travel date.");
+      return;
+    }
     // Added Logs With Leads
     const leadWithLogs = {
       ...data,
@@ -120,7 +123,7 @@ export const ClientFormPage = () => {
         {
           callType: "Inbound",
           dateTime: Date.now(),
-          notes: data.notes,
+          notes: data.notes ? data.notes : "N/A",
         },
       ],
     };
@@ -131,7 +134,10 @@ export const ClientFormPage = () => {
     }
 
     try {
-      const { data: leadData } = await client.post("/leads", leadWithLogs);
+      const { data: leadData } = await client.put(
+        `/leads/${leadState.insertedLeadId}`,
+        leadWithLogs
+      );
 
       const queryParams = new URLSearchParams({
         title: "Lead Updated Successfully",
@@ -326,6 +332,27 @@ export const ClientFormPage = () => {
                     {...register("postCode")}
                   />
                 </div>
+                <div className="form-group">
+                  <label>Lead Origin</label>
+                  <select
+                    {...register("leadOrigin", {
+                      required: "Lead Origin is required",
+                    })}
+                  >
+                    <option value="">Select</option>
+                    <option value="Call">Call</option>
+                    <option value="Email">Email</option>
+                    <option value="WhatsApp">WhatsApp</option>
+                    <option value="Facebook">Facebook</option>
+                    <option value="LinkedIn">LinkedIn</option>
+                    <option value="Others">Others</option>
+                  </select>
+                  {errors.passengerType && (
+                    <span className="error-message">
+                      {errors.passengerType.message as string}
+                    </span>
+                  )}
+                </div>
               </motion.div>
             )}
 
@@ -343,11 +370,10 @@ export const ClientFormPage = () => {
                       required: "Call For is required",
                     })}
                   >
-                    <option value="Air Ticket">Air Ticket</option>
-                    <option value="Hotel">Hotel</option>
-                    <option value="Air Ticket + Hotel">
-                      Air Ticket + Hotel
-                    </option>
+                    <option value="Flights">Flights</option>
+                    <option value="Hotels">Hotels</option>
+                    <option value="Packages">Packages</option>
+                    <option value="Insurance">Insurance</option>
                   </select>
                   {errors.callFor && (
                     <span className="error-message">
