@@ -64,11 +64,11 @@ const Sidebar = () => {
       icon: <FaWpforms />,
       pathname: FormPageURL,
     },
-    {
-      title: "Refund Form",
-      icon: <HiOutlineReceiptRefund />,
-      pathname: RefundPageURL,
-    },
+    // {
+    //   title: "Refund Form",
+    //   icon: <HiOutlineReceiptRefund />,
+    //   pathname: RefundPageURL,
+    // },
   ];
 
   const adminSidebarLink: SidebarLinksType[] = [
@@ -112,11 +112,11 @@ const Sidebar = () => {
       icon: <TbUserCancel />,
       pathname: CancelledCustomersURL,
     },
-    {
-      title: "Refund Requests",
-      icon: <RiRefund2Fill />,
-      pathname: RefundListURL,
-    },
+    // {
+    //   title: "Refund Requests",
+    //   icon: <RiRefund2Fill />,
+    //   pathname: RefundListURL,
+    // },
     // {
     //   title: "Form Fields",
     //   icon: <MdFormatAlignLeft />,
@@ -127,11 +127,11 @@ const Sidebar = () => {
       icon: <FaWpforms />,
       pathname: FormPageURL,
     },
-    {
-      title: "Refund Form",
-      icon: <HiOutlineReceiptRefund />,
-      pathname: RefundPageURL,
-    },
+    // {
+    //   title: "Refund Form",
+    //   icon: <HiOutlineReceiptRefund />,
+    //   pathname: RefundPageURL,
+    // },
   ];
 
   const sidebarLinks: SidebarLinksType[] =
