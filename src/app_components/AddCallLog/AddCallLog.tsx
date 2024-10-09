@@ -53,7 +53,7 @@ export const AddCallLogModal: React.FC<AddCallLogModalProps> = ({ leadId }) => {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild className="mb-4">
-        <Button onClick={() => setIsDialogOpen(true)}>Add Call Log</Button>
+        <Button onClick={() => setIsDialogOpen(true)}>Add Call Notes</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

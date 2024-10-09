@@ -23,7 +23,7 @@ import {
   DashboardURL,
   FormPageURL,
   LeadsManagementURL,
-  MyCustomersURL,
+  MyLeadsURL,
   NewLeadsURL,
   RefundListURL,
   RefundPageURL,
@@ -55,9 +55,9 @@ const Sidebar = () => {
       pathname: NewLeadsURL,
     },
     {
-      title: "My Customers",
+      title: "My Leads",
       icon: <MdMyLocation />,
-      pathname: MyCustomersURL,
+      pathname: MyLeadsURL,
     },
     {
       title: "Lead Sub Form",
@@ -98,9 +98,9 @@ const Sidebar = () => {
       pathname: NewLeadsURL,
     },
     {
-      title: "My Customers",
+      title: "My Leads",
       icon: <MdMyLocation />,
-      pathname: MyCustomersURL,
+      pathname: MyLeadsURL,
     },
     {
       title: "Converted Customers",

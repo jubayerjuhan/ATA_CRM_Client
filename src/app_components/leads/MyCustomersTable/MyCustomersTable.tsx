@@ -42,6 +42,14 @@ export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
         columns: [
           {
             accessorFn: (row) => `${row.firstName} ${row.lastName}`,
+            Cell: ({ cell }) => (
+              <a
+                href={`/dashboard/lead/${cell.row.original._id}`}
+                style={{ textDecoration: "none" }}
+              >
+                {cell.getValue<string>()}
+              </a>
+            ),
             id: "name",
             header: "Name",
             size: 200,
@@ -267,26 +275,44 @@ export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
             <Title order={4}>Call Logs</Title>
             <Text>
               <ul>
-                {customerData.call_logs
-                  ? customerData.call_logs.map((log: any) => {
-                      console.log(log.dateTime, log.notes);
-                      const parsedDate = moment(Number(log.dateTime)).format(
-                        "DD-MM-YYYY hh:mm a"
-                      );
-                      return (
-                        <li key={log.dateTime}>
-                          <div>
-                            <strong>{log.callType}</strong>
-
-                            <p>{parsedDate}</p>
-                            <p>
-                              {log.notes ? log.notes : "No Notes Available"}
-                            </p>
-                          </div>
-                        </li>
-                      );
-                    })
-                  : "No call logs available."}
+                {customerData.call_logs && customerData.call_logs.length > 0 ? (
+                  <li
+                    key={
+                      customerData.call_logs[customerData.call_logs.length - 1]
+                        .dateTime
+                    }
+                  >
+                    <div>
+                      <strong>
+                        {
+                          customerData.call_logs[
+                            customerData.call_logs.length - 1
+                          ].callType
+                        }
+                      </strong>
+                      <p>
+                        {moment(
+                          Number(
+                            customerData.call_logs[
+                              customerData.call_logs.length - 1
+                            ].dateTime
+                          )
+                        ).format("DD-MM-YYYY hh:mm a")}
+                      </p>
+                      <p>
+                        {customerData.call_logs[
+                          customerData.call_logs.length - 1
+                        ].notes
+                          ? customerData.call_logs[
+                              customerData.call_logs.length - 1
+                            ].notes
+                          : "No Notes Available"}
+                      </p>
+                    </div>
+                  </li>
+                ) : (
+                  "No call logs available."
+                )}
               </ul>
             </Text>
           </Box>
@@ -372,7 +398,7 @@ export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
   return (
     <div style={{ width: "100%" }}>
       <Box sx={{ padding: "16px 0px", color: "#3960be" }}>
-        <Title order={3}>My Customers</Title>
+        <Title order={3}>My Leads</Title>
       </Box>
       <MantineReactTable table={table} />
     </div>

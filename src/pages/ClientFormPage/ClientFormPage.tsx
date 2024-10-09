@@ -59,7 +59,6 @@ export const ClientFormPage = () => {
   } = useForm();
 
   const [formPart, setFormPart] = useState(1);
-  const [leadId, setLeadId] = useState<string | null>(null);
   const [userSearchingEmail, setUserSearchingEmail] = useState<string | null>(
     null
   );
@@ -134,10 +133,7 @@ export const ClientFormPage = () => {
     }
 
     try {
-      const { data: leadData } = await client.put(
-        `/leads/${leadState.insertedLeadId}`,
-        leadWithLogs
-      );
+      await client.put(`/leads/${leadState.insertedLeadId}`, leadWithLogs);
 
       const queryParams = new URLSearchParams({
         title: "Lead Updated Successfully",

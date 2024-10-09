@@ -126,7 +126,7 @@ export const LeadDetailPage = () => {
               value={moment(lead.returnDate).format("DD-MM-YYYY")}
             />
           </InfoCard>
-          <InfoCard title="Call Information">
+          <InfoCard title="Call Notes">
             <AddCallLogModal leadId={leadId as string} />
             {lead.call_logs?.map((log, index) => {
               console.log(log, "log...");
