@@ -23,6 +23,8 @@ import { client } from "@/api/api";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/types";
 import { getSingleLead } from "@/redux/actions";
+import { Textarea } from "@/components/ui/textarea";
+import toast from "react-hot-toast";
 
 interface AddCallLogModalProps {
   leadId: string;
@@ -44,9 +46,15 @@ export const AddCallLogModal: React.FC<AddCallLogModalProps> = ({ leadId }) => {
       dateTime: moment().format("DD-MM-YYYY hh:mm a"),
     };
 
-    await client.put(`/leads/${leadId}/add-call-log`, newCallLogWithDateTime);
+    try {
+      await client.put(`/leads/${leadId}/add-call-log`, newCallLogWithDateTime);
+      toast.success("Call log added successfully");
+    } catch (error) {
+      toast.error("Failed to add call log");
+    } finally {
+      setIsDialogOpen(false);
+    }
 
-    setIsDialogOpen(false); // Close the dialog after submission
     await dispatch(getSingleLead(leadId));
   };
 
@@ -88,8 +96,9 @@ export const AddCallLogModal: React.FC<AddCallLogModalProps> = ({ leadId }) => {
               <Label htmlFor="notes" className="text-right">
                 Notes{" "}
               </Label>
-              <Input
+              <Textarea
                 id="notes"
+                placeholder="Enter notes here..."
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 className="col-span-3"
