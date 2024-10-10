@@ -10,6 +10,7 @@ import {
   EditCustomerDetails,
   EditTravelDetails,
   EmailSendingSection,
+  LeadStatusChanger,
 } from "@/app_components";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -92,6 +93,7 @@ export const LeadDetailPage = () => {
           </a>
           <CancelBookingPopup lead={lead} />
         </div>
+        <LeadStatusChanger lead={lead} />
         <div className="lead-info-grid">
           <InfoCard title="Customer Information">
             <EditCustomerDetails lead={lead} />

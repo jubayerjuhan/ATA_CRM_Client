@@ -101,6 +101,7 @@ export interface LeadType {
   // email
   itenary_email_sent: boolean;
   ticket_sent: boolean;
+  saleLostReason?: string;
   // call logs
   call_logs?: {
     added_by: User;
