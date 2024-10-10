@@ -28,8 +28,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { LeadType } from "@/types";
-
+import { AppDispatch, AppState, LeadType } from "@/types";
+import { AssignLead } from "@/app_components";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { getAllUsers } from "@/redux/actions/userActions";
 export const NewLeadsTable: React.FC<{
   leads: LeadType[];
   loading?: boolean;
@@ -37,6 +40,26 @@ export const NewLeadsTable: React.FC<{
   claimLeadLoading: boolean;
 }> = ({ leads, loading, claimLeadLoading, onClaimLead }) => {
   const [rows, setRows] = React.useState<any[]>([]);
+
+  // fetching users
+  const dispatch = useDispatch<AppDispatch>();
+  const [users, setUsers] = React.useState<any[]>([]);
+
+  const { user } = useSelector((state: AppState) => state);
+
+  React.useEffect(() => {
+    const fetchUsers = async () => {
+      await dispatch(getAllUsers());
+    };
+    // Fetch users data from the server
+    fetchUsers();
+  }, [dispatch]);
+
+  React.useEffect(() => {
+    if (user.users) {
+      setUsers(user.users);
+    }
+  }, [user.users]);
 
   React.useEffect(() => {
     if (Array.isArray(leads)) {
@@ -102,14 +125,17 @@ export const NewLeadsTable: React.FC<{
       cell: ({ row }) => <div>{row.getValue("leadType")}</div>,
     },
     {
-      header: "Claim Lead",
+      header: "Action",
       cell: ({ row }) => (
-        <Button
-          disabled={claimLeadLoading}
-          onClick={() => onClaimLead(row.original)}
-        >
-          {claimLeadLoading ? `Claiming...` : `Claim Now`}
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            disabled={claimLeadLoading}
+            onClick={() => onClaimLead(row.original)}
+          >
+            {claimLeadLoading ? `Claiming...` : `Claim Now`}
+          </Button>
+          <AssignLead users={users} leadId={row.original._id} />
+        </div>
       ),
     },
   ];

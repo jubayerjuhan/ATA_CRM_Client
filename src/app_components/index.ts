@@ -15,6 +15,7 @@ export * from "./ConfirmPaymentPopup/ConfirmPaymentPopup";
 export * from "./CancelBookingPopup/CancelBookingPopup";
 export * from "./TicketEmail/TicketEmail";
 export * from "./RefundListTable/RefundListTable";
+export * from "./AssignLead/AssignLead";
 
 // Test Component
 export * from "./TestComponent/TestComponent";
