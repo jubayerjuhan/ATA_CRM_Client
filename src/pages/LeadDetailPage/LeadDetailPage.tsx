@@ -140,6 +140,7 @@ export const LeadDetailPage = () => {
                   className="p-4 rounded-md mb-4"
                 >
                   <InfoItem label="Call Type" value={log.callType} />
+                  <InfoItem label="Added By" value={log.added_by?.name} />
                   <InfoItem
                     label="Date & Time"
                     value={moment(Number(log.dateTime)).format(

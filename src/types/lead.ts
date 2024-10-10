@@ -102,6 +102,7 @@ export interface LeadType {
   ticket_sent: boolean;
   // call logs
   call_logs?: {
+    added_by: User;
     dateTime: string | Date;
     callType: string;
     notes?: string;

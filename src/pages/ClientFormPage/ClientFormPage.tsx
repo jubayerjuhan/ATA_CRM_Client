@@ -38,6 +38,7 @@ import type { E164Number } from "libphonenumber-js";
 import { client } from "@/api/api";
 
 import "./FormComponent.scss";
+import moment from "moment";
 
 const isValidEmail = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -142,7 +143,7 @@ export const ClientFormPage = () => {
       call_logs: [
         {
           callType: "Inbound",
-          dateTime: Date.now(),
+          dateTime: moment().format("DD-MM-YYYY hh:mm a"),
           notes: data.notes ? data.notes : "N/A",
         },
       ],
