@@ -4,23 +4,28 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import { DashboardLayout } from "@/app_components/DashboardLayout";
 import { client } from "@/api/api";
-import { LeadType } from "@/types";
+import { AppState, LeadType } from "@/types";
 import moment from "moment";
 import { DateRangePicker } from "@/app_components/DateRangePicker/DateRangePicker";
+import { MyFollowUpsURL } from "@/routes/routeConstant";
+import { useSelector } from "react-redux";
 
 interface CustomersDataType {
   leads: LeadType[];
   totalAmount: number;
   cancelledLeads: LeadType[];
   followups: number;
+  myFollowups: number;
 }
 
 export const Dashboard = () => {
+  const { auth: authState } = useSelector((state: AppState) => state);
   const [customersData, setCustomersData] = React.useState<CustomersDataType>({
     leads: [],
     totalAmount: 0,
     cancelledLeads: [],
     followups: 0,
+    myFollowups: 0,
   });
 
   const [dateRange, setDateRange] = React.useState({
@@ -130,9 +135,40 @@ export const Dashboard = () => {
               </p>
             </CardContent>
           </Card>
+          {authState.profile?.role === "admin" && (
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  Total Follow Up's
+                </CardTitle>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  className="h-8 w-8 text-muted-foreground"
+                >
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                </svg>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">
+                  {customersData.followups}
+                </div>
+                <p className="mt-2 text-xs text-muted-foreground">
+                  Follow up required
+                </p>
+              </CardContent>
+            </Card>
+          )}
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Follow Up</CardTitle>
+              <CardTitle className="text-sm font-medium">
+                My Follow Up's
+              </CardTitle>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -147,9 +183,9 @@ export const Dashboard = () => {
               </svg>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">
-                {customersData.followups}
-              </div>
+              <a href={MyFollowUpsURL} className="text-2xl font-bold">
+                {customersData.myFollowups}
+              </a>
               <p className="mt-2 text-xs text-muted-foreground">
                 Follow up required
               </p>

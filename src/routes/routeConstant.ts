@@ -24,6 +24,7 @@ const AcknowledgementPageURL = "/acknowledgement";
 const RefundPageURL = "/refund";
 const RefundListURL = "/refund-list";
 const TestRouteURL = "/test";
+const MyFollowUpsURL = "/my-follow-ups";
 
 export {
   BaseURL,
@@ -52,4 +53,5 @@ export {
   PaymentMethodSelectURL,
   RefundPageURL,
   TestRouteURL,
+  MyFollowUpsURL,
 };

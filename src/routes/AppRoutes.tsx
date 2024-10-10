@@ -13,6 +13,7 @@ import {
   Leads,
   Login,
   MyCustomers,
+  MyFollowUps,
   NewLeads,
   PaymentMethodSelectPage,
   RefundFormPage,
@@ -45,6 +46,7 @@ import {
   RefundListURL,
   MyLeadsURL,
   SaleLostURL,
+  MyFollowUpsURL,
 } from "./routeConstant";
 import PrivateRoute from "@/app_components/PrivateRoute/PrivateRoute";
 import FormManager from "@/pages/FormManager/FormManager";
@@ -130,6 +132,10 @@ const AppRoutes: React.FC = () => {
         <Route
           path={RefundListURL}
           element={<PrivateRoute component={RefundList} />}
+        />
+        <Route
+          path={MyFollowUpsURL}
+          element={<PrivateRoute component={MyFollowUps} />}
         />
       </Routes>
     </Router>

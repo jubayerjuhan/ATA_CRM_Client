@@ -14,25 +14,27 @@ import { FaRegUser } from "react-icons/fa";
 
 import moment from "moment";
 
-type Employee = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  jobTitle: string;
-  salary: number;
-  startDate: string;
-  signatureCatchPhrase: string;
-  avatar: string;
-};
+// type Employee = {
+//   firstName: string;
+//   lastName: string;
+//   email: string;
+//   jobTitle: string;
+//   salary: number;
+//   startDate: string;
+//   signatureCatchPhrase: string;
+//   avatar: string;
+// };
 
 interface MyCustomersTableProps {
   customers: any;
   loading: boolean;
+  title?: string;
 }
 
 export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
   customers,
   loading,
+  title,
 }) => {
   const columns = useMemo<MRT_ColumnDef<any>[]>(
     () => [
@@ -398,7 +400,7 @@ export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
   return (
     <div style={{ width: "100%" }}>
       <Box sx={{ padding: "16px 0px", color: "#3960be" }}>
-        <Title order={3}>My Leads</Title>
+        <Title order={3}>{title ? title : "My Leads"}</Title>
       </Box>
       <MantineReactTable table={table} />
     </div>

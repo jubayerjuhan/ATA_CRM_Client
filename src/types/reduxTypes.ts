@@ -39,8 +39,19 @@ export interface LeadState {
     message: string;
   } | null;
 }
+
+export interface FollowUpState {
+  loading: boolean;
+  message: string | null;
+  success: boolean | null;
+  myFollowUps: LeadType[];
+  error: {
+    message: string;
+  } | null;
+}
 export interface AppState {
   auth: AuthState;
   user: UserState;
   lead: LeadState;
+  followUp: FollowUpState;
 }
