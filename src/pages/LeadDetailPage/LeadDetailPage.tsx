@@ -7,6 +7,7 @@ import {
   AddSplittedQuotedAmount,
   CancelBookingPopup,
   ConfirmPaymentPopup,
+  EditCustomerDetails,
   EditTravelDetails,
   EmailSendingSection,
 } from "@/app_components";
@@ -93,6 +94,8 @@ export const LeadDetailPage = () => {
         </div>
         <div className="lead-info-grid">
           <InfoCard title="Customer Information">
+            <EditCustomerDetails lead={lead} />
+
             <InfoItem
               label="Full Name"
               value={`${lead.firstName} ${lead.lastName}`}

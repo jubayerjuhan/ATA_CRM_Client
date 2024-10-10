@@ -96,7 +96,7 @@ export function AssignLead({ users, leadId }: any) {
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0">
           <Command>
-            <CommandInput placeholder="Search framework..." />
+            <CommandInput placeholder="Search Users..." />
             <CommandList>
               <CommandEmpty>No User found.</CommandEmpty>
               <CommandGroup>
