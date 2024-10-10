@@ -53,7 +53,7 @@ export const FollowUpDatePicker: React.FC<FollowupDatePickerProps> = ({
   };
 
   return (
-    <div className="flex gap-2 mb-4">
+    <div className="flex gap-2">
       <Popover>
         <PopoverTrigger asChild>
           <Button

@@ -51,6 +51,7 @@ export interface Airline {
 
 export interface LeadType {
   _id?: string;
+  booking_id: string;
   converted?: boolean;
   cancelled?: boolean;
   payment: {

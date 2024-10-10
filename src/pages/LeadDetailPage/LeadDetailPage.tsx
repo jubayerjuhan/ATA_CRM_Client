@@ -67,7 +67,16 @@ export const LeadDetailPage = () => {
             {lead.status}
           </span>
         </header>
-        <FollowUpDatePicker lead={lead} />
+
+        <div className="flex justify-between my-6">
+          <FollowUpDatePicker lead={lead} />
+          <div className="flex items-center space-x-2">
+            <span className="font-semibold text-gray-700">Booking Id:</span>
+            <span className="px-2 py-1 bg-black text-white rounded-md">
+              {lead.booking_id}
+            </span>
+          </div>
+        </div>
 
         <div className="mb-8 flex justify-between">
           <a
