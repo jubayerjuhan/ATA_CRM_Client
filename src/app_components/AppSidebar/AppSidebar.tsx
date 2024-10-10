@@ -18,7 +18,7 @@ import logo from "../../assets/air_ticket_agency.png";
 import "./Sidebar.scss";
 import {
   AllCustomersURL,
-  CancelledCustomersURL,
+  SaleLostURL,
   ConvertedCustomersURL,
   DashboardURL,
   FormPageURL,
@@ -108,9 +108,9 @@ const Sidebar = () => {
       pathname: ConvertedCustomersURL,
     },
     {
-      title: "Cancelled Customers",
+      title: "Sale Lost",
       icon: <TbUserCancel />,
-      pathname: CancelledCustomersURL,
+      pathname: SaleLostURL,
     },
     // {
     //   title: "Refund Requests",

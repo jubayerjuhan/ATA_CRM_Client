@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { getSingleLead } from "@/redux/actions";
 import { AppDispatch, LeadType } from "@/types";
 import React from "react";
@@ -41,7 +42,7 @@ export const EditTravelDetails: React.FC<EditTravelDetailsProps> = ({
     { name: "departure", label: "Departure Airport", type: "airport_selector" },
     { name: "arrival", label: "Arrival Airport", type: "airport_selector" },
     { name: "airlinesCode", label: "Airlines Code", type: "text" },
-    { name: "pnr", label: "PNR", type: "text" },
+    { name: "pnr", label: "Final PNR", type: "textarea" },
     { name: "travelDate", label: "Travel Date", type: "date" },
     { name: "returnDate", label: "Return Date", type: "date" },
   ];
@@ -74,8 +75,24 @@ export const EditTravelDetails: React.FC<EditTravelDetailsProps> = ({
             Make changes to customers travel details here
           </DialogDescription>
         </DialogHeader>
-        <form className="grid gap-4 py-4" onSubmit={() => console.log("Hello")}>
+        <form
+          className="grid gap-4 py-4 h-[400px] overflow-y-scroll"
+          onSubmit={() => console.log("Hello")}
+        >
           {fields.map((field) => {
+            if (field.type === "textarea") {
+              return (
+                <div key={field.name}>
+                  <Label>{field.label}</Label>
+                  <Textarea
+                    onChange={(event) =>
+                      setValue(field.name, event.target.value)
+                    }
+                    defaultValue={lead[field.name as keyof LeadType]}
+                  />
+                </div>
+              );
+            }
             if (field.type === "airport_selector") {
               return (
                 <>

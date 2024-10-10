@@ -13,7 +13,7 @@ const NewLeadsURL = "/dashboard/new-leads";
 const MyCustomersURL = "/dashboard/my-customers";
 const MyLeadsURL = "/dashboard/my-leads";
 const ConvertedCustomersURL = "/dashboard/converted-customers";
-const CancelledCustomersURL = "/dashboard/cancelled-customers";
+const SaleLostURL = "/dashboard/sale-lost";
 const FormFieldManagementURL = "/dashboard/form-fields";
 const FormPageURL = "/form";
 const SettingsURL = "/settings";
@@ -28,6 +28,7 @@ const TestRouteURL = "/test";
 export {
   BaseURL,
   RefundListURL,
+  SaleLostURL,
   HomepageURL,
   LoginURL,
   ForgotPasswordURL,
@@ -44,7 +45,6 @@ export {
   MyCustomersURL,
   MyLeadsURL,
   ConvertedCustomersURL,
-  CancelledCustomersURL,
   FormFieldManagementURL,
   LeadSuccessURL,
   FormPageURL,
