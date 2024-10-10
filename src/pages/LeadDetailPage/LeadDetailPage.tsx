@@ -111,7 +111,10 @@ export const LeadDetailPage = () => {
                   : "N/A"
               }
             />
-            <InfoItem label="Airlines Code" value={lead.airlinesCode} />
+            <InfoItem
+              label="Airlines Name"
+              value={`${lead.airline?.name} (${lead.airline?.iata})`}
+            />
             <InfoItem
               label="PNR"
               value={lead.pnr ? lead.pnr : "N/A"}

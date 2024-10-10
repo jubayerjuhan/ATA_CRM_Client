@@ -37,6 +37,18 @@ export interface User {
   __v: number;
 }
 
+export interface Airline {
+  _id: string;
+  id: string;
+  name: string;
+  alias: string;
+  iata: string;
+  icao: string;
+  callsign: string;
+  country: string;
+  active: string;
+}
+
 export interface LeadType {
   _id?: string;
   converted?: boolean;
@@ -67,7 +79,7 @@ export interface LeadType {
   dateTime?: string;
   callFor?: string;
   mobileNumber?: string;
-  airlinesCode?: string;
+  airline?: Airline;
   pnr?: string;
   travelDate?: string;
   returnDate?: string;

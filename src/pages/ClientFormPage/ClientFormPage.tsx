@@ -23,6 +23,7 @@ import { IoChevronBackCircleOutline } from "react-icons/io5";
 
 import { Button } from "@/components/ui/button";
 import {
+  AirlineSelector,
   AirportSelector,
   DatePicker,
   SearchExistingLeadPopup,
@@ -32,7 +33,6 @@ import { PhoneInput } from "@/app_components/PhoneInput/PhoneInput";
 import { AppDispatch, AppState, LeadType } from "@/types";
 import { addLead } from "@/redux/actions";
 import { CLEAR_ERROR } from "@/constants";
-import airlines from "../../assets/airlines.json";
 
 import type { E164Number } from "libphonenumber-js";
 import { client } from "@/api/api";
@@ -46,6 +46,8 @@ const isValidEmail = (email: string): boolean => {
 
 export const ClientFormPage = () => {
   const { lead: leadState } = useSelector((state: AppState) => state);
+  const [airlines, setAirlines] = useState<any[]>([]);
+  const [airlinesLoading, setAirlinesLoading] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -57,7 +59,7 @@ export const ClientFormPage = () => {
     watch,
     formState: { errors },
   } = useForm();
-
+  const [airlinesSearchKeyword, setAirlinesSearchKeyword] = useState("");
   const [formPart, setFormPart] = useState(1);
   const [userSearchingEmail, setUserSearchingEmail] = useState<string | null>(
     null
@@ -72,6 +74,23 @@ export const ClientFormPage = () => {
       dispatch({ type: CLEAR_ERROR });
     }
   }, [leadState.error?.message, dispatch]);
+
+  // Search Airlines by keyword
+  useEffect(() => {
+    if (airlinesSearchKeyword.length < 3) return;
+    const searchAirlines = async () => {
+      setAirlinesLoading(true);
+      const response = await client.get("/airlines", {
+        params: { search: airlinesSearchKeyword },
+      });
+      setAirlines(response.data);
+      setAirlinesLoading(false);
+    };
+
+    if (airlinesSearchKeyword) {
+      searchAirlines();
+    }
+  }, [airlinesSearchKeyword]);
 
   useEffect(() => {
     const subscription = watch((value) => {
@@ -109,6 +128,8 @@ export const ClientFormPage = () => {
       toast.error("Failed to save lead information. Please try again.");
     }
   };
+
+  console.log(watch("airlinesCode"), "watch airlines code");
 
   const onSubmitPartTwo = async (data: any) => {
     if (data.returnDate && data.returnDate < data.travelDate) {
@@ -391,63 +412,13 @@ export const ClientFormPage = () => {
                   setValue={setValue}
                   required
                 />
-                <div className="form-group">
-                  <label>Preferred Airlines</label>
-
-                  <Popover open={open} onOpenChange={setOpen}>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        role="combobox"
-                        aria-expanded={open}
-                        className="w-[100%] justify-between"
-                      >
-                        {watch("airlinesCode")
-                          ? airlines.find(
-                              (airline) =>
-                                airline.name === watch("airlinesCode")
-                            )?.name
-                          : "Select Airlines..."}
-                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-[100%] p-0">
-                      <Command>
-                        <CommandInput placeholder="Search Airlines..." />
-                        <CommandList>
-                          <CommandEmpty>No airlines found.</CommandEmpty>
-                          <CommandGroup>
-                            {airlines.map((airline) => (
-                              <CommandItem
-                                key={airline.name}
-                                value={airline.name}
-                                onSelect={(currentValue) => {
-                                  setValue("airlinesCode", currentValue);
-                                  setOpen(false);
-                                }}
-                              >
-                                <Check
-                                  className={cn(
-                                    "mr-2 h-4 w-4",
-                                    watch("airlinesName") === airline.name
-                                      ? "opacity-100"
-                                      : "opacity-0"
-                                  )}
-                                />
-                                {airline.name}
-                              </CommandItem>
-                            ))}
-                          </CommandGroup>
-                        </CommandList>
-                      </Command>
-                    </PopoverContent>
-                  </Popover>
-                  {errors.airlinesCode && (
-                    <span className="error-message">
-                      {errors.airlinesCode.message as string}
-                    </span>
-                  )}
-                </div>
+                <AirlineSelector
+                  label="Preferred Airline"
+                  name="airline"
+                  register={register}
+                  setValue={setValue}
+                  required
+                />
 
                 {/* One way or two way */}
                 <div className="form-group">

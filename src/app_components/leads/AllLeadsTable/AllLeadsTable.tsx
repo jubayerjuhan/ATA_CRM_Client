@@ -100,8 +100,8 @@ export const AllLeadsTable: React.FC<AllLeadsTableProps> = ({
             },
           },
           {
-            accessorKey: "airlinesCode",
-            header: "Airlines Code",
+            accessorKey: "airline.name",
+            header: "Airlines Name",
             size: 120,
           },
           // {

@@ -104,8 +104,8 @@ export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
               new Date(cell.getValue<string>()).toLocaleDateString(),
           },
           {
-            accessorKey: "airlinesCode",
-            header: "Airlines Code",
+            accessorKey: "airline.name",
+            header: "Airlines Name",
             size: 120,
           },
           // {
