@@ -9,6 +9,7 @@ import moment from "moment";
 import { DateRangePicker } from "@/app_components/DateRangePicker/DateRangePicker";
 import { MyFollowUpsURL } from "@/routes/routeConstant";
 import { useSelector } from "react-redux";
+import { SearchCustomers } from "@/app_components";
 
 interface CustomersDataType {
   leads: LeadType[];
@@ -67,6 +68,7 @@ export const Dashboard = () => {
   return (
     <DashboardLayout>
       <div className="p-4 space-y-4">
+        <SearchCustomers />
         <div className="flex justify-between">
           <h1 className="text-2xl font-bold">Dashboard</h1>
           <DateRangePicker
