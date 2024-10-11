@@ -8,20 +8,55 @@
 .layout-content {
   padding: 20px;
   width: 100%;
+  .dashboard-layout {
+    display: grid;
+    grid-template-columns: 200px calc(100vw - 220px);
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  .layout-content {
+    padding: 20px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    height: 100vh;
+    overflow-y: auto; /* Only vertical scrolling is allowed */
+
+    /* Ensure the content scrolls over a fixed background */
+    background-image: url("../../assets/airplane-background.jpg");
+    background-size: cover; /* Make sure the image covers the area */
+    background-position: center;
+    background-attachment: fixed; /* Keep the background fixed */
+    background-repeat: no-repeat;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 100vh;
+      background-color: rgba(
+        0,
+        0,
+        0,
+        0.4
+      ); /* Apply a semi-transparent overlay */
+      z-index: -1; /* Ensures the background is behind the content */
+    }
+  }
+
   position: relative;
   z-index: 1;
+  height: 100vh;
+  overflow-y: auto; /* Only vertical scrolling is allowed */
 
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url("../../assets/airplane-background.jpg");
-    background-size: contain;
-    background-position: center;
-    opacity: 0.4; // Adjust this value for desired opacity
-    z-index: -1; // Ensures the background is behind the content
-  }
+  /* Ensure the content scrolls over a fixed background */
+  background-image: url("../../assets/airplane-background.jpg");
+  background-size: cover; /* Make sure the image covers the area */
+  background-position: center;
+  background-attachment: fixed; /* Keep the background fixed */
+  background-repeat: no-repeat;
 }

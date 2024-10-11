@@ -11,7 +11,9 @@ import { client } from "@/api/api";
 
 import "./SendEmail.scss";
 import toast from "react-hot-toast";
-import { LeadType } from "@/types";
+import { AppDispatch, LeadType } from "@/types";
+import { useDispatch } from "react-redux";
+import { getSingleLead } from "@/redux/actions";
 
 interface SendEmailProps {
   defaultHtml: string;
@@ -36,6 +38,8 @@ export const SendEmail: React.FC<SendEmailProps> = ({
   emailType,
   lead,
 }) => {
+  const leadId = lead._id;
+  const dispatch = useDispatch<AppDispatch>();
   const [loading, setLoading] = useState<boolean>(false);
   // Convert HTML to Draft.js content state
   const contentBlock = htmlToDraft(defaultHtml);
@@ -46,8 +50,6 @@ export const SendEmail: React.FC<SendEmailProps> = ({
     EditorState.createWithContent(contentState)
   );
 
-  console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
-
   const handleSendEmail = async () => {
     try {
       setLoading(true);
@@ -56,6 +58,8 @@ export const SendEmail: React.FC<SendEmailProps> = ({
         subject: getEmailSubject(emailType),
         email: lead.email,
         name: lead.firstName,
+        leadId: lead._id,
+        emailType: emailType,
       });
       toast.success("Email sent successfully");
     } catch (error) {
@@ -63,6 +67,7 @@ export const SendEmail: React.FC<SendEmailProps> = ({
       toast.error("Failed to send email");
     } finally {
       setLoading(false);
+      dispatch(getSingleLead(leadId as string));
     }
   };
 

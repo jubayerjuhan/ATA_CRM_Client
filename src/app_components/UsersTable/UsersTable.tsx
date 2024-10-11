@@ -59,6 +59,13 @@ export const columns: ColumnDef<UserType>[] = [
     cell: ({ row }) => <div className="capitalize">{row.getValue("role")}</div>,
   },
   {
+    accessorKey: "leadsInProgress",
+    header: "Leads In Progress",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("leadsInProgress")}</div>
+    ),
+  },
+  {
     accessorKey: "createdAt",
     header: "Created On",
     cell: ({ row }) => (
@@ -106,6 +113,7 @@ export const UsersTable: React.FC<UsersTableProps> = memo(
           role: user.role,
           createdAt: user.createdAt,
           updatedAt: user.updatedAt,
+          leadsInProgress: user.leadsInProgress,
         })),
       [users]
     );

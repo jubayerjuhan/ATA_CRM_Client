@@ -5,4 +5,5 @@ export interface UserType {
   role: string;
   createdAt: string;
   updatedAt: string;
+  leadsInProgress: number;
 }
