@@ -65,6 +65,11 @@
   }
 }
 
+.avatar {
+  padding: 8px !important;
+  background-color: $shad-cn-secondary-hover;
+}
+
 @media (max-width: 768px) {
   .sidebar {
     width: 60px;

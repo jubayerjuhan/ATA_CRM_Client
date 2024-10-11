@@ -7,9 +7,7 @@ import { FaUsersViewfinder } from "react-icons/fa6";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { PiUserList } from "react-icons/pi";
 import { CiLogout } from "react-icons/ci";
-import { HiOutlineReceiptRefund } from "react-icons/hi";
 import { MdMyLocation, MdFiberNew, MdEmojiPeople } from "react-icons/md";
-import { RiRefund2Fill } from "react-icons/ri";
 
 import { SidebarLinksType } from "./index";
 
@@ -35,6 +33,7 @@ import { FaUserCheck } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { AppState } from "@/types";
 import Cookies from "js-cookie";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -146,6 +145,17 @@ const Sidebar = () => {
         <img src={logo} alt="Company Logo" className="sidebar-logo" />
       </div>
       <div className="sidebar-links-list overflow-y-scroll h-[100vh]">
+        <div className="flex gap-4 px-[18px] items-center menu-item avatar">
+          <Avatar className="">
+            <AvatarFallback className="bg-black text-white">
+              {profile?.name.charAt(0).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          <p className="text-black">
+            <span className="text-sm">Howdy</span> <br />
+            <span className="text-lg font-bold">{profile?.name}</span>
+          </p>
+        </div>
         {sidebarLinks.map((link, index) => (
           <div
             className="menu-item px-10"

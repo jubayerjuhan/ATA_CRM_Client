@@ -95,10 +95,18 @@ export const EmailSendingSection: React.FC<EmailSendingSectionProps> = ({
             </Button>
           </div>
           {selectedTab === "itinerary" ? (
-            <SendEmail defaultHtml={itineraryHtmlContent} />
+            <SendEmail
+              lead={lead}
+              emailType={selectedTab}
+              defaultHtml={itineraryHtmlContent}
+            />
           ) : (
             <div>
-              <SendEmail defaultHtml={ticketEmailContent} />
+              <SendEmail
+                lead={lead}
+                emailType={selectedTab}
+                defaultHtml={ticketEmailContent}
+              />
             </div>
           )}
         </div>

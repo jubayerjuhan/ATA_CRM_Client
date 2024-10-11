@@ -11,12 +11,31 @@ import { client } from "@/api/api";
 
 import "./SendEmail.scss";
 import toast from "react-hot-toast";
+import { LeadType } from "@/types";
 
 interface SendEmailProps {
   defaultHtml: string;
+  emailType: string;
+  lead: LeadType;
 }
 
-export const SendEmail: React.FC<SendEmailProps> = ({ defaultHtml }) => {
+const getEmailSubject = (emailType: string): string => {
+  switch (emailType) {
+    case "itinerary":
+      return "Your Itinerary Details";
+    case "ticket":
+      return "Your Ticket Details";
+
+    default:
+      return "No Subject";
+  }
+};
+
+export const SendEmail: React.FC<SendEmailProps> = ({
+  defaultHtml,
+  emailType,
+  lead,
+}) => {
   const [loading, setLoading] = useState<boolean>(false);
   // Convert HTML to Draft.js content state
   const contentBlock = htmlToDraft(defaultHtml);
@@ -34,6 +53,9 @@ export const SendEmail: React.FC<SendEmailProps> = ({ defaultHtml }) => {
       setLoading(true);
       await client.post("/email/send-email", {
         htmlContent: draftToHtml(convertToRaw(editorState.getCurrentContent())),
+        subject: getEmailSubject(emailType),
+        email: lead.email,
+        name: lead.firstName,
       });
       toast.success("Email sent successfully");
     } catch (error) {
