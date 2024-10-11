@@ -11,6 +11,7 @@ import {
   EditTravelDetails,
   EmailSendingSection,
   LeadStatusChanger,
+  SendEmail,
 } from "@/app_components";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -206,6 +207,7 @@ export const LeadDetailPage = () => {
           </InfoCard> */}
         </div>
       </div>
+      <SendEmail />
     </DashboardLayout>
   );
 };

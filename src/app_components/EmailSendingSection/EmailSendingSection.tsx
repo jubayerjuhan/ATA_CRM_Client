@@ -15,8 +15,9 @@ export const EmailSendingSection: React.FC<EmailSendingSectionProps> = ({
     <div>
       {/*  */}
       <InfoCard title="Email Section">
-        <ItineraryEmail lead={lead} type="" />
-        <TicketEmail lead={lead} type="" />
+        <></>
+        {/* <ItineraryEmail lead={lead} type="" /> */}
+        {/* <TicketEmail lead={lead} type="" /> */}
       </InfoCard>
     </div>
   );

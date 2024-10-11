@@ -1,0 +1,13 @@
+/* tiptapStyles.css */
+.ProseMirror {
+  min-height: 300px;
+  padding: 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 5px;
+  background-color: white;
+  font-family: sans-serif;
+}
+
+.ProseMirror:focus {
+  outline: none;
+}

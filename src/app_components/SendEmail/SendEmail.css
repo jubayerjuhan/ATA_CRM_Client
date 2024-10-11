@@ -1,0 +1,50 @@
+.email-editor-container {
+  max-width: 700px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+.toolbar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  background-color: #f1f1f1;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.toolbar button,
+.toolbar select {
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.toolbar button:hover,
+.toolbar select:hover {
+  background-color: #e0e0e0;
+}
+
+.editor-container {
+  border: 1px solid #ccc;
+  min-height: 300px;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 5px;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.align-right {
+  text-align: right;
+}

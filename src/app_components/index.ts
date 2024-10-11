@@ -18,6 +18,7 @@ export * from "./RefundListTable/RefundListTable";
 export * from "./AssignLead/AssignLead";
 export * from "./LeadStatusChanger/LeadStatusChanger";
 export * from "./SearchCustomers/SearchCustomers";
+export * from "./SendEmail/SendEmail";
 
 // Test Component
 export * from "./TestComponent/TestComponent";
