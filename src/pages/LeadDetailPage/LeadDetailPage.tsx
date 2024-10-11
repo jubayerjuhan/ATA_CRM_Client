@@ -193,9 +193,9 @@ export const LeadDetailPage = () => {
 
           {/* Here is the Email Sending Section Card */}
           <EmailSendingSection lead={lead} />
-          <InfoCard title="Comments" fullWidth>
+          {/* <InfoCard title="Comments" fullWidth>
             <p>{lead.comments}</p>
-          </InfoCard>
+          </InfoCard> */}
           {/* <InfoCard title="Contact via WhatsApp">
             <a
               href={`https://wa.me/${lead.phone}`}
@@ -207,7 +207,6 @@ export const LeadDetailPage = () => {
           </InfoCard> */}
         </div>
       </div>
-      <SendEmail />
     </DashboardLayout>
   );
 };
@@ -216,14 +215,20 @@ interface InfoCardProps {
   title: string;
   children: React.ReactNode;
   fullWidth?: boolean;
+  [key: string]: any;
 }
 
 export const InfoCard: React.FC<InfoCardProps> = ({
   title,
   children,
   fullWidth,
+  className,
+  ...props
 }) => (
-  <div className={`info-card ${fullWidth ? "full-width" : ""}`}>
+  <div
+    className={`info-card ${className} ${fullWidth ? "full-width" : ""}`}
+    {...props}
+  >
     <h2>{title}</h2>
     <div className="info-content">{children}</div>
   </div>
@@ -231,7 +236,7 @@ export const InfoCard: React.FC<InfoCardProps> = ({
 
 interface InfoItemProps {
   label: string;
-  value: string | number | undefined;
+  value?: string | number | undefined;
   children?: React.ReactNode;
   [key: string]: any;
 }

@@ -1,4 +1,12 @@
 .wrapper-class {
-  background-color: white;
+  background-color: rgb(247, 247, 247);
   padding: 20px;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 20px;
+  border-radius: 10px;
+}
+
+.editor-class {
+  max-height: 400px;
+  overflow-y: scroll;
 }
