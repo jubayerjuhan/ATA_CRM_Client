@@ -142,7 +142,6 @@ export const ClientFormPage = () => {
       ...data,
       call_logs: [
         {
-          callType: "Inbound",
           dateTime: moment().format("DD-MM-YYYY hh:mm a"),
           notes: data.notes ? data.notes : "N/A",
         },

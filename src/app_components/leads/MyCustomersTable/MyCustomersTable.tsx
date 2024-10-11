@@ -285,13 +285,6 @@ export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
                     }
                   >
                     <div>
-                      <strong>
-                        {
-                          customerData.call_logs[
-                            customerData.call_logs.length - 1
-                          ].callType
-                        }
-                      </strong>
                       <p>
                         {moment(
                           Number(

@@ -281,8 +281,6 @@ export const AllLeadsTable: React.FC<AllLeadsTableProps> = ({
                       return (
                         <li key={log.dateTime}>
                           <div>
-                            <strong>{log.callType}</strong>
-
                             <p>{parsedDate}</p>
                             <p>
                               {log.notes ? log.notes : "No Notes Available"}

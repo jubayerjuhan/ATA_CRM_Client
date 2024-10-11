@@ -33,17 +33,15 @@ interface AddCallLogModalProps {
 export const AddCallLogModal: React.FC<AddCallLogModalProps> = ({ leadId }) => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const [callType, setCallType] = useState("");
   const [notes, setNotes] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newCallLogWithDateTime = {
-      callType,
       notes,
       leadId,
-      dateTime: moment().format("DD-MM-YYYY hh:mm a"),
+      dateTime: moment().toISOString(),
     };
 
     try {
@@ -61,7 +59,7 @@ export const AddCallLogModal: React.FC<AddCallLogModalProps> = ({ leadId }) => {
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild className="mb-4">
-        <Button onClick={() => setIsDialogOpen(true)}>Add Call Notes</Button>
+        <Button onClick={() => setIsDialogOpen(true)}>Add Notes</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -69,32 +67,9 @@ export const AddCallLogModal: React.FC<AddCallLogModalProps> = ({ leadId }) => {
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4 w-100">
-              <Label htmlFor="callType" className="text-right">
-                Call Type
-              </Label>
-              <div className="col-span-3">
-                <Select
-                  onValueChange={(value) => setCallType(value)}
-                  value={callType}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select an Option" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Select One Option</SelectLabel>
-                      <SelectItem value="Inbound">Inbound</SelectItem>
-                      <SelectItem value="Outbound">Outbound</SelectItem>
-                      <SelectItem value="Missed">Missed</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="notes" className="text-right">
-                Notes{" "}
+            <div className="flex gap-4 flex-col">
+              <Label htmlFor="notes" className="">
+                Notes
               </Label>
               <Textarea
                 id="notes"

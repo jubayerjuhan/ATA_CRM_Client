@@ -76,7 +76,6 @@ export interface LeadType {
   email: string;
   address: string;
   postCode: string;
-  callType?: string;
   dateTime?: string;
   callFor?: string;
   mobileNumber?: string;
@@ -106,7 +105,6 @@ export interface LeadType {
   call_logs?: {
     added_by: User;
     dateTime: string | Date;
-    callType: string;
     notes?: string;
   }[];
 

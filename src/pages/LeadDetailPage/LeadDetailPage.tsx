@@ -144,7 +144,7 @@ export const LeadDetailPage = () => {
               value={moment(lead.returnDate).format("DD-MM-YYYY")}
             />
           </InfoCard>
-          <InfoCard title="Call Notes">
+          <InfoCard title="Notes">
             <AddCallLogModal leadId={leadId as string} />
             {lead.call_logs?.map((log, index) => {
               console.log(log, "log...");
@@ -154,13 +154,10 @@ export const LeadDetailPage = () => {
                   style={{ backgroundColor: "#F9F9F9" }}
                   className="p-4 rounded-md mb-4"
                 >
-                  <InfoItem label="Call Type" value={log.callType} />
                   <InfoItem label="Added By" value={log.added_by?.name} />
                   <InfoItem
                     label="Date & Time"
-                    value={moment(Number(log.dateTime)).format(
-                      "DD-MM-YYYY hh:mm a"
-                    )}
+                    value={moment(log.dateTime).format("DD-MM-YYYY hh:mm a")}
                   />
                   <InfoItem label="Notes" value={log.notes} />
                 </div>
