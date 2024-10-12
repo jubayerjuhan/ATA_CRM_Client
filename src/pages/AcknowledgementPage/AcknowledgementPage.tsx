@@ -30,7 +30,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
-type PaymentMethod = "stripe" | "cash" | "slicepay";
+type PaymentMethod = "stripe" | "bank" | "slicepay";
 
 export const AcknowledgementPage: React.FC = () => {
   const { lead } = useSelector((state: AppState) => state.lead);
@@ -146,6 +146,39 @@ export const AcknowledgementPage: React.FC = () => {
             <AlertDialogDescription>
               This will send response to the agent
             </AlertDialogDescription>
+            {selectedPaymentMethod === "bank" && (
+              <div className="mt-4 p-6 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg shadow-[0_0px_5px_0px_rgba(0,0,0,0.1),0_0px_1px_0px_rgba(0,0,0,0.1)]">
+                <h3 className="text-xl font-semibold text-gray-800">
+                  Bank Account Details
+                </h3>
+                <p className="text-sm text-gray-600 mt-2 bg-blue-50 p-4 rounded-lg border border-blue-200">
+                  Please transfer the amount to the following bank account and
+                  press <span className="font-bold">Continue</span>:
+                </p>
+                <ul className="mt-4 space-y-2 text-sm text-gray-700">
+                  <li className="flex items-center">
+                    <span className="font-semibold w-40">Bank Name:</span>
+                    <span>Commonwealth Bank of Australia</span>
+                  </li>
+                  <li className="flex items-center">
+                    <span className="font-semibold w-40">Account Name:</span>
+                    <span>ATA CRM Pty Ltd</span>
+                  </li>
+                  <li className="flex items-center">
+                    <span className="font-semibold w-40">BSB:</span>
+                    <span>062-000</span>
+                  </li>
+                  <li className="flex items-center">
+                    <span className="font-semibold w-40">Account Number:</span>
+                    <span>12345678</span>
+                  </li>
+                  <li className="flex items-center">
+                    <span className="font-semibold w-40">SWIFT Code:</span>
+                    <span>CTBAAU2S</span>
+                  </li>
+                </ul>
+              </div>
+            )}
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
@@ -246,11 +279,11 @@ export const AcknowledgementPage: React.FC = () => {
                 <span>Pay with Stripe</span>
               </button>
               <button
-                onClick={() => handlePayment("cash")}
+                onClick={() => handlePayment("bank")}
                 className="flex items-center justify-center space-x-2 bg-gradient-to-r from-green-500 to-green-600 text-white p-3 rounded-lg hover:from-green-600 hover:to-green-700 transition duration-300"
               >
                 <DollarSign size={20} />
-                <span>Pay with Cash</span>
+                <span>Pay with Bank</span>
               </button>
               <button
                 onClick={() => handlePayment("slicepay")}

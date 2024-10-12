@@ -144,7 +144,7 @@ const Sidebar = () => {
       <div className="sidebar-logo-container">
         <img src={logo} alt="Company Logo" className="sidebar-logo" />
       </div>
-      <div className="sidebar-links-list overflow-y-scroll h-[100vh]">
+      <div className="sidebar-links-list overflow-y-scroll">
         <div className="flex gap-4 px-[18px] items-center menu-item avatar">
           <Avatar className="">
             <AvatarFallback className="bg-black text-white">

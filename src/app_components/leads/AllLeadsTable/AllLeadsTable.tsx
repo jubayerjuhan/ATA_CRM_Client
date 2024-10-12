@@ -267,28 +267,34 @@ export const AllLeadsTable: React.FC<AllLeadsTableProps> = ({
             <Title order={4}>Call Logs</Title>
             <Text>
               <ul>
-                {customerData.call_logs
-                  ? customerData.call_logs.map((log: any) => {
-                      console.log(
-                        typeof log.dateTime,
-                        log.dateTime,
-                        log.notes,
-                        "notes..."
-                      );
-                      const parsedDate = moment(Number(log.dateTime)).format(
+                {customerData.call_logs && customerData.call_logs.length > 0
+                  ? (() => {
+                      const latestLog =
+                        customerData.call_logs[
+                          customerData.call_logs.length - 1
+                        ];
+                      const parsedDate = moment(latestLog?.dateTime).format(
                         "DD-MM-YYYY hh:mm a"
                       );
                       return (
-                        <li key={log.dateTime}>
+                        <li key={latestLog.dateTime}>
                           <div>
                             <p>{parsedDate}</p>
                             <p>
-                              {log.notes ? log.notes : "No Notes Available"}
+                              Added By:{" "}
+                              {latestLog.added_by?.name
+                                ? latestLog.added_by.name
+                                : "N/A"}
+                            </p>
+                            <p>
+                              {latestLog.notes
+                                ? latestLog.notes
+                                : "No Notes Available"}
                             </p>
                           </div>
                         </li>
                       );
-                    })
+                    })()
                   : "No call logs available."}
               </ul>
             </Text>
