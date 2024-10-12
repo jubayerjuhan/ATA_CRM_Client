@@ -7,7 +7,7 @@ import { client } from "@/api/api";
 import {
   Calendar,
   CreditCard,
-  BanknoteIcon,
+  Landmark,
   MapPin,
   Plane,
   Users,
@@ -282,7 +282,7 @@ export const AcknowledgementPage: React.FC = () => {
                 onClick={() => handlePayment("bank")}
                 className="flex items-center justify-center space-x-2 bg-gradient-to-r from-green-500 to-green-600 text-white p-3 rounded-lg hover:from-green-600 hover:to-green-700 transition duration-300"
               >
-                <BanknoteIcon size={20} />
+                <Landmark size={20} />
                 <span>Pay with Bank</span>
               </button>
               <button
