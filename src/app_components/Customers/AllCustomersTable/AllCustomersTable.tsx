@@ -253,7 +253,7 @@ export const AllCustomersTable: React.FC<AllCustomersProps> = ({
             </Button>
           </Box>
           <Box>
-            <Title order={4}>Call Logs</Title>
+            <Title order={4}>Latest Note</Title>
             <Text>
               <ul>
                 {customerData.call_logs
@@ -278,7 +278,7 @@ export const AllCustomersTable: React.FC<AllCustomersProps> = ({
                         </li>
                       );
                     })
-                  : "No call logs available."}
+                  : "No Notes Available."}
               </ul>
             </Text>
           </Box>

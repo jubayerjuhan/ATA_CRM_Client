@@ -274,40 +274,38 @@ export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
             </Button>
           </Box>
           <Box>
-            <Title order={4}>Call Logs</Title>
+            <Title order={4}>Latest Note</Title>
             <Text>
               <ul>
-                {customerData.call_logs && customerData.call_logs.length > 0 ? (
-                  <li
-                    key={
-                      customerData.call_logs[customerData.call_logs.length - 1]
-                        .dateTime
-                    }
-                  >
-                    <div>
-                      <p>
-                        {moment(
-                          Number(
-                            customerData.call_logs[
-                              customerData.call_logs.length - 1
-                            ].dateTime
-                          )
-                        ).format("DD-MM-YYYY hh:mm a")}
-                      </p>
-                      <p>
-                        {customerData.call_logs[
+                {customerData.call_logs && customerData.call_logs.length > 0
+                  ? (() => {
+                      const latestLog =
+                        customerData.call_logs[
                           customerData.call_logs.length - 1
-                        ].notes
-                          ? customerData.call_logs[
-                              customerData.call_logs.length - 1
-                            ].notes
-                          : "No Notes Available"}
-                      </p>
-                    </div>
-                  </li>
-                ) : (
-                  "No call logs available."
-                )}
+                        ];
+                      const parsedDate = moment(latestLog?.dateTime).format(
+                        "DD-MM-YYYY hh:mm a"
+                      );
+                      return (
+                        <li key={latestLog.dateTime}>
+                          <div>
+                            <p>{parsedDate}</p>
+                            <p>
+                              Added By:{" "}
+                              {latestLog.added_by?.name
+                                ? latestLog.added_by.name
+                                : "N/A"}
+                            </p>
+                            <p>
+                              {latestLog.notes
+                                ? latestLog.notes
+                                : "No Notes Available"}
+                            </p>
+                          </div>
+                        </li>
+                      );
+                    })()
+                  : "No Notes Available."}
               </ul>
             </Text>
           </Box>

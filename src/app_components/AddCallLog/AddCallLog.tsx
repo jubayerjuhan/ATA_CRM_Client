@@ -63,13 +63,13 @@ export const AddCallLogModal: React.FC<AddCallLogModalProps> = ({ leadId }) => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add New Call Log</DialogTitle>
+          <DialogTitle>Add New Note</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4 py-4">
             <div className="flex gap-4 flex-col">
               <Label htmlFor="notes" className="">
-                Notes
+                Note
               </Label>
               <Textarea
                 id="notes"
@@ -81,7 +81,7 @@ export const AddCallLogModal: React.FC<AddCallLogModalProps> = ({ leadId }) => {
             </div>
           </div>
           <div className="flex justify-end">
-            <Button type="submit">Add Call Log</Button>
+            <Button type="submit">Add Notes</Button>
           </div>
         </form>
       </DialogContent>

@@ -264,7 +264,7 @@ export const AllLeadsTable: React.FC<AllLeadsTableProps> = ({
             </Button>
           </Box>
           <Box>
-            <Title order={4}>Call Logs</Title>
+            <Title order={4}>Latest Note</Title>
             <Text>
               <ul>
                 {customerData.call_logs && customerData.call_logs.length > 0
@@ -295,7 +295,7 @@ export const AllLeadsTable: React.FC<AllLeadsTableProps> = ({
                         </li>
                       );
                     })()
-                  : "No call logs available."}
+                  : "No Notes Available."}
               </ul>
             </Text>
           </Box>
