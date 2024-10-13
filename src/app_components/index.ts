@@ -20,6 +20,6 @@ export * from "./LeadStatusChanger/LeadStatusChanger";
 export * from "./SearchCustomers/SearchCustomers";
 export * from "./SendEmail/SendEmail";
 export * from "./DashboardCardsSection/DashboardCardsSection";
-
+export * from "./PassengersDetails/PassengersDetails";
 // Test Component
 export * from "./TestComponent/TestComponent";

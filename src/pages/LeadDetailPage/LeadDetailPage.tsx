@@ -11,6 +11,7 @@ import {
   EditTravelDetails,
   EmailSendingSection,
   LeadStatusChanger,
+  PassengersDetails,
   SendEmail,
 } from "@/app_components";
 import { Input } from "@/components/ui/input";
@@ -164,29 +165,7 @@ export const LeadDetailPage = () => {
               );
             })}
           </InfoCard>
-          <InfoCard title="Passengers">
-            <InfoItem label="Adult" value={lead.adult} />
-            <InfoItem label="Child" value={lead.child} />
-            <InfoItem label="Infant" value={lead.infant} />
-          </InfoCard>
-          <InfoCard title="Pricing Information">
-            <AddSplittedQuotedAmount lead={lead} />
-            <InfoItem
-              label="Total Quoted Amount"
-              value={lead.quoted_amount.total}
-            />
-            {Object.entries(lead.quoted_amount).map(([key, value]) => {
-              const formattedKey = key
-                .split("_")
-                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(" ");
-              return <InfoItem key={key} label={formattedKey} value={value} />;
-            })}
-            <InfoItem
-              label="Follow-up Date"
-              value={moment(lead.follow_up_date).format("DD-MM-YYYY")}
-            />
-          </InfoCard>
+          <PassengersDetails lead={lead} />
 
           {/* Here is the Email Sending Section Card */}
           <EmailSendingSection lead={lead} />
