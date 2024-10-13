@@ -26,10 +26,12 @@ const RefundListURL = "/refund-list";
 const TestRouteURL = "/test";
 const MyFollowUpsURL = "/my-follow-ups";
 const WhatsappLeadURL = "/add-whatsapp-lead";
+const WhatsappLeadListURL = "/whatsapp-leads";
 
 export {
   BaseURL,
   WhatsappLeadURL,
+  WhatsappLeadListURL,
   RefundListURL,
   SaleLostURL,
   HomepageURL,

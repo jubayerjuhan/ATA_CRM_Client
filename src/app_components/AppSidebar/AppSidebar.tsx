@@ -27,6 +27,7 @@ import {
   RefundPageURL,
   UsersManagementURL,
   WhatsappLeadURL,
+  WhatsappLeadListURL,
 } from "@/routes/routeConstant";
 import { TbUserCancel } from "react-icons/tb";
 import { FaUserCheck } from "react-icons/fa6";
@@ -35,7 +36,7 @@ import { useSelector } from "react-redux";
 import { AppState } from "@/types";
 import Cookies from "js-cookie";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { FaWhatsapp } from "react-icons/fa";
+import { FaWhatsapp, FaWhatsappSquare } from "react-icons/fa";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -64,6 +65,16 @@ const Sidebar = () => {
       title: "Lead Sub Form",
       icon: <FaWpforms />,
       pathname: FormPageURL,
+    },
+    {
+      title: "Whatsapp Lead +",
+      icon: <FaWhatsapp />,
+      pathname: WhatsappLeadURL,
+    },
+    {
+      title: "Whatsapp Lead's",
+      icon: <FaWhatsappSquare />,
+      pathname: WhatsappLeadListURL,
     },
     // {
     //   title: "Refund Form",
@@ -113,16 +124,6 @@ const Sidebar = () => {
       icon: <TbUserCancel />,
       pathname: SaleLostURL,
     },
-    // {
-    //   title: "Refund Requests",
-    //   icon: <RiRefund2Fill />,
-    //   pathname: RefundListURL,
-    // },
-    // {
-    //   title: "Form Fields",
-    //   icon: <MdFormatAlignLeft />,
-    //   pathname: FormFieldManagementURL,
-    // },
     {
       title: "Lead Sub Form",
       icon: <FaWpforms />,
@@ -132,6 +133,11 @@ const Sidebar = () => {
       title: "Whatsapp Lead +",
       icon: <FaWhatsapp />,
       pathname: WhatsappLeadURL,
+    },
+    {
+      title: "Whatsapp Lead's",
+      icon: <FaWhatsappSquare />,
+      pathname: WhatsappLeadListURL,
     },
     // {
     //   title: "Refund Form",

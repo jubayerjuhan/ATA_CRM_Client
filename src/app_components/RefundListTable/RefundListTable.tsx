@@ -4,14 +4,8 @@ import {
   useMantineReactTable,
   type MRT_ColumnDef,
 } from "mantine-react-table";
-import { Box, Button, Menu, Text, Title } from "@mantine/core";
-import {
-  IconUserCircle,
-  IconSend,
-  IconBrandWhatsapp,
-} from "@tabler/icons-react";
-import { FaRegUser } from "react-icons/fa";
-
+import { Box, Menu, Title } from "@mantine/core";
+import { IconUserCircle, IconSend } from "@tabler/icons-react";
 import moment from "moment";
 
 interface AllCustomersProps {
@@ -126,85 +120,6 @@ export const RefundListTable: React.FC<AllCustomersProps> = ({
     mantineSearchTextInputProps: {
       placeholder: "Search Employees",
     },
-    // renderDetailPanel: ({ row }) => {
-    //   const customerData = row.original;
-    //   console.log(customerData, "customerData...");
-    //   return (
-    //     <Box
-    //       sx={{
-    //         display: "flex",
-    //         justifyContent: "flex-start",
-    //         alignItems: "center",
-    //         gap: "16px",
-    //         padding: "16px",
-    //       }}
-    //     >
-    //       <Box>
-    //         <Button
-    //           style={{
-    //             backgroundColor: "white",
-    //             color: "#1C7ED6",
-    //             border: "1px solid #1C7ED6",
-    //           }}
-    //           leftIcon={<FaRegUser size={16} />}
-    //           onClick={() => {
-    //             window.open(`/dashboard/lead/${customerData?._id}`);
-    //             console.log(
-    //               `Open WhatsApp chat for ${customerData.firstName} ${customerData.lastName}`
-    //             );
-    //           }}
-    //         >
-    //           See Customer Details
-    //         </Button>
-    //       </Box>
-    //       <Box>
-    //         <Button
-    //           leftIcon={<IconBrandWhatsapp size={18} />}
-    //           onClick={() => {
-    //             window.open(`https://wa.me/${customerData.phone}`);
-    //             console.log(
-    //               `Open WhatsApp chat for ${customerData.firstName} ${customerData.lastName}`
-    //             );
-    //           }}
-    //         >
-    //           WhatsApp
-    //         </Button>
-    //       </Box>
-    //       <Box>
-    //         <Title order={4}>Call Logs</Title>
-    //         <Text>
-    //           <ul>
-    //             {customerData.call_logs
-    //               ? customerData.call_logs.map((log: any) => {
-    //                   console.log(
-    //                     typeof log.dateTime,
-    //                     log.dateTime,
-    //                     log.notes,
-    //                     "notes..."
-    //                   );
-    //                   const parsedDate = moment(Number(log.dateTime)).format(
-    //                     "DD-MM-YYYY hh:mm a"
-    //                   );
-    //                   return (
-    //                     <li key={log.dateTime}>
-    //                       <div>
-    //                         <strong>{log.callType}</strong>
-
-    //                         <p>{parsedDate}</p>
-    //                         <p>
-    //                           {log.notes ? log.notes : "No Notes Available"}
-    //                         </p>
-    //                       </div>
-    //                     </li>
-    //                   );
-    //                 })
-    //               : "No call logs available."}
-    //           </ul>
-    //         </Text>
-    //       </Box>
-    //     </Box>
-    //   );
-    // },
     renderRowActionMenuItems: () => (
       <>
         <Menu.Item icon={<IconUserCircle />}>View Profile</Menu.Item>

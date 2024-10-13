@@ -21,5 +21,6 @@ export * from "./SearchCustomers/SearchCustomers";
 export * from "./SendEmail/SendEmail";
 export * from "./DashboardCardsSection/DashboardCardsSection";
 export * from "./PassengersDetails/PassengersDetails";
+export * from "./WhatsAppLeadsTable/WhatsAppLeadsTable";
 // Test Component
 export * from "./TestComponent/TestComponent";
