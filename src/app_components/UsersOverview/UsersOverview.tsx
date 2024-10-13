@@ -162,7 +162,7 @@ export const UsersOverview: React.FC<UsersOverviewProps> = ({ data }) => {
                   variant="ghost"
                   onClick={() => requestSort("leadsInProgress")}
                 >
-                  Leads in Progress
+                  Leads Collected
                   <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
               </TableHead>
