@@ -12,6 +12,7 @@ interface CustomersDataType {
   followUps: number;
   myFollowups: number;
   convertedLeads: number;
+  monthlyConvertedLeads: number;
 }
 
 interface DashboardCardSectionProps {

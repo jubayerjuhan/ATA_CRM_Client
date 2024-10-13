@@ -23,5 +23,6 @@ export * from "./DashboardCardsSection/DashboardCardsSection";
 export * from "./PassengersDetails/PassengersDetails";
 export * from "./WhatsAppLeadsTable/WhatsAppLeadsTable";
 export * from "./UsersOverview/UsersOverview";
+export * from "./LeadProgressBar/LeadProgressBar";
 // Test Component
 export * from "./TestComponent/TestComponent";

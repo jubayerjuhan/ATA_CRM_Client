@@ -6,6 +6,7 @@ import { client } from "@/api/api";
 import { DateRangePicker } from "@/app_components/DateRangePicker/DateRangePicker";
 import {
   DashboardCardsSection,
+  LeadProgressBar,
   SearchCustomers,
   UsersOverview,
 } from "@/app_components";
@@ -16,6 +17,7 @@ interface CustomersDataType {
   followUps: number;
   myFollowups: number;
   convertedLeads: number;
+  monthlyConvertedLeads: number;
 }
 
 export const Dashboard = () => {
@@ -26,6 +28,7 @@ export const Dashboard = () => {
     followUps: 0,
     myFollowups: 0,
     convertedLeads: 0,
+    monthlyConvertedLeads: 0,
   });
 
   const [dateRange, setDateRange] = React.useState({
@@ -84,8 +87,11 @@ export const Dashboard = () => {
             setDateRange={setDateRange}
           />
         </div>
-
         <DashboardCardsSection customersData={customersData} />
+        <LeadProgressBar
+          targetLeads={100}
+          currentLeads={customersData.monthlyConvertedLeads}
+        />
         <UsersOverview data={usersOverviewData} />
       </div>
     </DashboardLayout>
