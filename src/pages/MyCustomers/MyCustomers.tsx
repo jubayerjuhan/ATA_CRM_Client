@@ -1,6 +1,6 @@
 import { MyCustomersTable } from "@/app_components";
 import { DashboardLayout } from "@/app_components/DashboardLayout";
-import { getLeadsByUserId } from "@/redux/actions";
+import { getMyAssignedList } from "@/redux/actions";
 import { AppDispatch, AppState } from "@/types";
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -14,12 +14,10 @@ export const MyCustomers = () => {
 
   useEffect(() => {
     const fetchMyCustomers = async () => {
-      await dispatch(getLeadsByUserId(auth.profile?._id as string));
+      await dispatch(getMyAssignedList());
     };
     fetchMyCustomers();
   }, [dispatch, auth.profile?._id]);
-
-  console.log("My Customers", leadState.leads);
 
   return (
     <DashboardLayout>

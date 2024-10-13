@@ -6,15 +6,22 @@ import "./DashboardLayout.scss";
 
 export interface DashboardLayoutProps {
   children: React.ReactNode;
+  noPadding?: boolean;
 }
 
 export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   children,
+  noPadding,
 }) => {
   return (
     <div className="dashboard-layout">
       <Sidebar />
-      <div className="layout-content">{children}</div>
+      <div
+        className="layout-content"
+        style={{ padding: noPadding ? 0 : undefined }}
+      >
+        {children}
+      </div>
     </div>
   );
 };

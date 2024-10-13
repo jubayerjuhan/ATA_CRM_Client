@@ -26,6 +26,7 @@ import {
   RefundListURL,
   RefundPageURL,
   UsersManagementURL,
+  WhatsappLeadURL,
 } from "@/routes/routeConstant";
 import { TbUserCancel } from "react-icons/tb";
 import { FaUserCheck } from "react-icons/fa6";
@@ -34,6 +35,7 @@ import { useSelector } from "react-redux";
 import { AppState } from "@/types";
 import Cookies from "js-cookie";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { FaWhatsapp } from "react-icons/fa";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -125,6 +127,11 @@ const Sidebar = () => {
       title: "Lead Sub Form",
       icon: <FaWpforms />,
       pathname: FormPageURL,
+    },
+    {
+      title: "Whatsapp Lead +",
+      icon: <FaWhatsapp />,
+      pathname: WhatsappLeadURL,
     },
     // {
     //   title: "Refund Form",

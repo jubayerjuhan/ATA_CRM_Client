@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { DashboardLayout } from "@/app_components/DashboardLayout";
 import {
   AddCallLogModal,
-  AddSplittedQuotedAmount,
   CancelBookingPopup,
   ConfirmPaymentPopup,
   EditCustomerDetails,
@@ -12,22 +11,15 @@ import {
   EmailSendingSection,
   LeadStatusChanger,
   PassengersDetails,
-  SendEmail,
 } from "@/app_components";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { AppDispatch, AppState } from "@/types";
 import { getSingleLead } from "@/redux/actions";
-import { client } from "@/api/api";
 import moment from "moment";
 import "./LeadDetailPage.scss";
-import toast from "react-hot-toast";
 import { FaWhatsapp } from "react-icons/fa";
 import { FollowUpDatePicker } from "@/app_components/FollowupDatePicker/FollowupDatePicker";
 
 export const LeadDetailPage = () => {
-  const [pageLoading, setPageLoading] = useState(false);
-  const [pnr, setPnr] = useState("");
   const dispatch = useDispatch<AppDispatch>();
   const { leadId } = useParams<{ leadId: string }>();
   const { lead } = useSelector((state: AppState) => state.lead);
@@ -41,23 +33,6 @@ export const LeadDetailPage = () => {
   if (!lead) {
     return <div>Lead not found</div>;
   }
-
-  const handlePNRSubmit = async (pnr: string) => {
-    try {
-      setPageLoading(true);
-      await client.post(`/leads/${leadId}/send-pnr-confirmation`, { pnr });
-      toast.success("PNR Confirmation Mail Sent");
-      if (leadId) {
-        dispatch(getSingleLead(leadId));
-      }
-    } catch (error) {
-      toast.error(
-        "Can't Send PNR Confirmation Mail, Please Check If Arrival and Departure Airport Entered Or Not"
-      );
-    } finally {
-      setPageLoading(false);
-    }
-  };
 
   return (
     <DashboardLayout>
@@ -168,19 +143,7 @@ export const LeadDetailPage = () => {
           <PassengersDetails lead={lead} />
 
           {/* Here is the Email Sending Section Card */}
-          <EmailSendingSection lead={lead} />
-          {/* <InfoCard title="Comments" fullWidth>
-            <p>{lead.comments}</p>
-          </InfoCard> */}
-          {/* <InfoCard title="Contact via WhatsApp">
-            <a
-              href={`https://wa.me/${lead.phone}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Send WhatsApp Message
-            </a>
-          </InfoCard> */}
+          {!lead.cancelled && <EmailSendingSection lead={lead} />}
         </div>
       </div>
     </DashboardLayout>

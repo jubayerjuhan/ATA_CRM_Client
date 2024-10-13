@@ -42,11 +42,26 @@ export const LeadStatusChanger: FC<LeadStatusChangerProps> = ({ lead }) => {
     if (selectedStatus === "Sale Lost" && !data.saleLostReason) {
       toast.error("Please provide a reason for sale lost");
     }
-    const updatedLead = {
+    let updatedLead = {
       ...lead, // Copy all properties from lead
       status: data.status, // Update the status field
       saleLostReason: data.saleLostReason, // Update the saleLostReason field
     };
+
+    if (data.status === "Ticket Sent") {
+      updatedLead = {
+        ...updatedLead,
+        converted: true,
+        cancelled: false,
+      };
+    }
+    if (data.status === "Sale Lost") {
+      updatedLead = {
+        ...updatedLead,
+        cancelled: true,
+        converted: false,
+      };
+    }
 
     await changeLeadStatus(updatedLead, dispatch);
     dispatch(getSingleLead(lead._id as string));

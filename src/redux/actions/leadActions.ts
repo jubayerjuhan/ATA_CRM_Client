@@ -87,11 +87,11 @@ export const getAllCustomers = () => {
 };
 
 // Get leads by user id
-export const getLeadsByUserId = (userId: string) => {
+export const getMyAssignedList = () => {
   return async (dispatch: Dispatch) => {
     dispatch({ type: FETCH_LEADS_PENDING });
     try {
-      const response = await client.get(`/leads/user/${userId}`);
+      const response = await client.get(`/leads/my-leads/ongoing`);
 
       dispatch({
         type: FETCH_LEADS_SUCCESS,

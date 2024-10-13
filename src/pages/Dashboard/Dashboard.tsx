@@ -11,6 +11,7 @@ interface CustomersDataType {
   lostLeads: number;
   followUps: number;
   myFollowups: number;
+  convertedLeads: number;
 }
 
 export const Dashboard = () => {
@@ -19,6 +20,7 @@ export const Dashboard = () => {
     lostLeads: 0,
     followUps: 0,
     myFollowups: 0,
+    convertedLeads: 0,
   });
 
   const [dateRange, setDateRange] = React.useState({
