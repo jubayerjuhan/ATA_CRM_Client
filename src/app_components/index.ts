@@ -19,6 +19,7 @@ export * from "./AssignLead/AssignLead";
 export * from "./LeadStatusChanger/LeadStatusChanger";
 export * from "./SearchCustomers/SearchCustomers";
 export * from "./SendEmail/SendEmail";
+export * from "./DashboardCardsSection/DashboardCardsSection";
 
 // Test Component
 export * from "./TestComponent/TestComponent";

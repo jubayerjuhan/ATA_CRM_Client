@@ -57,6 +57,17 @@ export const SearchExistingLeadPopup: React.FC<
         <p>
           <strong>Post Code:</strong> {lead?.postCode}
         </p>
+        <p>
+          <strong>Last Lead Converted:</strong>
+          <span
+            style={{
+              color: lead?.converted ? "green" : "red",
+              marginLeft: "5px",
+            }}
+          >
+            {lead?.converted ? "Yes" : "No"}
+          </span>
+        </p>
       </div>
       <Button onClick={() => onAdd(lead)}>Add To Form</Button>
     </div>

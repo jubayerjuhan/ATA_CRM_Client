@@ -4,7 +4,6 @@ import {
   Command,
   CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
@@ -85,9 +84,14 @@ export const SearchCustomers = () => {
                       <h3 className="font-medium">
                         {lead.firstName} {lead.lastName}
                       </h3>
-                      <p className="text-sm text-muted-foreground">
-                        {lead.email}
-                      </p>
+                      <div className="flex gap-2">
+                        <p className="text-sm text-muted-foreground">
+                          {lead.email}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          {lead.phone}
+                        </p>
+                      </div>
                     </a>
                   </CommandItem>
                 ))

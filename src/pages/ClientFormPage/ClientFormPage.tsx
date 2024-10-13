@@ -1,24 +1,11 @@
 import React, { useEffect, useState } from "react";
+
+import toast from "react-hot-toast";
+import moment from "moment";
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Check, ChevronsUpDown } from "lucide-react";
 import { IoChevronBackCircleOutline } from "react-icons/io5";
 
 import { Button } from "@/components/ui/button";
@@ -38,7 +25,6 @@ import type { E164Number } from "libphonenumber-js";
 import { client } from "@/api/api";
 
 import "./FormComponent.scss";
-import moment from "moment";
 
 const isValidEmail = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -459,11 +445,18 @@ export const ClientFormPage = () => {
                       label="Return Date"
                       name="returnDate"
                       style={{ height: "50px" }}
-                      onDateChange={(date) => setValue("returnDate", date)}
+                      onDateChange={(date) => {
+                        setValue("returnDate", date);
+                        if (date && date < watch("travelDate")) {
+                          toast.error(
+                            "Return date cannot be before travel date."
+                          );
+                        }
+                      }}
                     />
-                    {errors.returnDate && (
+                    {watch("returnDate") < watch("travelDate") && (
                       <span className="error-message">
-                        {errors.returnDate.message as string}
+                        Return date cannot be before travel date.
                       </span>
                     )}
                   </div>

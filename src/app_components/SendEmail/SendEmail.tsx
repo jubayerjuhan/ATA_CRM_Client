@@ -19,6 +19,7 @@ interface SendEmailProps {
   defaultHtml: string;
   emailType: string;
   lead: LeadType;
+  setSelectedTab: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const getEmailSubject = (emailType: string): string => {
@@ -37,6 +38,7 @@ export const SendEmail: React.FC<SendEmailProps> = ({
   defaultHtml,
   emailType,
   lead,
+  setSelectedTab,
 }) => {
   const leadId = lead._id;
   const dispatch = useDispatch<AppDispatch>();
@@ -62,6 +64,7 @@ export const SendEmail: React.FC<SendEmailProps> = ({
         emailType: emailType,
       });
       toast.success("Email sent successfully");
+      setSelectedTab(null);
     } catch (error) {
       console.log(error);
       toast.error("Failed to send email");

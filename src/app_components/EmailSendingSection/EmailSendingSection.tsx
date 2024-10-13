@@ -1,9 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { LeadType } from "@/types";
 import { InfoCard, InfoItem } from "@/pages";
 
-import { IoMdDoneAll } from "react-icons/io";
-import { RxCross1 } from "react-icons/rx";
 import { Button } from "@/components/ui/button";
 import { SendEmail } from "../SendEmail/SendEmail";
 import { itineraryHtmlContent, ticketEmailContent } from "./EmailHtmlContent";
@@ -16,58 +14,24 @@ export const EmailSendingSection: React.FC<EmailSendingSectionProps> = ({
   lead,
 }) => {
   const [selectedTab, setSelectedTab] = React.useState<null | string>(null);
-  const [defaultHtml, setDefaultHtml] = React.useState<string>("");
-
-  const itineraryEmailSent = lead.itenary_email_sent;
-  const ticketEmailSent = lead.ticket_sent;
-
-  // useEffect(() => {
-  //   if (selectedTab === "itinerary") {
-  //     setDefaultHtml(itineraryHtmlContent);
-  //   } else if (selectedTab === "ticket") {
-  //     setDefaultHtml(ticketEmailContent);
-  //   }
-  // }, [lead, selectedTab]);
 
   return (
     <InfoCard title="Email Section" className={""}>
       {/* Itinerary Email */}
-      <InfoItem
-        label={"Itinerary Email"}
-        // value={itineraryEmailSent ? "Sent" : "Not Sent"}
-        // icon={
-        //   itineraryEmailSent ? (
-        //     <IoMdDoneAll color="green" />
-        //   ) : (
-        //     <RxCross1 color="red" />
-        //   )
-        // }
-      >
+      <InfoItem label={"Itinerary Email"}>
         <Button
           variant="outline"
           onClick={() => {
-            setDefaultHtml(itineraryHtmlContent);
             setSelectedTab("itinerary");
           }}
         >
           Send Email
         </Button>
       </InfoItem>
-      <InfoItem
-        label={"Ticket Email"}
-        // value={ticketEmailSent ? "Sent" : "Not Sent"}
-        // icon={
-        //   ticketEmailSent ? (
-        //     <IoMdDoneAll color="green" />
-        //   ) : (
-        //     <RxCross1 color="red" />
-        //   )
-        // }
-      >
+      <InfoItem label={"Ticket Email"}>
         <Button
           variant="outline"
           onClick={() => {
-            setDefaultHtml(ticketEmailContent);
             setSelectedTab("ticket");
           }}
         >
@@ -88,7 +52,6 @@ export const EmailSendingSection: React.FC<EmailSendingSectionProps> = ({
               variant={"secondary"}
               onClick={() => {
                 setSelectedTab(null);
-                setDefaultHtml("");
               }}
             >
               Close Email Editor
@@ -97,6 +60,7 @@ export const EmailSendingSection: React.FC<EmailSendingSectionProps> = ({
           {selectedTab === "itinerary" ? (
             <SendEmail
               lead={lead}
+              setSelectedTab={setSelectedTab}
               emailType={selectedTab}
               defaultHtml={itineraryHtmlContent}
             />
@@ -104,6 +68,7 @@ export const EmailSendingSection: React.FC<EmailSendingSectionProps> = ({
             <div>
               <SendEmail
                 lead={lead}
+                setSelectedTab={setSelectedTab}
                 emailType={selectedTab}
                 defaultHtml={ticketEmailContent}
               />
