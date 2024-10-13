@@ -13,6 +13,7 @@ interface EmailSendingSectionProps {
 export const EmailSendingSection: React.FC<EmailSendingSectionProps> = ({
   lead,
 }) => {
+  const frontendUrl = import.meta.env.VITE_CLIENT_URL_PRODUCTION;
   const [selectedTab, setSelectedTab] = React.useState<null | string>(null);
 
   return (
@@ -62,7 +63,9 @@ export const EmailSendingSection: React.FC<EmailSendingSectionProps> = ({
               lead={lead}
               setSelectedTab={setSelectedTab}
               emailType={selectedTab}
-              defaultHtml={itineraryHtmlContent}
+              defaultHtml={itineraryHtmlContent(
+                `${frontendUrl}/acknowledgement?leadId=${lead._id}`
+              )}
             />
           ) : (
             <div>

@@ -4,7 +4,11 @@ import moment from "moment";
 import { DashboardLayout } from "@/app_components/DashboardLayout";
 import { client } from "@/api/api";
 import { DateRangePicker } from "@/app_components/DateRangePicker/DateRangePicker";
-import { DashboardCardsSection, SearchCustomers } from "@/app_components";
+import {
+  DashboardCardsSection,
+  SearchCustomers,
+  UsersOverview,
+} from "@/app_components";
 
 interface CustomersDataType {
   leads: number;
@@ -15,6 +19,7 @@ interface CustomersDataType {
 }
 
 export const Dashboard = () => {
+  const [usersOverviewData, setUsersOverviewData] = React.useState<any>([]);
   const [customersData, setCustomersData] = React.useState<CustomersDataType>({
     leads: 0,
     lostLeads: 0,
@@ -38,7 +43,13 @@ export const Dashboard = () => {
             dateRange.startDate
           ).toISOString()}&endDate=${moment(dateRange.endDate).toISOString()}`
         );
+        const { data: usersOverviewData } = await client.get(
+          `/user/overview-list?startDate=${moment(
+            dateRange.startDate
+          ).toISOString()}&endDate=${moment(dateRange.endDate).toISOString()}`
+        );
         setCustomersData(data);
+        setUsersOverviewData(usersOverviewData);
       } catch (error) {
         console.error(error);
       }
@@ -75,6 +86,7 @@ export const Dashboard = () => {
         </div>
 
         <DashboardCardsSection customersData={customersData} />
+        <UsersOverview data={usersOverviewData} />
       </div>
     </DashboardLayout>
   );

@@ -1,4 +1,5 @@
-export const itineraryHtmlContent = `<p style="margin-left:auto;"><span style="color: rgb(51,51,51);font-size: 16px;">Dear Customer</span><span style="color: rgb(51,51,51);font-size: 24px;">,</span>&nbsp;</p>
+export const itineraryHtmlContent = (link: string) => {
+  return `<p style="margin-left:auto;"><span style="color: rgb(51,51,51);font-size: 16px;">Dear Customer</span><span style="color: rgb(51,51,51);font-size: 24px;">,</span>&nbsp;</p>
 <p><span style="color: rgb(85,85,85);">Thank you for choosing Airways Travel.</span>&nbsp;</p>
 <p><span style="color: rgb(85,85,85);">Before finalizing your booking, we urge you to thoroughly check the details below for accuracy, including dates, names, and all applicable terms and conditions.</span> <br></p>
 <h2><span style="color: rgb(0,123,255);font-size: 20px;">Important Information Regarding Your Booking:</span>&nbsp;</h2>
@@ -14,6 +15,14 @@ export const itineraryHtmlContent = `<p style="margin-left:auto;"><span style="c
 </ul>
 <p><span style="color: rgb(217,83,79);">*Please note*: Changes and cancellations to bookings must be made more than 72 hours prior to flight departure, as charges can vary within 72 hours of departure. Domestic tickets and partially used tickets are non-refundable.</span>&nbsp;</p>
 <p><span style="color: rgb(217,83,79);">*Airways Travel Disclaimer*: Airways Travel is not liable for any schedule changes or cancellations made by the airline.</span> <br></p>
+<div style="text-align:center; margin-top: 20px;">
+  <p style="color: rgb(85,85,85); font-size: 16px;">If you agree, please click the button below:</p>
+  <a href="${link}">
+  <button style="background-color: #007bff; color: white; padding: 10px 20px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer;">
+    I Acknowledge
+  </button>
+  </a>
+</div>
 <h2><span style="color: rgb(0,123,255);font-size: 20px;">Flight Confirmation Reminder:</span>&nbsp;</h2>
 <p><span style="color: rgb(85,85,85);">We recommend you confirm your flight with us at least 72 hours prior to your departure. Please note that any request made within 48 hours of flight departure will not be guaranteed.</span>&nbsp;</p>
 <h2><span style="color: rgb(0,123,255);font-size: 20px;">Airport Arrival Recommendations:</span>&nbsp;</h2>
@@ -42,6 +51,7 @@ export const itineraryHtmlContent = `<p style="margin-left:auto;"><span style="c
 <p style="text-align:center;"><span style="color: rgb(153,153,153);font-size: 14px;">Thank you for choosing Airways Travel!</span></p>
 <p style="text-align:center;"><span style="color: rgb(153,153,153);font-size: 14px;">For any inquiries, please contact us at support@airwaystravel.com.</span><br>  <br></p>
 `;
+};
 
 export const ticketEmailContent = `<p style="margin-left:auto;"><span style="color: rgb(51,51,51);font-size: 16px;">Dear Customer</span><span style="color: rgb(51,51,51);font-size: 24px;">,</span>&nbsp;</p>
 <p><span style="color: rgb(85,85,85);">Thank you for choosing Airways Travel (Ticket Email).</span>&nbsp;</p>

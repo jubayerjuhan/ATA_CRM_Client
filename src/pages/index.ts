@@ -19,4 +19,5 @@ export * from "./RefundFormPage/RefundFormPage";
 export * from "./RefundList/RefundList";
 export * from "./MyFollowUps/MyFollowUps";
 export * from "./WhatsappLeadPage/WhatsappLeadPage";
+export * from "./WhatsappLeadPage/WhatsappLeadPage";
 export * from "./TestPage/TestPage";

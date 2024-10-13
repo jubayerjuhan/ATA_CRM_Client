@@ -52,6 +52,8 @@ export const SendEmail: React.FC<SendEmailProps> = ({
     EditorState.createWithContent(contentState)
   );
 
+  console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
+
   const handleSendEmail = async () => {
     try {
       setLoading(true);
