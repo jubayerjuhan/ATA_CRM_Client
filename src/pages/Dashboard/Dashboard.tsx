@@ -9,7 +9,10 @@ import {
   LeadProgressBar,
   SearchCustomers,
   UsersOverview,
+  WorldClock,
 } from "@/app_components";
+import { useSelector } from "react-redux";
+import { AppState } from "@/types";
 
 interface CustomersDataType {
   leads: number;
@@ -21,6 +24,7 @@ interface CustomersDataType {
 }
 
 export const Dashboard = () => {
+  const { auth: authState } = useSelector((state: AppState) => state);
   const [usersOverviewData, setUsersOverviewData] = React.useState<any>([]);
   const [customersData, setCustomersData] = React.useState<CustomersDataType>({
     leads: 0,
@@ -92,7 +96,11 @@ export const Dashboard = () => {
           targetLeads={100}
           currentLeads={customersData.monthlyConvertedLeads}
         />
-        <UsersOverview data={usersOverviewData} />
+        {authState.profile?.role === "admin" ? (
+          <UsersOverview data={usersOverviewData} />
+        ) : (
+          <WorldClock />
+        )}
       </div>
     </DashboardLayout>
   );

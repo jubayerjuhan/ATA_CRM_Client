@@ -21,6 +21,7 @@ import {
   SuccessPage,
   TestPage,
   Users,
+  WhatsappLeadDetail,
   WhatsAppLeadPage,
 } from "@/pages";
 
@@ -50,6 +51,7 @@ import {
   MyFollowUpsURL,
   WhatsappLeadURL,
   WhatsappLeadListURL,
+  WhatsappLeadDetailURL,
 } from "./routeConstant";
 import PrivateRoute from "@/app_components/PrivateRoute/PrivateRoute";
 import FormManager from "@/pages/FormManager/FormManager";
@@ -148,6 +150,10 @@ const AppRoutes: React.FC = () => {
         <Route
           path={WhatsappLeadListURL}
           element={<PrivateRoute component={WhatsAppLeadsList} />}
+        />
+        <Route
+          path={WhatsappLeadDetailURL}
+          element={<PrivateRoute component={WhatsappLeadDetail} />}
         />
       </Routes>
     </Router>

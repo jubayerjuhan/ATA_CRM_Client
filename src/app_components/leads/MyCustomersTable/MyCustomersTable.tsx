@@ -109,6 +109,13 @@ export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
             accessorKey: "airline.name",
             header: "Airlines Name",
             size: 120,
+            Cell: ({ cell }) => {
+              console.log(cell.row.original.airline.iata, "cell");
+              const airline = cell.getValue<string>();
+              return airline
+                ? `${airline} (${cell.row.original.airline.iata})`
+                : "N/A";
+            },
           },
           // {
           //   accessorKey: "pnr",

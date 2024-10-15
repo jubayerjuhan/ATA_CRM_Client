@@ -6,6 +6,7 @@ import {
 } from "mantine-react-table";
 import { Box, Menu, Title } from "@mantine/core";
 import { IconUserCircle, IconSend } from "@tabler/icons-react";
+import { Button } from "@/components/ui/button";
 
 interface WhatsAppLeadsProps {
   leads: any;
@@ -39,6 +40,21 @@ export const WhatsAppLeadsTable: React.FC<WhatsAppLeadsProps> = ({
             accessorKey: "description",
             header: "Description",
             size: 250,
+          },
+          // add a button to view the lead details
+          {
+            id: "actions",
+            header: "Actions",
+            size: 100,
+            Cell: ({ row }: any) => (
+              <Button
+                onClick={() =>
+                  (window.location.href = `/whatsapp-lead/${row.original._id}`)
+                }
+              >
+                <IconUserCircle size={20} /> View Profile
+              </Button>
+            ),
           },
         ],
       },

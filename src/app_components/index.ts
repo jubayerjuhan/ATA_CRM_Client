@@ -24,5 +24,7 @@ export * from "./PassengersDetails/PassengersDetails";
 export * from "./WhatsAppLeadsTable/WhatsAppLeadsTable";
 export * from "./UsersOverview/UsersOverview";
 export * from "./LeadProgressBar/LeadProgressBar";
+export * from "./AddWhatsappNote/AddWhatsappNote";
+export * from "./WorldClock/WorldClock";
 // Test Component
 export * from "./TestComponent/TestComponent";

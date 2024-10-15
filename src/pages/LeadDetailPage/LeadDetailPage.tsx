@@ -71,7 +71,20 @@ export const LeadDetailPage = () => {
           </a>
           <CancelBookingPopup lead={lead} />
         </div>
-        <LeadStatusChanger lead={lead} />
+        <div
+          className="flex
+         justify-between"
+        >
+          <LeadStatusChanger lead={lead} />
+          <div className="flex items-center space-x-2">
+            <span className="font-semibold text-gray-700">Managing Agent:</span>
+            <span className="px-2 py-1 bg-blue-500 text-white rounded-md">
+              {typeof lead.claimed_by === "object" && lead.claimed_by !== null
+                ? lead.claimed_by.name
+                : lead.claimed_by}
+            </span>
+          </div>
+        </div>
         <div className="lead-info-grid">
           <InfoCard title="Customer Information">
             <EditCustomerDetails lead={lead} />
@@ -134,10 +147,10 @@ export const LeadDetailPage = () => {
                 .join(" ");
               return <InfoItem key={key} label={formattedKey} value={value} />;
             })}
-            <InfoItem
+            {/* <InfoItem
               label="Follow-up Date"
               value={moment(lead.follow_up_date).format("DD-MM-YYYY")}
-            />
+            /> */}
           </InfoCard>
           <InfoCard title="Notes">
             <AddCallLogModal leadId={leadId as string} />

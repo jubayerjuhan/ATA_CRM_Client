@@ -33,13 +33,13 @@ import { AssignLead } from "@/app_components";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { getAllUsers } from "@/redux/actions/userActions";
+import { claimLead } from "@/redux/actions";
 export const NewLeadsTable: React.FC<{
   leads: LeadType[];
   loading?: boolean;
-  onClaimLead: any;
-  claimLeadLoading: boolean;
-}> = ({ leads, loading, claimLeadLoading, onClaimLead }) => {
+}> = ({ leads, loading }) => {
   const [rows, setRows] = React.useState<any[]>([]);
+  const [claimLeadLoading, setClaimLeadLoading] = React.useState(false);
 
   // fetching users
   const dispatch = useDispatch<AppDispatch>();
@@ -72,6 +72,23 @@ export const NewLeadsTable: React.FC<{
     }
   }, [leads]);
 
+  // claim a lead
+  const onClaimLead = async (lead: LeadType) => {
+    if (claimLeadLoading) {
+      return;
+    }
+    setClaimLeadLoading(true);
+
+    try {
+      const claimStatusSuccess = await claimLead(lead);
+      console.log("Claim Status", claimStatusSuccess);
+      window.location.reload();
+    } catch (error) {
+      console.error("Failed to claim lead", error);
+    } finally {
+      setClaimLeadLoading(false);
+    }
+  };
   const columns: ColumnDef<any>[] = [
     {
       accessorKey: "firstName",

@@ -126,12 +126,14 @@ export const ClientFormPage = () => {
     // Added Logs With Leads
     const leadWithLogs = {
       ...data,
-      call_logs: [
-        {
-          dateTime: moment().format("DD-MM-YYYY hh:mm a"),
-          notes: data.notes ? data.notes : "N/A",
-        },
-      ],
+      call_logs: data.notes
+        ? [
+            {
+              dateTime: moment().toISOString(),
+              notes: data.notes,
+            },
+          ]
+        : [],
     };
 
     if (!leadState.insertedLeadId) {
@@ -247,6 +249,27 @@ export const ClientFormPage = () => {
                   )}
                 </div>
                 <div className="form-group">
+                  <label>Lead Origin</label>
+                  <select
+                    {...register("leadOrigin", {
+                      required: "Lead Origin is required",
+                    })}
+                  >
+                    <option value="">Select</option>
+                    <option value="Call">Call</option>
+                    <option value="Email">Email</option>
+                    <option value="WhatsApp">WhatsApp</option>
+                    <option value="Facebook">Facebook</option>
+                    <option value="LinkedIn">LinkedIn</option>
+                    <option value="Others">Others</option>
+                  </select>
+                  {errors.passengerType && (
+                    <span className="error-message">
+                      {errors.passengerType.message as string}
+                    </span>
+                  )}
+                </div>
+                <div className="form-group">
                   <label>Passenger Type</label>
                   <select
                     {...register("passengerType", {
@@ -289,6 +312,7 @@ export const ClientFormPage = () => {
                     </span>
                   )}
                 </div>
+
                 <div className="name-input-container">
                   <div className="form-group name-input-group">
                     <label className="name-input-label">
@@ -334,27 +358,6 @@ export const ClientFormPage = () => {
                     placeholder="Post Code here"
                     {...register("postCode")}
                   />
-                </div>
-                <div className="form-group">
-                  <label>Lead Origin</label>
-                  <select
-                    {...register("leadOrigin", {
-                      required: "Lead Origin is required",
-                    })}
-                  >
-                    <option value="">Select</option>
-                    <option value="Call">Call</option>
-                    <option value="Email">Email</option>
-                    <option value="WhatsApp">WhatsApp</option>
-                    <option value="Facebook">Facebook</option>
-                    <option value="LinkedIn">LinkedIn</option>
-                    <option value="Others">Others</option>
-                  </select>
-                  {errors.passengerType && (
-                    <span className="error-message">
-                      {errors.passengerType.message as string}
-                    </span>
-                  )}
                 </div>
               </motion.div>
             )}
