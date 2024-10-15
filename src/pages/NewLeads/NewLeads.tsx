@@ -1,35 +1,27 @@
 import React, { useCallback, useEffect } from "react";
-
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-
 import { DashboardLayout } from "@/app_components/DashboardLayout";
-
-import { claimLead, getAllLeads } from "@/redux/actions";
-import { AppDispatch, AppState, LeadType } from "@/types";
+import { claimLead } from "@/redux/actions";
+import { LeadType } from "@/types";
 import { NewLeadsTable } from "@/app_components";
+import { client } from "@/api/api";
 
 export const NewLeads = () => {
   const [claimLeadLoading, setClaimLeadLoading] = React.useState(false);
-  const { lead: leadState } = useSelector((state: AppState) => state);
-  const dispatch = useDispatch<AppDispatch>();
 
   const [unclaimedLeads, setUnclaimedLeads] = React.useState<LeadType[]>([]);
 
-  const fetchAllLeads = useCallback(async () => {
-    await dispatch(getAllLeads());
-  }, [dispatch]);
-
-  useEffect(() => {
-    fetchAllLeads();
-  }, [fetchAllLeads]);
-
-  useEffect(() => {
-    if (leadState.leads) {
-      const unclaimedLeads = leadState.leads.filter((lead) => !lead.claimed_by);
-      setUnclaimedLeads(unclaimedLeads);
+  const fetchUnclaimedLeads = useCallback(async () => {
+    try {
+      const response = await client.get("/leads/unclaimed");
+      setUnclaimedLeads(response.data.leads);
+    } catch (error) {
+      console.error("Failed to fetch unclaimed leads", error);
     }
-  }, [leadState.leads]);
+  }, []);
+
+  useEffect(() => {
+    fetchUnclaimedLeads();
+  }, [fetchUnclaimedLeads]);
 
   const onClaimLead = async (lead: LeadType) => {
     if (claimLeadLoading) {
@@ -40,7 +32,7 @@ export const NewLeads = () => {
     const claimStatusSuccess = await claimLead(lead);
 
     if (claimStatusSuccess) {
-      await fetchAllLeads();
+      await fetchUnclaimedLeads();
     }
     setClaimLeadLoading(false);
   };
@@ -51,7 +43,7 @@ export const NewLeads = () => {
         claimLeadLoading={claimLeadLoading}
         onClaimLead={onClaimLead}
         leads={unclaimedLeads}
-        loading={leadState.loading}
+        loading={claimLeadLoading}
       />
     </DashboardLayout>
   );
