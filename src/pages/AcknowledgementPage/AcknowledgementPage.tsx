@@ -95,7 +95,7 @@ export const AcknowledgementPage: React.FC = () => {
 
   const updateSelectedPaymentMethod = async (method: string) => {
     try {
-      await client.put(`/leads/${leadId}`, {
+      await client.put(`/leads/${leadId}/select-payment-method`, {
         selectedPaymentMethod: method,
       });
 
