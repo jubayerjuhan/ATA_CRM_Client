@@ -34,9 +34,12 @@ export const AddSplittedQuotedAmount: React.FC<
     formState: { errors },
   } = useForm();
 
+  console.log(errors, "errors");
+
   const handleTravelDetailsEdit = async (data: any) => {
     // Convert adult, child, and infant fields from strings to numbers
     const parsedData = { ...data };
+    console.log(parsedData);
 
     Object.keys(parsedData).forEach((key) => {
       if (
@@ -76,7 +79,7 @@ export const AddSplittedQuotedAmount: React.FC<
 
   console.log(lead);
   return (
-    <Dialog open={dialogOpen} modal>
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen} modal>
       <DialogTrigger asChild>
         <Button
           variant="outline"
@@ -93,7 +96,10 @@ export const AddSplittedQuotedAmount: React.FC<
             Please Add Quoted Amount for each passenger
           </DialogDescription>
         </DialogHeader>
-        <form className="grid gap-4 py-4" onSubmit={() => console.log("Hello")}>
+        <form
+          className="grid gap-4 py-4 px-2 overflow-y-auto max-h-[400px]"
+          onSubmit={() => console.log("Hello")}
+        >
           {Array.from({ length: Number(lead.adult) }).map((_, index) => (
             <div key={index} className="flex flex-col gap-1">
               <Label style={{ marginBottom: "10px" }}>Adult {index + 1}</Label>

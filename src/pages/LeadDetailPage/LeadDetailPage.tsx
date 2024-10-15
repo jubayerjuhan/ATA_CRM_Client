@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { DashboardLayout } from "@/app_components/DashboardLayout";
 import {
   AddCallLogModal,
+  AddSplittedQuotedAmount,
   CancelBookingPopup,
   ConfirmPaymentPopup,
   EditCustomerDetails,
@@ -118,6 +119,24 @@ export const LeadDetailPage = () => {
             <InfoItem
               label="Return Date"
               value={moment(lead.returnDate).format("DD-MM-YYYY")}
+            />
+          </InfoCard>
+          <InfoCard title="Pricing Information">
+            <AddSplittedQuotedAmount lead={lead} />
+            <InfoItem
+              label="Total Quoted Amount"
+              value={lead.quoted_amount.total}
+            />
+            {Object.entries(lead.quoted_amount).map(([key, value]) => {
+              const formattedKey = key
+                .split("_")
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(" ");
+              return <InfoItem key={key} label={formattedKey} value={value} />;
+            })}
+            <InfoItem
+              label="Follow-up Date"
+              value={moment(lead.follow_up_date).format("DD-MM-YYYY")}
             />
           </InfoCard>
           <InfoCard title="Notes">
