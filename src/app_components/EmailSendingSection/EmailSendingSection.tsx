@@ -60,6 +60,7 @@ export const EmailSendingSection: React.FC<EmailSendingSectionProps> = ({
           </div>
           {selectedTab === "itinerary" ? (
             <SendEmail
+              selectedTab={selectedTab}
               lead={lead}
               setSelectedTab={setSelectedTab}
               emailType={selectedTab}
@@ -70,6 +71,7 @@ export const EmailSendingSection: React.FC<EmailSendingSectionProps> = ({
           ) : (
             <div>
               <SendEmail
+                selectedTab={selectedTab}
                 lead={lead}
                 setSelectedTab={setSelectedTab}
                 emailType={selectedTab}

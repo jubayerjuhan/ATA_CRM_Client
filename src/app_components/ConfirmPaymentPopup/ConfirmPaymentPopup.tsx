@@ -32,11 +32,12 @@ export const ConfirmPaymentPopup: React.FC<ConfirmPaymentPopupProps> = ({
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const dispatch = useDispatch<AppDispatch>();
 
-  if (lead.status === "Payment Complete" || lead.status === "Cancelled") {
-    return <></>;
-  }
-
-  if (!lead.selectedPaymentMethod) {
+  if (
+    lead.status === "Payment Complete" ||
+    lead.cancelled ||
+    lead.converted ||
+    !lead.selectedPaymentMethod
+  ) {
     return <></>;
   }
 
@@ -48,7 +49,6 @@ export const ConfirmPaymentPopup: React.FC<ConfirmPaymentPopupProps> = ({
           date: new Date(),
         },
         status: "Payment Complete",
-        converted: true,
       });
 
       toast.success("Payment Confirmed");

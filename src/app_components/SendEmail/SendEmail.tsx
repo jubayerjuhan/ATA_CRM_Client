@@ -14,8 +14,10 @@ import toast from "react-hot-toast";
 import { AppDispatch, LeadType } from "@/types";
 import { useDispatch } from "react-redux";
 import { getSingleLead } from "@/redux/actions";
+import { Input } from "@/components/ui/input";
 
 interface SendEmailProps {
+  selectedTab: string | null;
   defaultHtml: string;
   emailType: string;
   lead: LeadType;
@@ -35,6 +37,7 @@ const getEmailSubject = (emailType: string): string => {
 };
 
 export const SendEmail: React.FC<SendEmailProps> = ({
+  selectedTab,
   defaultHtml,
   emailType,
   lead,
@@ -57,14 +60,27 @@ export const SendEmail: React.FC<SendEmailProps> = ({
   const handleSendEmail = async () => {
     try {
       setLoading(true);
-      await client.post("/email/send-email", {
-        htmlContent: draftToHtml(convertToRaw(editorState.getCurrentContent())),
-        subject: getEmailSubject(emailType),
-        email: lead.email,
-        name: lead.firstName,
-        leadId: lead._id,
-        emailType: emailType,
+      const formData = new FormData();
+      formData.append(
+        "htmlContent",
+        draftToHtml(convertToRaw(editorState.getCurrentContent()))
+      );
+      formData.append("subject", getEmailSubject(emailType));
+      formData.append("email", lead.email);
+      formData.append("name", lead.firstName);
+      formData.append("leadId", lead._id as string);
+      formData.append("emailType", emailType);
+
+      pdfFields.forEach((file, index) => {
+        formData.append(`ticket`, file);
       });
+
+      await client.post("/email/send-email", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
       toast.success("Email sent successfully");
       setSelectedTab(null);
     } catch (error) {
@@ -76,16 +92,51 @@ export const SendEmail: React.FC<SendEmailProps> = ({
     }
   };
 
+  const [pdfFields, setPdfFields] = useState<File[]>([]);
+  const addPdfField = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setPdfFields([...pdfFields, event.target.files[0]]);
+    }
+  };
+
   return (
     <div className="">
       <Editor
-        editorState={editorState} // Changed to editorState instead of defaultEditorState
+        editorState={editorState}
         onEditorStateChange={setEditorState}
         wrapperClassName="wrapper-class"
         editorClassName="editor-class"
         toolbarClassName="toolbar-class"
       />
 
+      {selectedTab === "ticket" && (
+        <div className="pdf-selection">
+          <div className="pdf-field flex items-center space-x-2">
+            <Input
+              className="border border-gray-300 rounded p-2 my-2 w-300"
+              type="file"
+              accept="application/pdf"
+              onChange={addPdfField}
+            />
+            {/* <button
+              className="add-pdf-button bg-blue-500 text-white rounded p-2 hover:bg-blue-600"
+              onClick={() => addPdfField}
+            >
+              +
+            </button> */}
+          </div>
+          {pdfFields.map((file, index) => (
+            <div key={index} className="pdf-field">
+              <Input
+                className="border border-gray-300 rounded p-2 my-2 w-300"
+                type="file"
+                accept="application/pdf"
+                onChange={addPdfField}
+              />
+            </div>
+          ))}
+        </div>
+      )}
       <Button onClick={handleSendEmail} disabled={loading}>
         Send Email
       </Button>
