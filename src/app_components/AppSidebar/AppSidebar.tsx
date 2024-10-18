@@ -196,7 +196,7 @@ const Sidebar = () => {
           className="menu-item px-10"
           onClick={() => {
             window.localStorage.clear();
-            Cookies.remove("auth_token");
+            window.localStorage.removeItem("auth_token");
             navigate("/login");
           }}
         >

@@ -24,7 +24,7 @@ export const loginToCRM = (email: string, password: string) => {
         password,
       });
 
-      Cookies.set("auth_token", response.data.token);
+      localStorage.setItem("auth_token", response.data.token);
       dispatch({ type: LOGIN_SUCCESS, payload: response.data });
     } catch (error: any) {
       dispatch({

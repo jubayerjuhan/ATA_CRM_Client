@@ -8,7 +8,7 @@ export const base_url =
     ? import.meta.env.VITE_SERVER_URL_DEVELOPMENT
     : import.meta.env.VITE_SERVER_URL_DEVELOPMENT;
 
-const authToken = Cookies.get("auth_token");
+const authToken = localStorage.getItem("auth_token");
 
 export const client = axios.create({
   baseURL: base_url,
