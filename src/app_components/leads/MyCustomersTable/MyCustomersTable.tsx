@@ -110,10 +110,10 @@ export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
             header: "Airlines Name",
             size: 120,
             Cell: ({ cell }) => {
-              console.log(cell.row.original.airline.iata, "cell");
+              console.log(cell.row.original.airline?.iata, "cell");
               const airline = cell.getValue<string>();
               return airline
-                ? `${airline} (${cell.row.original.airline.iata})`
+                ? `${airline} (${cell.row.original.airline?.iata})`
                 : "N/A";
             },
           },

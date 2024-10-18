@@ -27,12 +27,14 @@ const TestRouteURL = "/test";
 const MyFollowUpsURL = "/my-follow-ups";
 const WhatsappLeadURL = "/add-whatsapp-lead";
 const WhatsappLeadListURL = "/whatsapp-leads";
+const FacebookLeadListURL = "/facebook-leads";
 const WhatsappLeadDetailURL = "/whatsapp-lead/:leadId";
 
 export {
   BaseURL,
   WhatsappLeadDetailURL,
   WhatsappLeadURL,
+  FacebookLeadListURL,
   WhatsappLeadListURL,
   RefundListURL,
   SaleLostURL,

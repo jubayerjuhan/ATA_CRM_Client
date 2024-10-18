@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import moment from "moment";
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { IoChevronBackCircleOutline } from "react-icons/io5";
 
@@ -32,6 +32,9 @@ const isValidEmail = (email: string): boolean => {
 };
 
 export const ClientFormPage = () => {
+  const location = useLocation();
+  const leadData = location.state?.leadData;
+
   const { lead: leadState } = useSelector((state: AppState) => state);
   const [airlines, setAirlines] = useState<any[]>([]);
   const [airlinesLoading, setAirlinesLoading] = useState(false);
@@ -49,11 +52,21 @@ export const ClientFormPage = () => {
   const [airlinesSearchKeyword, setAirlinesSearchKeyword] = useState("");
   const [formPart, setFormPart] = useState(1);
   const [userSearchingEmail, setUserSearchingEmail] = useState<string | null>(
-    null
+    leadData.email ? leadData.email : null
   );
 
   const [tripType, setTripType] = useState("One Way");
   const [showExistingLeadPopup, setShowExistingLeadPopup] = useState(true);
+
+  useEffect(() => {
+    if (leadData) {
+      setValue("firstName", leadData.firstName);
+      setValue("lastName", leadData.lastName);
+      setValue("phone", `+61${leadData.phone}`);
+      setValue("email", leadData.email);
+      setValue("postCode", leadData.postCode);
+    }
+  }, [leadData, setValue]);
 
   useEffect(() => {
     if (leadState.error?.message) {
@@ -164,8 +177,6 @@ export const ClientFormPage = () => {
     setValue("email", lead?.email || "");
     setValue("postCode", lead?.postCode || "");
   };
-
-  const [open, setOpen] = React.useState(false);
 
   return (
     <>

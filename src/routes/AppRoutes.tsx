@@ -7,6 +7,7 @@ import {
   ClientFormPage,
   ConvertedCustomers,
   Dashboard,
+  FacebookLeadList,
   ForgotPassword,
   Home,
   LeadDetailPage,
@@ -52,6 +53,7 @@ import {
   WhatsappLeadURL,
   WhatsappLeadListURL,
   WhatsappLeadDetailURL,
+  FacebookLeadListURL,
 } from "./routeConstant";
 import PrivateRoute from "@/app_components/PrivateRoute/PrivateRoute";
 import FormManager from "@/pages/FormManager/FormManager";
@@ -154,6 +156,10 @@ const AppRoutes: React.FC = () => {
         <Route
           path={WhatsappLeadDetailURL}
           element={<PrivateRoute component={WhatsappLeadDetail} />}
+        />
+        <Route
+          path={FacebookLeadListURL}
+          element={<PrivateRoute component={FacebookLeadList} />}
         />
       </Routes>
     </Router>

@@ -82,13 +82,13 @@ export const EditTravelDetails: React.FC<EditTravelDetailsProps> = ({
           {fields.map((field) => {
             if (field.type === "textarea") {
               return (
-                <div key={field.name}>
-                  <Label>{field.label}</Label>
+                <div key={field?.name}>
+                  <Label>{field?.label}</Label>
                   <Textarea
                     onChange={(event) =>
-                      setValue(field.name, event.target.value)
+                      setValue(field?.name, event.target.value)
                     }
-                    defaultValue={lead[field.name as keyof LeadType]}
+                    defaultValue={lead[field?.name as keyof LeadType]}
                   />
                 </div>
               );
@@ -103,9 +103,9 @@ export const EditTravelDetails: React.FC<EditTravelDetailsProps> = ({
                     register={register}
                     setValue={setValue}
                     defaultDisplayValue={
-                      lead[field.name as keyof LeadType].name
+                      lead[field.name as keyof LeadType]?.name
                     }
-                    defaultValue={lead[field.name as keyof LeadType]._id}
+                    defaultValue={lead[field.name as keyof LeadType]?._id}
                   />
                 </>
               );

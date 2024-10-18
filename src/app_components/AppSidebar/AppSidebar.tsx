@@ -8,6 +8,7 @@ import { LuLayoutDashboard } from "react-icons/lu";
 import { PiUserList } from "react-icons/pi";
 import { CiLogout } from "react-icons/ci";
 import { MdMyLocation, MdFiberNew, MdEmojiPeople } from "react-icons/md";
+import { CiFacebook } from "react-icons/ci";
 
 import { SidebarLinksType } from "./index";
 
@@ -28,6 +29,7 @@ import {
   UsersManagementURL,
   WhatsappLeadURL,
   WhatsappLeadListURL,
+  FacebookLeadListURL,
 } from "@/routes/routeConstant";
 import { TbUserCancel } from "react-icons/tb";
 import { FaUserCheck } from "react-icons/fa6";
@@ -75,6 +77,11 @@ const Sidebar = () => {
       title: "Whatsapp Lead's",
       icon: <FaWhatsappSquare />,
       pathname: WhatsappLeadListURL,
+    },
+    {
+      title: "Facebook Lead's",
+      icon: <CiFacebook />,
+      pathname: FacebookLeadListURL,
     },
     // {
     //   title: "Refund Form",
@@ -138,6 +145,11 @@ const Sidebar = () => {
       title: "Whatsapp Lead's",
       icon: <FaWhatsappSquare />,
       pathname: WhatsappLeadListURL,
+    },
+    {
+      title: "Facebook Lead's",
+      icon: <CiFacebook />,
+      pathname: FacebookLeadListURL,
     },
     // {
     //   title: "Refund Form",
