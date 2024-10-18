@@ -64,6 +64,7 @@ export const ClientFormPage = () => {
       setValue("lastName", leadData.lastName);
       setValue("phone", `+61${leadData.phone}`);
       setValue("email", leadData.email);
+      setValue("leadOrigin", "Facebook");
       setValue("postCode", leadData.postCode);
     }
   }, [leadData, setValue]);
