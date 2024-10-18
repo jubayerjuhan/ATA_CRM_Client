@@ -52,7 +52,7 @@ export const ClientFormPage = () => {
   const [airlinesSearchKeyword, setAirlinesSearchKeyword] = useState("");
   const [formPart, setFormPart] = useState(1);
   const [userSearchingEmail, setUserSearchingEmail] = useState<string | null>(
-    leadData.email ? leadData.email : null
+    leadData?.email ? leadData?.email : null
   );
 
   const [tripType, setTripType] = useState("One Way");
