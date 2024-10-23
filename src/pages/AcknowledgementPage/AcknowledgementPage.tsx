@@ -77,6 +77,8 @@ export const AcknowledgementPage: React.FC = () => {
     setSelectedPaymentMethod(method);
   };
 
+  useEffect(() => {}, []);
+
   const updatePaymentMethod = async () => {
     if (selectedPaymentMethod === "stripe" && lead) {
       // Redirect to Stripe payment page

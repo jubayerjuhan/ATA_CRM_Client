@@ -11,6 +11,7 @@ import { Search, Loader2 } from "lucide-react";
 import { client } from "@/api/api";
 import { LeadType } from "@/types";
 import { Label } from "@/components/ui/label";
+import { Link } from "react-router-dom";
 
 export const SearchCustomers = () => {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -80,7 +81,9 @@ export const SearchCustomers = () => {
               ) : (
                 leads.map((lead: LeadType) => (
                   <CommandItem key={lead._id}>
-                    <a href={`/dashboard/lead/${lead._id}`}>
+                    <Link
+                      to={`/lead-search?email=${lead.email}&name=${lead.firstName} ${lead.lastName}`}
+                    >
                       <h3 className="font-medium">
                         {lead.firstName} {lead.lastName}
                       </h3>
@@ -92,7 +95,7 @@ export const SearchCustomers = () => {
                           {lead.phone}
                         </p>
                       </div>
-                    </a>
+                    </Link>
                   </CommandItem>
                 ))
               )}

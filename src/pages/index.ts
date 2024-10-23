@@ -21,4 +21,5 @@ export * from "./MyFollowUps/MyFollowUps";
 export * from "./WhatsappLeadPage/WhatsappLeadPage";
 export * from "./WhatsappLeadDetail/WhatsappLeadDetail";
 export * from "./FacebookLeadList/FacebookLeadList";
+export * from "./LeadSearchPage/LeadSearch";
 export * from "./TestPage/TestPage";
