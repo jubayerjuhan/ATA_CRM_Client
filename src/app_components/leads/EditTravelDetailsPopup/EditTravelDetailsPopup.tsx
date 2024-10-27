@@ -57,6 +57,10 @@ export const EditTravelDetails: React.FC<EditTravelDetailsProps> = ({
       toast.error("Failed to edit travel details");
     }
   };
+
+  if (lead.status === "Ticket Sent" || lead.status === "Sale Lost") {
+    return <></>;
+  }
   return (
     <Dialog open={dialogOpen} modal>
       <DialogTrigger asChild>

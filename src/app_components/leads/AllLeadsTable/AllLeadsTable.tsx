@@ -223,7 +223,7 @@ export const AllLeadsTable: React.FC<AllLeadsTableProps> = ({
       size: "lg",
     },
     mantineSearchTextInputProps: {
-      placeholder: "Search Employees",
+      placeholder: "Search Leads",
     },
     renderDetailPanel: ({ row }) => {
       const customerData = row.original;

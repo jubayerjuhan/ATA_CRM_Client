@@ -66,7 +66,8 @@ export interface LeadType {
     | "Payment Link Sent"
     | "Payment Complete"
     | "Cancelled"
-    | "Ticket Sent";
+    | "Ticket Sent"
+    | "Sale Lost";
   departure?: Airport;
   arrival?: Airport;
   passengerType: string;

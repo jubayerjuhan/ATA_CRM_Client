@@ -206,7 +206,7 @@ export const AllCustomersTable: React.FC<AllCustomersProps> = ({
       size: "lg",
     },
     mantineSearchTextInputProps: {
-      placeholder: "Search Employees",
+      placeholder: "Search Customers",
     },
     renderDetailPanel: ({ row }) => {
       const customerData = row.original;

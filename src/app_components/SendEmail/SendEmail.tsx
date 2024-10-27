@@ -55,6 +55,9 @@ export const SendEmail: React.FC<SendEmailProps> = ({
     EditorState.createWithContent(contentState)
   );
 
+  const disabledFields =
+    lead.status === "Sale Lost" || lead.status === "Ticket Sent";
+
   console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
 
   const handleSendEmail = async () => {
@@ -137,7 +140,7 @@ export const SendEmail: React.FC<SendEmailProps> = ({
           ))}
         </div>
       )}
-      <Button onClick={handleSendEmail} disabled={loading}>
+      <Button onClick={handleSendEmail} disabled={loading || disabledFields}>
         Send Email
       </Button>
     </div>

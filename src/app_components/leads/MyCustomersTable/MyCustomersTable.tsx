@@ -234,7 +234,7 @@ export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
       size: "lg",
     },
     mantineSearchTextInputProps: {
-      placeholder: "Search Employees",
+      placeholder: "Search Leads",
     },
     renderDetailPanel: ({ row }) => {
       const customerData = row.original;

@@ -16,9 +16,9 @@ import {
 import { AppDispatch, AppState } from "@/types";
 import { getSingleLead } from "@/redux/actions";
 import moment from "moment";
-import "./LeadDetailPage.scss";
 import { FaWhatsapp } from "react-icons/fa";
 import { FollowUpDatePicker } from "@/app_components/FollowupDatePicker/FollowupDatePicker";
+import "./LeadDetailPage.scss";
 
 export const LeadDetailPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -69,11 +69,11 @@ export const LeadDetailPage = () => {
             <span className="text-[#3498db]">WhatsApp:</span>
             <FaWhatsapp size={32} />
           </a>
-          <CancelBookingPopup lead={lead} />
+          {/* <CancelBookingPopup lead={lead} /> */}
         </div>
         <div
           className="flex
-         justify-between"
+         justify-between mb-4"
         >
           <LeadStatusChanger lead={lead} />
           <div className="flex items-center space-x-2">
@@ -134,6 +134,8 @@ export const LeadDetailPage = () => {
               value={moment(lead.returnDate).format("DD-MM-YYYY")}
             />
           </InfoCard>
+          <PassengersDetails lead={lead} />
+
           <InfoCard title="Pricing Information">
             <AddSplittedQuotedAmount lead={lead} />
             <InfoItem
@@ -152,8 +154,11 @@ export const LeadDetailPage = () => {
               value={moment(lead.follow_up_date).format("DD-MM-YYYY")}
             /> */}
           </InfoCard>
+          {/* Here is the Email Sending Section Card */}
+          {!lead.cancelled && <EmailSendingSection lead={lead} />}
+
           <InfoCard title="Notes">
-            <AddCallLogModal leadId={leadId as string} />
+            <AddCallLogModal leadId={leadId as string} lead={lead} />
             {lead.call_logs?.map((log, index) => {
               console.log(log, "log...");
               return (
@@ -172,10 +177,6 @@ export const LeadDetailPage = () => {
               );
             })}
           </InfoCard>
-          <PassengersDetails lead={lead} />
-
-          {/* Here is the Email Sending Section Card */}
-          {!lead.cancelled && <EmailSendingSection lead={lead} />}
         </div>
       </div>
     </DashboardLayout>

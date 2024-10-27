@@ -21,16 +21,20 @@ import {
 import moment from "moment";
 import { client } from "@/api/api";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/types";
+import { AppDispatch, LeadType } from "@/types";
 import { getSingleLead } from "@/redux/actions";
 import { Textarea } from "@/components/ui/textarea";
 import toast from "react-hot-toast";
 
 interface AddCallLogModalProps {
   leadId: string;
+  lead: LeadType;
 }
 
-export const AddCallLogModal: React.FC<AddCallLogModalProps> = ({ leadId }) => {
+export const AddCallLogModal: React.FC<AddCallLogModalProps> = ({
+  leadId,
+  lead,
+}) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const [notes, setNotes] = useState("");
@@ -56,6 +60,9 @@ export const AddCallLogModal: React.FC<AddCallLogModalProps> = ({ leadId }) => {
     await dispatch(getSingleLead(leadId));
   };
 
+  if (lead.status === "Sale Lost" || lead.status === "Ticket Sent") {
+    return <></>;
+  }
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild className="mb-4">

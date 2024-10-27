@@ -77,7 +77,10 @@ export const AddSplittedQuotedAmount: React.FC<
     }
   };
 
-  console.log(lead);
+  if (lead.status === "Ticket Sent" || lead.status === "Sale Lost") {
+    return <></>;
+  }
+
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen} modal>
       <DialogTrigger asChild>

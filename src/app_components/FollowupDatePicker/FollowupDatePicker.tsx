@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Calendar as CalendarIcon } from "lucide-react";
 import moment from "moment";
+import TimePicker from "react-time-picker";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -24,6 +25,7 @@ export const FollowUpDatePicker: React.FC<FollowupDatePickerProps> = ({
   lead,
 }) => {
   const [date, setDate] = useState<moment.Moment | null>(null); // Use moment.Moment type
+  const [time, setTime] = useState<string | null>(null); // Use string for time
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -31,16 +33,25 @@ export const FollowUpDatePicker: React.FC<FollowupDatePickerProps> = ({
     setDate(selectedDate ? moment(selectedDate) : null); // Convert to moment object
   };
 
+  const handleTimeChange = (selectedTime: string) => {
+    setTime(selectedTime);
+  };
+
   const submitFollowUpDate = async () => {
-    if (!date) {
-      toast.error("Please select a date");
+    if (!date || !time) {
+      toast.error("Please select a date and time");
       return;
     }
+
+    const dateTime = moment(date).set({
+      hour: parseInt(time.split(":")[0], 10),
+      minute: parseInt(time.split(":")[1], 10),
+    });
 
     setIsSubmitting(true);
     try {
       await client.put(`/leads/${lead._id}`, {
-        follow_up_date: moment(date).toISOString(), // Convert to ISO string
+        follow_up_date: dateTime.toISOString(), // Convert to ISO string
       });
 
       toast.success("Follow up date added");
@@ -77,7 +88,15 @@ export const FollowUpDatePicker: React.FC<FollowupDatePickerProps> = ({
           />
         </PopoverContent>
       </Popover>
-      <Button onClick={submitFollowUpDate} disabled={!date || isSubmitting}>
+      <TimePicker
+        // onChange={handleTimeChange}
+        value={time}
+        disableClock={true}
+      />
+      <Button
+        onClick={submitFollowUpDate}
+        disabled={!date || !time || isSubmitting}
+      >
         {isSubmitting ? "Submitting..." : "Submit Follow-up Date"}
       </Button>
     </div>

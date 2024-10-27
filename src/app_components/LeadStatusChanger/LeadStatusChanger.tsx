@@ -18,18 +18,21 @@ import {
 } from "@/components/ui/select";
 
 import { FC, useEffect, useState } from "react";
-import { AppDispatch, LeadType } from "@/types";
+import { AppDispatch, AppState, LeadType } from "@/types";
 import { useDispatch } from "react-redux";
 import { changeLeadStatus } from "@/services/lead/leadStatus";
 import { getSingleLead } from "@/redux/actions";
 import { Textarea } from "@/components/ui/textarea";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 interface LeadStatusChangerProps {
   lead: LeadType;
 }
 
 export const LeadStatusChanger: FC<LeadStatusChangerProps> = ({ lead }) => {
+  const { profile } = useSelector((state: AppState) => state.auth);
+
   const form = useForm<any>();
   const dispatch = useDispatch<AppDispatch>();
   const { watch, setValue } = form;
@@ -73,6 +76,9 @@ export const LeadStatusChanger: FC<LeadStatusChangerProps> = ({ lead }) => {
     }
   }, [selectedStatus]);
 
+  if (lead.status === "Sale Lost" || lead.status === "Ticket Sent") {
+    return null;
+  }
   return (
     <Form {...form}>
       <form

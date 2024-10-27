@@ -22,6 +22,7 @@ export const CancelledCustomers = () => {
   return (
     <DashboardLayout>
       <MyCustomersTable
+        title="Lost Sales"
         customers={leadState.leads}
         loading={leadState.loading}
       />

@@ -69,7 +69,7 @@ export const WhatsAppLeadPage = () => {
                     <User className="absolute left-2 top-2.5 h-5 w-5 text-muted-foreground" />
                     <Input
                       id="name"
-                      placeholder="Your full name"
+                      placeholder="Lead's full name"
                       {...register("name", { required: "Name is required" })}
                       className="pl-9"
                     />
@@ -87,7 +87,7 @@ export const WhatsAppLeadPage = () => {
                     <Input
                       id="phone"
                       type="tel"
-                      placeholder="Your WhatsApp number"
+                      placeholder="Lead's WhatsApp number"
                       {...register("phone", {
                         required: "Phone number is required",
                       })}
@@ -101,10 +101,10 @@ export const WhatsAppLeadPage = () => {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="description">How can we help?</Label>
+                  <Label htmlFor="description">Description</Label>
                   <Textarea
                     id="description"
-                    placeholder="Briefly describe your inquiry..."
+                    placeholder="Briefly describe your lead's inquiry..."
                     {...register("description", {
                       required: "Description is required",
                     })}

@@ -118,7 +118,7 @@ export const RefundListTable: React.FC<AllCustomersProps> = ({
       size: "lg",
     },
     mantineSearchTextInputProps: {
-      placeholder: "Search Employees",
+      placeholder: "Search Refunds",
     },
     renderRowActionMenuItems: () => (
       <>

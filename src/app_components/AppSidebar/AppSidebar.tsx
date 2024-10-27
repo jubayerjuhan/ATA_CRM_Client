@@ -106,11 +106,11 @@ const Sidebar = () => {
       icon: <FaUsersViewfinder />,
       pathname: LeadsManagementURL,
     },
-    {
-      title: "All Customers",
-      icon: <MdEmojiPeople />,
-      pathname: AllCustomersURL,
-    },
+    // {
+    //   title: "All Customers",
+    //   icon: <MdEmojiPeople />,
+    //   pathname: AllCustomersURL,
+    // },
     {
       title: "New Leads",
       icon: <MdFiberNew />,

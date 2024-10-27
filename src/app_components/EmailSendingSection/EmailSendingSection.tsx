@@ -16,11 +16,14 @@ export const EmailSendingSection: React.FC<EmailSendingSectionProps> = ({
   const frontendUrl = import.meta.env.VITE_CLIENT_URL_PRODUCTION;
   const [selectedTab, setSelectedTab] = React.useState<null | string>(null);
 
+  const disabledFields =
+    lead.status === "Sale Lost" || lead.status === "Ticket Sent";
   return (
     <InfoCard title="Email Section" className={""}>
       {/* Itinerary Email */}
       <InfoItem label={"Itinerary Email"}>
         <Button
+          disabled={disabledFields}
           variant="outline"
           onClick={() => {
             setSelectedTab("itinerary");
@@ -31,6 +34,7 @@ export const EmailSendingSection: React.FC<EmailSendingSectionProps> = ({
       </InfoItem>
       <InfoItem label={"Ticket Email"}>
         <Button
+          disabled={disabledFields}
           variant="outline"
           onClick={() => {
             setSelectedTab("ticket");

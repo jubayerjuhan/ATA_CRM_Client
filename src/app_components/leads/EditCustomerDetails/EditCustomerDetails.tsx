@@ -14,10 +14,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { getSingleLead } from "@/redux/actions";
-import { AppDispatch, LeadType } from "@/types";
+import { AppDispatch, AppState, LeadType } from "@/types";
 import React from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
 interface EditCustomerDetailsProps {
@@ -27,6 +28,7 @@ interface EditCustomerDetailsProps {
 export const EditCustomerDetails: React.FC<EditCustomerDetailsProps> = ({
   lead,
 }) => {
+  const { profile } = useSelector((state: AppState) => state.auth);
   const dispatch = useDispatch<AppDispatch>();
 
   const [dialogOpen, setDialogOpen] = React.useState(false);
@@ -55,6 +57,14 @@ export const EditCustomerDetails: React.FC<EditCustomerDetailsProps> = ({
       toast.error("Failed to edit customer details");
     }
   };
+
+  if (lead.status === "Sale Lost" || lead.status === "Ticket Sent") {
+    return <></>;
+  }
+
+  if (profile?.role === "agent") {
+    return <></>;
+  }
 
   return (
     <Dialog open={dialogOpen} modal>
