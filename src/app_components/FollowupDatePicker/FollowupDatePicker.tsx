@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import * as React from "react";
 import { Calendar as CalendarIcon } from "lucide-react";
 import moment from "moment";
-import TimePicker from "react-time-picker";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -11,53 +10,61 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { client } from "@/api/api";
 import { AppDispatch, LeadType } from "@/types";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { getSingleLead } from "@/redux/actions";
 
-interface FollowupDatePickerProps {
+interface FollowUpDatePickerProps {
   lead: LeadType;
 }
 
-export const FollowUpDatePicker: React.FC<FollowupDatePickerProps> = ({
-  lead,
-}) => {
-  const [date, setDate] = useState<moment.Moment | null>(null); // Use moment.Moment type
-  const [time, setTime] = useState<string | null>(null); // Use string for time
-  const [isSubmitting, setIsSubmitting] = useState(false);
+export function FollowUpDatePicker({ lead }: FollowUpDatePickerProps) {
+  const [date, setDate] = React.useState<moment.Moment | null>(null);
+  const [hours, setHours] = React.useState<string>("12");
+  const [minutes, setMinutes] = React.useState<string>("00");
+  const [ampm, setAmpm] = React.useState<string>("AM");
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
   const dispatch = useDispatch<AppDispatch>();
 
   const handleDateSelect = (selectedDate: Date | undefined) => {
-    setDate(selectedDate ? moment(selectedDate) : null); // Convert to moment object
+    setDate(selectedDate ? moment(selectedDate) : null);
   };
 
-  const handleTimeChange = (selectedTime: string) => {
-    setTime(selectedTime);
+  const formatDateTime = () => {
+    if (!date) return "Pick a date and time";
+    return date.format("MMM DD, YYYY") + ` at ${hours}:${minutes} ${ampm}`;
   };
 
   const submitFollowUpDate = async () => {
-    if (!date || !time) {
+    if (!date) {
       toast.error("Please select a date and time");
       return;
     }
 
-    const dateTime = moment(date).set({
-      hour: parseInt(time.split(":")[0], 10),
-      minute: parseInt(time.split(":")[1], 10),
+    const dateTime = date.set({
+      hour: parseInt(hours) + (ampm === "PM" ? 12 : 0),
+      minute: parseInt(minutes),
     });
 
     setIsSubmitting(true);
     try {
       await client.put(`/leads/${lead._id}`, {
-        follow_up_date: dateTime.toISOString(), // Convert to ISO string
+        follow_up_date: dateTime.toISOString(),
       });
 
       toast.success("Follow up date added");
       dispatch(getSingleLead(lead._id as string));
     } catch (error) {
-      toast.error("Failed to cancel the booking");
+      toast.error("Failed to add follow up date");
     } finally {
       setIsSubmitting(false);
     }
@@ -75,30 +82,60 @@ export const FollowUpDatePicker: React.FC<FollowupDatePickerProps> = ({
             )}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
-            {date ? date.format("MMM DD, YYYY") : <span>Pick a date</span>}{" "}
-            {/* Use moment for formatting */}
+            {formatDateTime()}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">
           <Calendar
             mode="single"
-            selected={date ? date.toDate() : undefined} // Convert moment to Date for Calendar component
+            selected={date?.toDate()}
             onSelect={handleDateSelect}
             initialFocus
           />
+          <div className="flex items-center justify-between p-3 border-t border-border">
+            <Select value={hours} onValueChange={setHours}>
+              <SelectTrigger className="w-[70px]">
+                <SelectValue placeholder="Hour" />
+              </SelectTrigger>
+              <SelectContent>
+                {Array.from({ length: 12 }, (_, i) => (
+                  <SelectItem
+                    key={i}
+                    value={(i + 1).toString().padStart(2, "0")}
+                  >
+                    {(i + 1).toString().padStart(2, "0")}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <span className="text-muted-foreground">:</span>
+            <Select value={minutes} onValueChange={setMinutes}>
+              <SelectTrigger className="w-[70px]">
+                <SelectValue placeholder="Minute" />
+              </SelectTrigger>
+              <SelectContent>
+                {Array.from({ length: 60 }, (_, i) => (
+                  <SelectItem key={i} value={i.toString().padStart(2, "0")}>
+                    {i.toString().padStart(2, "0")}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Select value={ampm} onValueChange={setAmpm}>
+              <SelectTrigger className="w-[70px]">
+                <SelectValue placeholder="AM/PM" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="AM">AM</SelectItem>
+                <SelectItem value="PM">PM</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </PopoverContent>
       </Popover>
-      <TimePicker
-        // onChange={handleTimeChange}
-        value={time}
-        disableClock={true}
-      />
-      <Button
-        onClick={submitFollowUpDate}
-        disabled={!date || !time || isSubmitting}
-      >
+      <Button onClick={submitFollowUpDate} disabled={!date || isSubmitting}>
         {isSubmitting ? "Submitting..." : "Submit Follow-up Date"}
       </Button>
     </div>
   );
-};
+}

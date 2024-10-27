@@ -2,15 +2,17 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Plane, Calendar } from "lucide-react";
+import { Plane, Calendar, Clock } from "lucide-react";
 import { motion } from "framer-motion";
 import { DashboardLayout } from "@/app_components/DashboardLayout";
 import { client } from "@/api/api";
 import toast from "react-hot-toast";
 import { LeadType } from "@/types";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 export function LeadSearch() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState<null | string>(null);
   const [leads, setLeads] = useState<LeadType[]>([]);
 
@@ -75,9 +77,24 @@ export function LeadSearch() {
               Email: <span className="">{leads[0]?.email}</span>
             </h2>
             <h2 className="text-lg font-semibold text-gray-800 mb-4">
+              Phone: <span className="">{leads[0]?.phone}</span>
+            </h2>
+            <h2 className="text-lg font-semibold text-gray-800 mb-4">
               Total Leads: <span className="text-grey-600">{leads.length}</span>
             </h2>
-
+            <div className="flex w-full justify-end">
+              <Button
+                variant={"outline"}
+                className="my-4"
+                onClick={() =>
+                  navigate(`/form`, {
+                    state: { leadData: leads[0] },
+                  })
+                }
+              >
+                Add New Lead
+              </Button>
+            </div>
             <div className="space-y-4">
               {leads.map((lead, index) => (
                 <motion.div
@@ -99,6 +116,7 @@ export function LeadSearch() {
                               {lead.departure?.city} to {lead.arrival?.city}
                             </span>
                           </div>
+
                           <div className="flex items-center text-gray-600">
                             <Calendar className="mr-2 h-4 w-4" />
                             <span>
@@ -111,6 +129,13 @@ export function LeadSearch() {
                               </span>
                             )}
                           </div>
+                          <div className="flex items-center text-gray-600 my-2">
+                            <Clock className="mr-2 h-4 w-4" />
+                            <span>
+                              Case Date:{" "}
+                              {moment(lead.createdAt).format("DD-MM-YYYY")}
+                            </span>
+                          </div>
                         </div>
                         <Badge
                           variant={
@@ -122,14 +147,19 @@ export function LeadSearch() {
                           {lead.status}
                         </Badge>
                       </div>
-                      <Button
-                        className="mt-4"
-                        onClick={() => {
-                          location.href = `/dashboard/lead/${lead._id}`;
-                        }}
-                      >
-                        View Lead
-                      </Button>
+                      <div className="flex justify-between">
+                        <Button
+                          className="mt-4"
+                          onClick={() => {
+                            location.href = `/dashboard/lead/${lead._id}`;
+                          }}
+                        >
+                          View Lead
+                        </Button>
+                        <div>
+                          <p>Managed By: {lead.claimed_by?.name as string}</p>
+                        </div>
+                      </div>
                     </CardContent>
                   </Card>
                 </motion.div>

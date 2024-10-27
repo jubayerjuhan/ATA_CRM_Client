@@ -30,7 +30,7 @@ export const AirlineSelector = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const handleChange = async (searchTerm: string): Promise<void> => {
-    if (!searchTerm || searchTerm.length < 3) {
+    if (!searchTerm || searchTerm.length < 2) {
       setAirlines([]);
       setValue(name, ""); // Clear the form value when search is cleared
       return;

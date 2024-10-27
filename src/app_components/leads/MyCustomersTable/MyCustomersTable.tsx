@@ -58,6 +58,18 @@ export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
             filterVariant: "autocomplete",
           },
           {
+            accessorFn: (row) =>
+              moment(row.follow_up_date).format("DD-MM-YYYY hh:mm A"),
+            id: "follow_up_date",
+            header: "Follow Up Date",
+            Cell: ({ cell }) => (
+              <p style={{ textDecoration: "none" }}>
+                {cell.getValue<string>()}
+              </p>
+            ),
+            size: 200,
+          },
+          {
             accessorKey: "status",
             id: "status",
             header: "Lead Status",

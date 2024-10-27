@@ -21,6 +21,8 @@ interface CustomersDataType {
   myFollowups: number;
   convertedLeads: number;
   monthlyConvertedLeads: number;
+  totalConvertedLeadsByUser: number;
+  totalTicketByUser: number;
 }
 
 export const Dashboard = () => {
@@ -33,6 +35,8 @@ export const Dashboard = () => {
     myFollowups: 0,
     convertedLeads: 0,
     monthlyConvertedLeads: 0,
+    totalConvertedLeadsByUser: 0,
+    totalTicketByUser: 0,
   });
 
   const [dateRange, setDateRange] = React.useState({
@@ -94,7 +98,7 @@ export const Dashboard = () => {
         <DashboardCardsSection customersData={customersData} />
         <LeadProgressBar
           targetLeads={100}
-          currentLeads={customersData.monthlyConvertedLeads}
+          currentLeads={customersData.totalTicketByUser}
         />
         {authState.profile?.role === "admin" ? (
           <UsersOverview data={usersOverviewData} />

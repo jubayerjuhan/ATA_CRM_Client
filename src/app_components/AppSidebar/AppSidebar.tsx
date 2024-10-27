@@ -106,6 +106,16 @@ const Sidebar = () => {
       icon: <FaUsersViewfinder />,
       pathname: LeadsManagementURL,
     },
+    {
+      title: "Converted Customers",
+      icon: <FaUserCheck />,
+      pathname: ConvertedCustomersURL,
+    },
+    {
+      title: "Sale Lost",
+      icon: <TbUserCancel />,
+      pathname: SaleLostURL,
+    },
     // {
     //   title: "All Customers",
     //   icon: <MdEmojiPeople />,
@@ -121,16 +131,7 @@ const Sidebar = () => {
       icon: <MdMyLocation />,
       pathname: MyLeadsURL,
     },
-    {
-      title: "Converted Customers",
-      icon: <FaUserCheck />,
-      pathname: ConvertedCustomersURL,
-    },
-    {
-      title: "Sale Lost",
-      icon: <TbUserCancel />,
-      pathname: SaleLostURL,
-    },
+
     {
       title: "Lead Sub Form",
       icon: <FaWpforms />,

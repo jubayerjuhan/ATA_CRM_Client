@@ -68,7 +68,8 @@ export const AirportSelector = ({
   const handleSelectAirport = (airport: any) => {
     setDisplayValue(`${airport.name} (${airport.code})`);
     setValue(name, airport._id);
-    setIsDropdownVisible(false);
+    return setIsDropdownVisible(false);
+    setAirports([]);
   };
 
   console.log(isDropdownVisible, "drop");

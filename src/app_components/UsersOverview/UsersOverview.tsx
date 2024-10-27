@@ -94,7 +94,7 @@ export const UsersOverview: React.FC<UsersOverviewProps> = ({ data }) => {
   };
 
   return (
-    <div className="container mx-auto py-10 bg-white rounded-lg">
+    <div className="w-100  p-10 bg-white rounded-lg">
       <h1 className="text-2xl font-bold mb-4">Users Overview</h1>
       <div className="flex justify-between items-center mb-4">
         <div className="relative">
