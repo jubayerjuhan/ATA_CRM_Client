@@ -56,7 +56,7 @@ export const SearchCustomers = () => {
 
   return (
     <div className="w-full max-w-md mx-auto space-y-2 relative">
-      <Label>Search Data</Label>
+      <Label className="text-white">Search Data</Label>
       <div className="relative">
         <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input

@@ -185,7 +185,7 @@ export const NewLeadsTable: React.FC<{
   });
 
   return (
-    <div className="w-full">
+    <div className="w-full p-4 bg-white rounded-lg mt-[60px]">
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter emails..."

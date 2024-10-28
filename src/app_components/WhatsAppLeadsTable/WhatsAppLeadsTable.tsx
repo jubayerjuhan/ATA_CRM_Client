@@ -97,7 +97,9 @@ export const WhatsAppLeadsTable: React.FC<WhatsAppLeadsProps> = ({
   return (
     <div style={{ width: "100%" }}>
       <Box sx={{ padding: "16px 0px", color: "#3960be" }}>
-        <Title order={3}>WhatsApp Leads</Title>
+        <Title order={3} className="text-white">
+          WhatsApp Leads
+        </Title>
       </Box>
       <MantineReactTable table={table} />
     </div>

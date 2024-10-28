@@ -94,7 +94,7 @@ export const Login: React.FC = () => {
         </form>
       </div>
       <div className="auth-banner">
-        <h1>Delight Your Customer Effortlessly</h1>
+        <h1>Welcome To Airways Travel</h1>
         <p>
           Simplify every experience and put customers back in control by
           offering the support they expect

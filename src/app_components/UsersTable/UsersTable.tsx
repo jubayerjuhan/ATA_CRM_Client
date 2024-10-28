@@ -139,7 +139,7 @@ export const UsersTable: React.FC<UsersTableProps> = memo(
     });
 
     return (
-      <div className="w-full">
+      <div className="w-full bg-white p-4 rounded-lg mt-4">
         <div className="flex items-center py-4">
           <Input
             placeholder="Filter emails..."

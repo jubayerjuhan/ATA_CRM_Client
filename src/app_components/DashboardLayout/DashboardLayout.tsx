@@ -20,6 +20,10 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         className="layout-content"
         style={{ padding: noPadding ? 0 : undefined }}
       >
+        <span className="sponsored_text">
+          Powered by{" "}
+          <a href="https://rokoautomations.com.au/">Roko Automations</a>
+        </span>
         {children}
       </div>
     </div>

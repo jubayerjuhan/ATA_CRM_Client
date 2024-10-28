@@ -86,7 +86,7 @@ export const Dashboard = () => {
       <div className="p-4 space-y-4">
         <SearchCustomers />
         <div className="flex justify-between">
-          <h1 className="text-2xl font-bold">Dashboard</h1>
+          <h1 className="text-2xl font-bold text-white">Dashboard</h1>
           <DateRangePicker
             dateRange={{
               startDate: dateRange.startDate,

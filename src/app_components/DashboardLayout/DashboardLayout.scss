@@ -1,6 +1,8 @@
+@import "../../common/styles/variables.scss";
+
 .dashboard-layout {
   display: grid;
-  grid-template-columns: 200px calc(100vw - 220px);
+  grid-template-columns: 240px calc(100vw - 240px);
   min-height: 100vh;
   overflow: hidden;
 }
@@ -10,11 +12,21 @@
   width: 100%;
   .dashboard-layout {
     display: grid;
-    grid-template-columns: 200px calc(100vw - 220px);
+    grid-template-columns: 200px calc(100vw - 240px);
     min-height: 100vh;
     overflow: hidden;
   }
 
+  .sponsored_text {
+    font-size: 14px;
+    color: #fff;
+    margin-top: 25px;
+    position: absolute;
+    right: 20px;
+    a {
+      color: $primary-color;
+    }
+  }
   .layout-content {
     width: 100%;
     position: relative;
@@ -23,7 +35,6 @@
     overflow-y: auto; /* Only vertical scrolling is allowed */
 
     /* Ensure the content scrolls over a fixed background */
-    background-image: url("../../assets/airplane-background.jpg");
     background-size: cover; /* Make sure the image covers the area */
     background-position: center;
     background-attachment: fixed; /* Keep the background fixed */
@@ -53,7 +64,7 @@
   overflow-y: auto; /* Only vertical scrolling is allowed */
 
   /* Ensure the content scrolls over a fixed background */
-  background-image: url("../../assets/airplane-background.jpg");
+  background-image: url("../../assets/aerial-view-north-cardigan-bay-wales.jpg");
   background-size: cover; /* Make sure the image covers the area */
   background-position: center;
   background-attachment: fixed; /* Keep the background fixed */

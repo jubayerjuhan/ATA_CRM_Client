@@ -410,7 +410,9 @@ export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
   return (
     <div style={{ width: "100%" }}>
       <Box sx={{ padding: "16px 0px", color: "#3960be" }}>
-        <Title order={3}>{title ? title : "My Leads"}</Title>
+        <Title order={3} className="text-white">
+          {title ? title : "My Leads"}
+        </Title>
       </Box>
       <MantineReactTable table={table} />
     </div>
