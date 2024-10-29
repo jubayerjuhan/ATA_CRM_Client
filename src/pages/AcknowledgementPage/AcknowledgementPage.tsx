@@ -288,7 +288,7 @@ export const AcknowledgementPage: React.FC = () => {
                 className="flex items-center justify-center space-x-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white p-3 rounded-lg hover:from-purple-600 hover:to-purple-700 transition duration-300"
               >
                 <CreditCard size={20} />
-                <span>Pay with Stripe</span>
+                <span>Pay with SlicePay</span>
               </button>
               <button
                 onClick={() => handlePayment("bank")}
@@ -302,7 +302,7 @@ export const AcknowledgementPage: React.FC = () => {
                 className="flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white p-3 rounded-lg hover:from-blue-600 hover:to-blue-700 transition duration-300"
               >
                 <Wallet size={20} />
-                <span>Pay with SlicePay</span>
+                <span>Pay with MintPay</span>
               </button>
             </div>
           </div>

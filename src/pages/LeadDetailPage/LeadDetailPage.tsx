@@ -5,7 +5,6 @@ import { DashboardLayout } from "@/app_components/DashboardLayout";
 import {
   AddCallLogModal,
   AddSplittedQuotedAmount,
-  CancelBookingPopup,
   ConfirmPaymentPopup,
   EditCustomerDetails,
   EditTravelDetails,

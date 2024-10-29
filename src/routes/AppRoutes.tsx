@@ -25,6 +25,7 @@ import {
   WhatsappLeadDetail,
   WhatsAppLeadPage,
   LeadSearch,
+  PaymentProcessing,
 } from "@/pages";
 
 import {
@@ -56,6 +57,7 @@ import {
   WhatsappLeadDetailURL,
   FacebookLeadListURL,
   LeadSearchPageURL,
+  PaymentProcessingURL,
 } from "./routeConstant";
 import PrivateRoute from "@/app_components/PrivateRoute/PrivateRoute";
 import FormManager from "@/pages/FormManager/FormManager";
@@ -72,6 +74,7 @@ const AppRoutes: React.FC = () => {
         <Route Component={ForgotPassword} path={ForgotPasswordURL} />
         <Route Component={ResetPassword} path={ResetPasswordURL} />
         <Route Component={AcknowledgementPage} path={AcknowledgementPageURL} />
+        <Route Component={PaymentProcessing} path={PaymentProcessingURL} />
         <Route
           Component={PaymentMethodSelectPage}
           path={PaymentMethodSelectURL}
