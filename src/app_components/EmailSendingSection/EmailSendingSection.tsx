@@ -13,7 +13,7 @@ interface EmailSendingSectionProps {
 export const EmailSendingSection: React.FC<EmailSendingSectionProps> = ({
   lead,
 }) => {
-  const frontendUrl = import.meta.env.VITE_CLIENT_URL_PRODUCTION;
+  const frontendUrl = "https://www.crmairwaystravel.com.au";
   const [selectedTab, setSelectedTab] = React.useState<null | string>(null);
 
   const disabledFields =
