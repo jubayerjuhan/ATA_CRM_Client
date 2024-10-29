@@ -31,6 +31,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { UserType } from "@/types";
+import { client } from "@/api/api";
 
 export const columns: ColumnDef<UserType>[] = [
   {
@@ -83,7 +84,30 @@ export const columns: ColumnDef<UserType>[] = [
       </div>
     ),
   },
+  {
+    accessorKey: "actions",
+    header: "Actions",
+    cell: ({ row }) => (
+      <Button
+        variant="destructive"
+        onClick={() => handleDelete(row.original._id)}
+      >
+        Delete
+      </Button>
+    ),
+  },
 ];
+
+const handleDelete = async (userId: string) => {
+  if (window.confirm("Are you sure you want to delete this user?")) {
+    try {
+      await client.delete(`/user/${userId}`);
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+};
 
 export interface UsersTableProps {
   users: UserType[];
