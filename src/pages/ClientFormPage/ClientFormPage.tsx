@@ -38,6 +38,7 @@ export const ClientFormPage = () => {
   const { lead: leadState } = useSelector((state: AppState) => state);
   const [airlines, setAirlines] = useState<any[]>([]);
   const [airlinesLoading, setAirlinesLoading] = useState(false);
+  const [userInputDisabled, setUserInputDisabled] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -177,6 +178,8 @@ export const ClientFormPage = () => {
     setValue("phone", lead?.phone || "");
     setValue("email", lead?.email || "");
     setValue("postCode", lead?.postCode || "");
+
+    setUserInputDisabled(true);
   };
 
   return (
@@ -220,6 +223,7 @@ export const ClientFormPage = () => {
                     Email <span className="required">*</span>
                   </label>
                   <input
+                    disabled={userInputDisabled}
                     type="email"
                     placeholder="example@example.com"
                     {...register("email", {
@@ -246,6 +250,7 @@ export const ClientFormPage = () => {
                     rules={{ required: "Phone Number is required" }}
                     render={({ field: { onChange, value } }) => (
                       <PhoneInput
+                        disabled={userInputDisabled}
                         defaultCountry="AU"
                         value={value}
                         onChange={(phone: E164Number | undefined) =>
@@ -332,6 +337,7 @@ export const ClientFormPage = () => {
                     </label>
                     <input
                       className="name-input full-width"
+                      disabled={userInputDisabled}
                       type="text"
                       placeholder="Enter First Name"
                       {...register("firstName", {
@@ -350,6 +356,7 @@ export const ClientFormPage = () => {
                     </label>
                     <input
                       className="name-input full-width"
+                      disabled={userInputDisabled}
                       type="text"
                       placeholder="Enter Last Name"
                       {...register("lastName", {
@@ -366,6 +373,7 @@ export const ClientFormPage = () => {
                 <div className="form-group">
                   <label>Post Code</label>
                   <input
+                    disabled={userInputDisabled}
                     type="text"
                     placeholder="Post Code here"
                     {...register("postCode")}
