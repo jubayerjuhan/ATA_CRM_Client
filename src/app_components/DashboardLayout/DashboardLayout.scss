@@ -19,7 +19,6 @@
 
   .sponsored_text {
     font-size: 14px;
-    color: #fff;
     margin-top: 25px;
     position: absolute;
     right: 20px;
@@ -64,7 +63,7 @@
   overflow-y: auto; /* Only vertical scrolling is allowed */
 
   /* Ensure the content scrolls over a fixed background */
-  background-image: url("../../assets/aerial-view-north-cardigan-bay-wales.jpg");
+  // background-image: url("../../assets/aerial-view-north-cardigan-bay-wales.jpg");
   background-size: cover; /* Make sure the image covers the area */
   background-position: center;
   background-attachment: fixed; /* Keep the background fixed */

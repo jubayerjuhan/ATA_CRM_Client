@@ -27,6 +27,6 @@ export * from "./LeadProgressBar/LeadProgressBar";
 export * from "./AddWhatsappNote/AddWhatsappNote";
 export * from "./WorldClock/WorldClock";
 export * from "./FacebookLeadTable/FacebookLeadTable";
-export * from "./";
+export * from "./CustomerHistoryTable/CustomerHistoryTable";
 // Test Component
 export * from "./TestComponent/TestComponent";

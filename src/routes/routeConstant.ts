@@ -30,12 +30,14 @@ const WhatsappLeadListURL = "/whatsapp-leads";
 const FacebookLeadListURL = "/facebook-leads";
 const WhatsappLeadDetailURL = "/whatsapp-lead/:leadId";
 const LeadSearchPageURL = "/lead-search";
+const CustomerHistoryURL = "/customer-history";
 const PaymentProcessingURL = "/payment-processing/:leadId";
 
 export {
   BaseURL,
   PaymentProcessingURL,
   LeadSearchPageURL,
+  CustomerHistoryURL,
   WhatsappLeadDetailURL,
   WhatsappLeadURL,
   FacebookLeadListURL,

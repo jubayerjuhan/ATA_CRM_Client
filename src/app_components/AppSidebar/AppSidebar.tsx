@@ -8,6 +8,7 @@ import { LuLayoutDashboard } from "react-icons/lu";
 import { PiUserList } from "react-icons/pi";
 import { CiLogout } from "react-icons/ci";
 import { MdMyLocation, MdFiberNew, MdEmojiPeople } from "react-icons/md";
+import { RiCustomerService2Fill } from "react-icons/ri";
 import { CiFacebook } from "react-icons/ci";
 
 import { SidebarLinksType } from "./index";
@@ -30,6 +31,7 @@ import {
   WhatsappLeadURL,
   WhatsappLeadListURL,
   FacebookLeadListURL,
+  CustomerHistoryURL,
 } from "@/routes/routeConstant";
 import { TbUserCancel } from "react-icons/tb";
 import { FaUserCheck } from "react-icons/fa6";
@@ -100,6 +102,11 @@ const Sidebar = () => {
       title: "Users",
       icon: <PiUserList />,
       pathname: UsersManagementURL,
+    },
+    {
+      title: "Customer History",
+      icon: <RiCustomerService2Fill />,
+      pathname: CustomerHistoryURL,
     },
     {
       title: "All Leads",

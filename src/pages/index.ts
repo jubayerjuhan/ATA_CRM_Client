@@ -23,4 +23,5 @@ export * from "./WhatsappLeadDetail/WhatsappLeadDetail";
 export * from "./FacebookLeadList/FacebookLeadList";
 export * from "./LeadSearchPage/LeadSearch";
 export * from "./PaymentProcessing/PaymentProcessing";
+export * from "./CustomerHistory/CustomerHistory";
 export * from "./TestPage/TestPage";

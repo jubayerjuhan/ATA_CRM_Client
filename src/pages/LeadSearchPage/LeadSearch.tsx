@@ -38,38 +38,26 @@ export function LeadSearch() {
     }
   };
 
-  // const handleSearch = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   // In a real application, you would fetch leads based on the email here
-  //   console.log("Searching for:", email);
-  // };
+  const getOldestLead = () => {
+    if (!leads.length) return null;
+    return leads.reduce((oldest, current) =>
+      new Date(current.createdAt) < new Date(oldest.createdAt)
+        ? current
+        : oldest
+    );
+  };
+
+  const oldestLead: LeadType | null = getOldestLead();
 
   return (
     <DashboardLayout>
-      <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 p-8">
+      <div className="min-h-screen bg-gradient-to-b p-8">
         <div className="max-w-4xl mx-auto space-y-8">
           <h1 className="text-4xl font-bold text-center text-gray-800">
-            All Leads Under The Email
+            Customer History
           </h1>
 
-          <Card className="overflow-hidden">
-            {/* <CardContent className="p-6">
-              <form onSubmit={handleSearch} className="flex space-x-4">
-                <Input
-                  type="email"
-                  placeholder="Enter email to search leads"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="flex-grow"
-                />
-                <Button type="submit">
-                  <Search className="mr-2 h-4 w-4" /> Search
-                </Button>
-              </form>
-            </CardContent> */}
-          </Card>
-
-          <div className="bg-white rounded-lg shadow-lg p-6">
+          <div className="shadow-[0px_0px_0px_1px_rgba(0,0,0,0.07)] p-8 rounded-lg">
             <h2 className="text-lg font-semibold text-gray-800 mb-4">
               Name: <span className="">{queryName}</span>
             </h2>
@@ -78,6 +66,19 @@ export function LeadSearch() {
             </h2>
             <h2 className="text-lg font-semibold text-gray-800 mb-4">
               Phone: <span className="">{leads[0]?.phone}</span>
+            </h2>
+            <h2 className="text-lg font-semibold text-gray-800 mb-4">
+              First Destination:{" "}
+              <span className="">
+                {oldestLead?.arrival?.name}, {oldestLead?.arrival?.city},{" "}
+                {oldestLead?.arrival?.country}
+              </span>
+            </h2>
+            <h2 className="text-lg font-semibold text-gray-800 mb-4">
+              Profile Creation Date:{" "}
+              <span className="">
+                {moment(oldestLead?.createdAt).format("DD-MM-YYYY")}
+              </span>
             </h2>
             <h2 className="text-lg font-semibold text-gray-800 mb-4">
               Total Leads: <span className="text-grey-600">{leads.length}</span>
@@ -144,7 +145,9 @@ export function LeadSearch() {
                               : "outline"
                           }
                         >
-                          {lead.status}
+                          {lead.status === "Ticket Sent"
+                            ? "Sale Won"
+                            : lead.status}
                         </Badge>
                       </div>
                       <div className="flex justify-between">

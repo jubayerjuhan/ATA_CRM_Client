@@ -26,6 +26,7 @@ import {
   WhatsAppLeadPage,
   LeadSearch,
   PaymentProcessing,
+  CustomerHistory,
 } from "@/pages";
 
 import {
@@ -58,6 +59,7 @@ import {
   FacebookLeadListURL,
   LeadSearchPageURL,
   PaymentProcessingURL,
+  CustomerHistoryURL,
 } from "./routeConstant";
 import PrivateRoute from "@/app_components/PrivateRoute/PrivateRoute";
 import FormManager from "@/pages/FormManager/FormManager";
@@ -169,6 +171,10 @@ const AppRoutes: React.FC = () => {
         <Route
           path={FacebookLeadListURL}
           element={<PrivateRoute component={FacebookLeadList} />}
+        />
+        <Route
+          path={CustomerHistoryURL}
+          element={<PrivateRoute component={CustomerHistory} />}
         />
       </Routes>
     </Router>
