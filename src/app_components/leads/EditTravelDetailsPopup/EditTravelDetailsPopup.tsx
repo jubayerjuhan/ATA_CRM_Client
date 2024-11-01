@@ -1,4 +1,5 @@
 import { client } from "@/api/api";
+import { AirlineSelector } from "@/app_components/AirlineSelector/AirlineSelector";
 import { AirportSelector } from "@/app_components/AirportSelector/AirportSelector";
 import { DatePicker } from "@/app_components/DatePicker/DatePicker";
 import { Button } from "@/components/ui/button";
@@ -41,7 +42,7 @@ export const EditTravelDetails: React.FC<EditTravelDetailsProps> = ({
   const fields = [
     { name: "departure", label: "Departure Airport", type: "airport_selector" },
     { name: "arrival", label: "Arrival Airport", type: "airport_selector" },
-    { name: "airlinesCode", label: "Airlines Code", type: "text" },
+    { name: "airlinesCode", label: "Airlines", type: "text" },
     { name: "pnr", label: "Final PNR", type: "textarea" },
     { name: "travelDate", label: "Travel Date", type: "date" },
     { name: "returnDate", label: "Return Date", type: "date" },
@@ -115,26 +116,60 @@ export const EditTravelDetails: React.FC<EditTravelDetailsProps> = ({
               );
             }
 
-            if (field.type === "date") {
+            if (field.name === "airlinesCode") {
               return (
                 <>
-                  <DatePicker
-                    value={
+                  {/* <AirportSelector
+                    key={field.name}
+                    name={field.name}
+                    label={field.label}
+                    register={register}
+                    setValue={setValue}
+                    defaultDisplayValue={
+                      lead[field.name as keyof LeadType]?.name
+                    }
+                    defaultValue={lead[field.name as keyof LeadType]?._id}
+                  /> */}
+
+                  <AirlineSelector
+                    key={field.name}
+                    name={field.name}
+                    label={field.label}
+                    register={register}
+                    setValue={setValue}
+                    defaultDisplayValue={
+                      lead[field.name as keyof LeadType]?.name
+                    }
+                    defaultValue={lead.airline.name}
+                  />
+                </>
+              );
+            }
+
+            if (field.type === "date") {
+              return (
+                <div key={field.name}>
+                  <Label>{field.label}</Label>
+                  <Input
+                    className="w-full"
+                    type="date"
+                    onChange={(event) =>
+                      setValue(field.name, event.target.value)
+                    }
+                    defaultValue={
                       lead[field.name as keyof LeadType]
                         ? new Date(lead[field.name as keyof LeadType] as string)
+                            .toISOString()
+                            .split("T")[0]
                         : undefined
                     }
-                    label={field.label}
-                    name={field.name}
-                    style={{ height: "50px" }}
-                    onDateChange={(date) => setValue(field.name, date)}
                   />
                   {errors[field.name] && (
                     <span className="error-message">
                       {errors[field.name]?.message as string}
                     </span>
                   )}
-                </>
+                </div>
               );
             }
 
