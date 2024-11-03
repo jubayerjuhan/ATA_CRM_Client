@@ -24,4 +24,5 @@ export * from "./FacebookLeadList/FacebookLeadList";
 export * from "./LeadSearchPage/LeadSearch";
 export * from "./PaymentProcessing/PaymentProcessing";
 export * from "./CustomerHistory/CustomerHistory";
+export * from "./MintpayPaymentPage/MintpayPaymentPage";
 export * from "./TestPage/TestPage";

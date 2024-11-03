@@ -32,6 +32,7 @@ const WhatsappLeadDetailURL = "/whatsapp-lead/:leadId";
 const LeadSearchPageURL = "/lead-search";
 const CustomerHistoryURL = "/customer-history";
 const PaymentProcessingURL = "/payment-processing/:leadId";
+const MintpayPaymentPageURL = "/mintpay-payment-page/:leadId";
 
 export {
   BaseURL,
@@ -68,4 +69,5 @@ export {
   RefundPageURL,
   TestRouteURL,
   MyFollowUpsURL,
+  MintpayPaymentPageURL,
 };

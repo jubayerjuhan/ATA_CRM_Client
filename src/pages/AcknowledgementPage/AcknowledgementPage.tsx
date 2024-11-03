@@ -30,7 +30,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
-type PaymentMethod = "stripe" | "bank" | "slicepay";
+type PaymentMethod = "mintpay" | "bank" | "slicepay";
 
 export const AcknowledgementPage: React.FC = () => {
   const { lead } = useSelector((state: AppState) => state.lead);
@@ -80,18 +80,41 @@ export const AcknowledgementPage: React.FC = () => {
   useEffect(() => {}, []);
 
   const updatePaymentMethod = async () => {
-    if (selectedPaymentMethod === "stripe" && lead) {
-      // Redirect to Stripe payment page
-      if (!lead.stripe_payment_link) {
-        toast.error("Stripe payment link not found");
-        return;
-      }
-      window.open(lead.stripe_payment_link as string);
-    } else {
-      if (leadId && !lead?.selectedPaymentMethod) {
-        sendPaymentMethodSelectionEmail(leadId);
-      }
-      await updateSelectedPaymentMethod(selectedPaymentMethod as string);
+    if (!lead) return toast.error("Lead not found");
+    // if (selectedPaymentMethod === "stripe" && lead) {
+    //   // Redirect to Stripe payment page
+    //   if (!lead.stripe_payment_link) {
+    //     toast.error("Stripe payment link not found");
+    //     return;
+    //   }
+    //   window.open(lead.stripe_payment_link as string);
+    // } else {
+    //   if (leadId && !lead?.selectedPaymentMethod) {
+    //     sendPaymentMethodSelectionEmail(leadId);
+    //   }
+    //   await updateSelectedPaymentMethod(selectedPaymentMethod as string);
+    // }
+
+    switch (selectedPaymentMethod) {
+      case "mintpay":
+        window.open(`/mintpay-payment-page/${leadId}`);
+        break;
+      case "bank":
+        if (leadId) {
+          sendPaymentMethodSelectionEmail(leadId);
+        }
+        await updateSelectedPaymentMethod(selectedPaymentMethod as string);
+        break;
+
+      case "slicepay":
+        if (!lead.stripe_payment_link) {
+          toast.error("Slicepay payment link not found");
+          return;
+        }
+        window.open(lead.stripe_payment_link as string);
+        break;
+      default:
+        break;
     }
   };
 
@@ -284,7 +307,7 @@ export const AcknowledgementPage: React.FC = () => {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <button
-                onClick={() => handlePayment("stripe")}
+                onClick={() => handlePayment("slicepay")}
                 className="flex items-center justify-center space-x-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white p-3 rounded-lg hover:from-purple-600 hover:to-purple-700 transition duration-300"
               >
                 <CreditCard size={20} />
@@ -298,7 +321,7 @@ export const AcknowledgementPage: React.FC = () => {
                 <span>Pay with Bank</span>
               </button>
               <button
-                onClick={() => handlePayment("slicepay")}
+                onClick={() => handlePayment("mintpay")}
                 className="flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white p-3 rounded-lg hover:from-blue-600 hover:to-blue-700 transition duration-300"
               >
                 <Wallet size={20} />

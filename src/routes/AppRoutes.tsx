@@ -27,6 +27,7 @@ import {
   LeadSearch,
   PaymentProcessing,
   CustomerHistory,
+  MintpayPaymentPage,
 } from "@/pages";
 
 import {
@@ -60,6 +61,7 @@ import {
   LeadSearchPageURL,
   PaymentProcessingURL,
   CustomerHistoryURL,
+  MintpayPaymentPageURL,
 } from "./routeConstant";
 import PrivateRoute from "@/app_components/PrivateRoute/PrivateRoute";
 import FormManager from "@/pages/FormManager/FormManager";
@@ -77,6 +79,7 @@ const AppRoutes: React.FC = () => {
         <Route Component={ResetPassword} path={ResetPasswordURL} />
         <Route Component={AcknowledgementPage} path={AcknowledgementPageURL} />
         <Route Component={PaymentProcessing} path={PaymentProcessingURL} />
+        <Route Component={MintpayPaymentPage} path={MintpayPaymentPageURL} />
         <Route
           Component={PaymentMethodSelectPage}
           path={PaymentMethodSelectURL}
