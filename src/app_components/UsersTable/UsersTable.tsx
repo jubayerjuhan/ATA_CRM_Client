@@ -32,6 +32,38 @@ import {
 } from "@/components/ui/table";
 import { UserType } from "@/types";
 import { client } from "@/api/api";
+import toast from "react-hot-toast";
+
+let changedUserRole: string | null = null;
+
+const handleDelete = async (userId: string) => {
+  if (window.confirm("Are you sure you want to delete this user?")) {
+    try {
+      await client.delete(`/user/${userId}`);
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+};
+
+const handleRoleChange = async (userId: string) => {
+  if (!changedUserRole) return toast.error("Please select a role to change.");
+
+  if (
+    window.confirm(
+      `Are you sure you want to change the role to ${changedUserRole}?`
+    )
+  ) {
+    try {
+      await client.put(`/user/${userId}`, { role: changedUserRole });
+      console.log("Role changed successfully.");
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+};
 
 export const columns: ColumnDef<UserType>[] = [
   {
@@ -85,6 +117,30 @@ export const columns: ColumnDef<UserType>[] = [
     ),
   },
   {
+    accessorKey: "editRole",
+    header: "Edit Role",
+    cell: ({ row }) => (
+      <div className="flex items-center">
+        <select
+          defaultValue={row.getValue("role")}
+          className="mr-2"
+          onChange={(event) => {
+            changedUserRole = event.target.value;
+          }}
+        >
+          <option value="admin">Admin</option>
+          <option value="agent">Agent</option>
+        </select>
+        <Button
+          variant="default"
+          onClick={() => handleRoleChange(row.original._id)}
+        >
+          Save
+        </Button>
+      </div>
+    ),
+  },
+  {
     accessorKey: "actions",
     header: "Actions",
     cell: ({ row }) => (
@@ -97,17 +153,6 @@ export const columns: ColumnDef<UserType>[] = [
     ),
   },
 ];
-
-const handleDelete = async (userId: string) => {
-  if (window.confirm("Are you sure you want to delete this user?")) {
-    try {
-      await client.delete(`/user/${userId}`);
-      window.location.reload();
-    } catch (error) {
-      console.error(error);
-    }
-  }
-};
 
 export interface UsersTableProps {
   users: UserType[];
