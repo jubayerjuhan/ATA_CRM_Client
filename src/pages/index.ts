@@ -25,4 +25,5 @@ export * from "./LeadSearchPage/LeadSearch";
 export * from "./PaymentProcessing/PaymentProcessing";
 export * from "./CustomerHistory/CustomerHistory";
 export * from "./MintpayPaymentPage/MintpayPaymentPage";
+export * from "./MintpaymentPaymentConfirmation/MintpaymentPaymentConfirmation";
 export * from "./TestPage/TestPage";

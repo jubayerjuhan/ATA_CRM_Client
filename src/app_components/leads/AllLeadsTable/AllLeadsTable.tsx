@@ -52,6 +52,10 @@ export const AllLeadsTable: React.FC<AllLeadsTableProps> = ({
             id: "status",
             header: "Lead Status",
             size: 200,
+            Cell: ({ cell }) => {
+              const status = cell.getValue<string>();
+              return status === "Ticket Sent" ? "Sale Converted" : status;
+            },
           },
           {
             accessorKey: "email",
@@ -131,11 +135,7 @@ export const AllLeadsTable: React.FC<AllLeadsTableProps> = ({
             header: "Lead Type",
             size: 120,
           },
-          {
-            accessorKey: "status",
-            header: "Status",
-            size: 150,
-          },
+
           {
             accessorKey: "quotedAmount",
             header: "Quoted Amount",

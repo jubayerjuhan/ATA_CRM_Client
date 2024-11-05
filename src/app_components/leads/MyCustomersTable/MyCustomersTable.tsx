@@ -74,6 +74,10 @@ export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
             id: "status",
             header: "Lead Status",
             size: 200,
+            Cell: ({ cell }) => {
+              const status = cell.getValue<string>();
+              return status === "Ticket Sent" ? "Sale Converted" : status;
+            },
           },
           {
             accessorKey: "email",
@@ -154,11 +158,6 @@ export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
             accessorKey: "leadType",
             header: "Lead Type",
             size: 120,
-          },
-          {
-            accessorKey: "status",
-            header: "Status",
-            size: 150,
           },
           {
             accessorKey: "quotedAmount",

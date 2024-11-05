@@ -28,6 +28,7 @@ import {
   PaymentProcessing,
   CustomerHistory,
   MintpayPaymentPage,
+  MintpaymentPaymentConfirmation,
 } from "@/pages";
 
 import {
@@ -62,6 +63,7 @@ import {
   PaymentProcessingURL,
   CustomerHistoryURL,
   MintpayPaymentPageURL,
+  MintpayPaymentConfirmationURL,
 } from "./routeConstant";
 import PrivateRoute from "@/app_components/PrivateRoute/PrivateRoute";
 import FormManager from "@/pages/FormManager/FormManager";
@@ -80,6 +82,10 @@ const AppRoutes: React.FC = () => {
         <Route Component={AcknowledgementPage} path={AcknowledgementPageURL} />
         <Route Component={PaymentProcessing} path={PaymentProcessingURL} />
         <Route Component={MintpayPaymentPage} path={MintpayPaymentPageURL} />
+        <Route
+          Component={MintpaymentPaymentConfirmation}
+          path={MintpayPaymentConfirmationURL}
+        />
         <Route
           Component={PaymentMethodSelectPage}
           path={PaymentMethodSelectURL}

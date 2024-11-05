@@ -33,6 +33,7 @@ const LeadSearchPageURL = "/lead-search";
 const CustomerHistoryURL = "/customer-history";
 const PaymentProcessingURL = "/payment-processing/:leadId";
 const MintpayPaymentPageURL = "/mintpay-payment-page/:leadId";
+const MintpayPaymentConfirmationURL = "/mintpay-payment-confirmation/:leadId";
 
 export {
   BaseURL,
@@ -70,4 +71,5 @@ export {
   TestRouteURL,
   MyFollowUpsURL,
   MintpayPaymentPageURL,
+  MintpayPaymentConfirmationURL,
 };

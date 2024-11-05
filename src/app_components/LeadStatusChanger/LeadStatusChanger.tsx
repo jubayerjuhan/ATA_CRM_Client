@@ -113,7 +113,7 @@ export const LeadStatusChanger: FC<LeadStatusChangerProps> = ({ lead }) => {
                     <SelectItem value="Payment Complete">
                       Payment Complete
                     </SelectItem>
-                    <SelectItem value="Ticket Sent">Ticket Sent</SelectItem>
+                    <SelectItem value="Ticket Sent">Sale Converted</SelectItem>
                     <SelectItem value="Sale Lost">Sale Lost</SelectItem>
                   </SelectContent>
                 </Select>

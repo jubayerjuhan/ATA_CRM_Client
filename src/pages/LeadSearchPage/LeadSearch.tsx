@@ -146,7 +146,7 @@ export function LeadSearch() {
                           }
                         >
                           {lead.status === "Ticket Sent"
-                            ? "Sale Won"
+                            ? "Sale Converted"
                             : lead.status}
                         </Badge>
                       </div>
