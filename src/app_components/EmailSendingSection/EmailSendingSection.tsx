@@ -1,10 +1,11 @@
 import React from "react";
-import { LeadType } from "@/types";
+import { AppState, LeadType } from "@/types";
 import { InfoCard, InfoItem } from "@/pages";
 
 import { Button } from "@/components/ui/button";
 import { SendEmail } from "../SendEmail/SendEmail";
 import { itineraryHtmlContent, ticketEmailContent } from "./EmailHtmlContent";
+import { useSelector } from "react-redux";
 
 interface EmailSendingSectionProps {
   lead: LeadType;
@@ -14,10 +15,13 @@ export const EmailSendingSection: React.FC<EmailSendingSectionProps> = ({
   lead,
 }) => {
   const frontendUrl = "https://www.crmairwaystravel.com.au";
+
+  const { profile } = useSelector((state: AppState) => state.auth);
   const [selectedTab, setSelectedTab] = React.useState<null | string>(null);
 
   const disabledFields =
-    lead.status === "Sale Lost" || lead.status === "Ticket Sent";
+    lead.status === "Sale Lost" ||
+    (lead.status === "Ticket Sent" && profile?.role === "agent");
   return (
     <InfoCard title="Email Section" className={""}>
       {/* Itinerary Email */}

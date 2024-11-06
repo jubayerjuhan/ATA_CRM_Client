@@ -45,6 +45,7 @@ export const AcknowledgementPage: React.FC = () => {
   const queryParams = new URLSearchParams(location.search);
 
   const leadId = queryParams.get("leadId");
+
   if (!leadId) {
     toast.error("Lead ID not found");
   }
@@ -129,6 +130,11 @@ export const AcknowledgementPage: React.FC = () => {
     } catch (error) {
       toast.error("Failed to update payment method");
     }
+
+    // Send Payment Method Selection Email
+    await client.post(`/email/send-payment-method-selection-email`, {
+      leadId: leadId,
+    });
   };
 
   useEffect(() => {

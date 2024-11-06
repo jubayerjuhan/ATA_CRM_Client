@@ -15,10 +15,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { getSingleLead } from "@/redux/actions";
-import { AppDispatch, LeadType } from "@/types";
+import { AppDispatch, AppState, LeadType } from "@/types";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
 interface EditPassengersDetailsProps {
@@ -29,6 +30,8 @@ export const EditPassengersDetails: React.FC<EditPassengersDetailsProps> = ({
   lead,
 }) => {
   const dispatch = useDispatch<AppDispatch>();
+  const { profile } = useSelector((state: AppState) => state.auth);
+
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const {
     register,
@@ -55,9 +58,12 @@ export const EditPassengersDetails: React.FC<EditPassengersDetailsProps> = ({
       toast.error("Failed to edit passengers details");
     }
   };
-  if (lead.status === "Sale Lost" || lead.status === "Ticket Sent") {
+  if (lead.status === "Sale Lost") {
     return <></>;
   }
+
+  if (lead.status === "Ticket Sent" && profile?.role === "agent") return <></>;
+
   return (
     <Dialog open={dialogOpen} modal>
       <DialogTrigger asChild>

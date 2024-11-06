@@ -58,10 +58,6 @@ export const EditCustomerDetails: React.FC<EditCustomerDetailsProps> = ({
     }
   };
 
-  if (lead.status === "Sale Lost" || lead.status === "Ticket Sent") {
-    return <></>;
-  }
-
   if (profile?.role === "agent") {
     return <></>;
   }

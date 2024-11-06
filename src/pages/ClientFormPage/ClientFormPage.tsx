@@ -34,6 +34,7 @@ const isValidEmail = (email: string): boolean => {
 export const ClientFormPage = () => {
   const location = useLocation();
   const leadData = location.state?.leadData;
+  const nonEditableField = location.state?.nonEditable;
 
   const { lead: leadState } = useSelector((state: AppState) => state);
   const [airlines, setAirlines] = useState<any[]>([]);
@@ -63,12 +64,14 @@ export const ClientFormPage = () => {
     if (leadData) {
       setValue("firstName", leadData.firstName);
       setValue("lastName", leadData.lastName);
-      setValue("phone", `+61${leadData.phone}`);
+      setValue("phone", `${leadData.phone}`);
       setValue("email", leadData.email);
       setValue("leadOrigin", "Facebook");
       setValue("postCode", leadData.postCode);
     }
-  }, [leadData, setValue]);
+
+    if (nonEditableField) setUserInputDisabled(true);
+  }, [leadData, setValue, nonEditableField]);
 
   useEffect(() => {
     if (leadState.error?.message) {
@@ -178,8 +181,6 @@ export const ClientFormPage = () => {
     setValue("phone", lead?.phone || "");
     setValue("email", lead?.email || "");
     setValue("postCode", lead?.postCode || "");
-
-    setUserInputDisabled(true);
   };
 
   return (
@@ -191,12 +192,12 @@ export const ClientFormPage = () => {
         }}
       />
       <div className="client-form-page">
-        {showExistingLeadPopup && (
+        {/* {showExistingLeadPopup && (
           <SearchExistingLeadPopup
             email={userSearchingEmail}
             onAdd={onExistingLeadAdd}
           />
-        )}
+        )} */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

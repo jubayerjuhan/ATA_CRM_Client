@@ -18,10 +18,16 @@ export function PaymentProcessing() {
   const { leadId } = useParams<{ leadId: string }>();
 
   useEffect(() => {
+    if (!leadId) return;
     const processPayment = async () => {
       setIsLoading(true);
       try {
-        await client.post(`/leads/${leadId}/process-payment`);
+        await client.post(`/leads/${leadId}/process-payment`, {
+          payment_method: "slicepay",
+        });
+        await client.post(`/email/send-payment-method-selection-email`, {
+          leadId: leadId,
+        });
       } catch (error) {
         console.error(error);
       } finally {

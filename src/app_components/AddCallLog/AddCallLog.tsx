@@ -21,10 +21,11 @@ import {
 import moment from "moment";
 import { client } from "@/api/api";
 import { useDispatch } from "react-redux";
-import { AppDispatch, LeadType } from "@/types";
+import { AppDispatch, AppState, LeadType } from "@/types";
 import { getSingleLead } from "@/redux/actions";
 import { Textarea } from "@/components/ui/textarea";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 interface AddCallLogModalProps {
   leadId: string;
@@ -36,6 +37,7 @@ export const AddCallLogModal: React.FC<AddCallLogModalProps> = ({
   lead,
 }) => {
   const dispatch = useDispatch<AppDispatch>();
+  const { profile } = useSelector((state: AppState) => state.auth);
 
   const [notes, setNotes] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -60,9 +62,12 @@ export const AddCallLogModal: React.FC<AddCallLogModalProps> = ({
     await dispatch(getSingleLead(leadId));
   };
 
-  if (lead.status === "Sale Lost" || lead.status === "Ticket Sent") {
+  if (lead.status === "Sale Lost") {
     return <></>;
   }
+
+  if (lead.status === "Ticket Sent" && profile?.role === "agent") return <></>;
+
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild className="mb-4">

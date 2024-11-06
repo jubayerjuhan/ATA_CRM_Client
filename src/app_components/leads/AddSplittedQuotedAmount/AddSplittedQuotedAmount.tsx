@@ -12,10 +12,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { getSingleLead } from "@/redux/actions";
-import { AppDispatch } from "@/types";
+import { AppDispatch, AppState } from "@/types";
 import React from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
 interface AddSplittedQuotedAmountProps {
@@ -26,6 +27,7 @@ export const AddSplittedQuotedAmount: React.FC<
   AddSplittedQuotedAmountProps
 > = ({ lead }) => {
   const dispatch = useDispatch<AppDispatch>();
+  const { profile } = useSelector((state: AppState) => state.auth);
 
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const {
@@ -77,9 +79,11 @@ export const AddSplittedQuotedAmount: React.FC<
     }
   };
 
-  if (lead.status === "Ticket Sent" || lead.status === "Sale Lost") {
+  if (lead.status === "Sale Lost") {
     return <></>;
   }
+
+  if (lead.status === "Ticket Sent" && profile?.role === "agent") return <></>;
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen} modal>

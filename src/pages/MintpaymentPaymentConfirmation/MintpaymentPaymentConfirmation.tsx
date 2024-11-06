@@ -37,6 +37,9 @@ export function MintpaymentPaymentConfirmation() {
         setPaymentStatus("failed");
         setError("Payment  failed");
       }
+      await client.post(`/email/send-payment-method-selection-email`, {
+        leadId: leadId,
+      });
     };
 
     checkPaymentStatus();

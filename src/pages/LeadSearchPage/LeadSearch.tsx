@@ -89,7 +89,7 @@ export function LeadSearch() {
                 className="my-4"
                 onClick={() =>
                   navigate(`/form`, {
-                    state: { leadData: leads[0] },
+                    state: { leadData: leads[0], nonEditable: true },
                   })
                 }
               >

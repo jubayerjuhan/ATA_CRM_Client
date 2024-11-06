@@ -43,10 +43,20 @@ export const LeadDetailPage = () => {
             {lead.firstName} {lead.lastName}'s Lead Details
           </h1>
           <span className={`lead-type ${lead.leadType?.toLowerCase()}`}>
-            {lead.status}
+            {lead.status === "Ticket Sent" ? "Sale Converted" : lead.status}
           </span>
         </header>
-
+        {lead.selectedPaymentMethod && (
+          <div className="payment-method text-right">
+            <span className="font-semibold text-gray-700 mr-2">
+              Payment Method:
+            </span>
+            <span className="px-2 py-1 bg-[#46A1DE] text-white rounded-md">
+              {lead.selectedPaymentMethod.charAt(0).toUpperCase() +
+                lead.selectedPaymentMethod.slice(1)}
+            </span>
+          </div>
+        )}
         <div className="flex justify-between my-6">
           <FollowUpDatePicker lead={lead} />
           <div className="flex items-center space-x-2">
