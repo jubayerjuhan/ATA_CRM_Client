@@ -99,7 +99,7 @@ export function MintpayPaymentPage() {
 
       // Redirect to the auth URL
       console.log(data, "data");
-      // window.location.href = data.auth_url;
+      window.location.href = data.auth_url;
     } catch (error: any) {
       toast.error(error.response.data?.message);
     } finally {
