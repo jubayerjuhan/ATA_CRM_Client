@@ -22,12 +22,17 @@ export const EmailSendingSection: React.FC<EmailSendingSectionProps> = ({
   const disabledFields =
     lead.status === "Sale Lost" ||
     (lead.status === "Ticket Sent" && profile?.role === "agent");
+
+  const disabledForPriceOrPassenger =
+    lead.quoted_amount.total === 0 ||
+    (lead.adult === 0 && lead.infant === 0 && lead.child === 0);
+
   return (
     <InfoCard title="Email Section" className={""}>
       {/* Itinerary Email */}
       <InfoItem label={"Itinerary Email"}>
         <Button
-          disabled={disabledFields}
+          disabled={disabledFields || disabledForPriceOrPassenger}
           variant="outline"
           onClick={() => {
             setSelectedTab("itinerary");
@@ -38,7 +43,7 @@ export const EmailSendingSection: React.FC<EmailSendingSectionProps> = ({
       </InfoItem>
       <InfoItem label={"Ticket Email"}>
         <Button
-          disabled={disabledFields}
+          disabled={disabledFields || disabledForPriceOrPassenger}
           variant="outline"
           onClick={() => {
             setSelectedTab("ticket");
