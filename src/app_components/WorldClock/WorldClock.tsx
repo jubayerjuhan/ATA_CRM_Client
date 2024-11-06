@@ -13,16 +13,20 @@ const moment = {
 
 const timeZones = [
   {
-    city: "New York",
-    zone: "America/New_York",
-    gradient: "from-purple-500 to-pink-500",
+    city: "New Delhi",
+    zone: "Asia/Kolkata",
+    gradient: "from-orange-500 to-red-500",
   },
   {
-    city: "London",
-    zone: "Europe/London",
-    gradient: "from-green-500 to-teal-500",
+    city: "Hobart",
+    zone: "Australia/Hobart",
+    gradient: "from-blue-500 to-indigo-500",
   },
-  { city: "Tokyo", zone: "Asia/Tokyo", gradient: "from-yellow-500 to-red-500" },
+  {
+    city: "Brisbane",
+    zone: "Australia/Brisbane",
+    gradient: "from-green-500 to-blue-500",
+  },
   {
     city: "Sydney",
     zone: "Australia/Sydney",
@@ -55,7 +59,7 @@ export function WorldClock() {
                 <h3 className="text-xl font-semibold">{tz.city}</h3>
                 <Clock className="text-gray-500" />
               </div>
-              <p className="text-4xl font-bold text-center">{times[index]}</p>
+              <p className="text-3xl font-bold text-center">{times[index]}</p>
               {/* <p className="text-sm text-gray-500 text-center mt-2">
                 {tz.zone}
               </p> */}
