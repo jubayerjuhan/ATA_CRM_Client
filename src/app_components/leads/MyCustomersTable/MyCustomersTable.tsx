@@ -330,12 +330,7 @@ export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
         </Box>
       );
     },
-    renderRowActionMenuItems: () => (
-      <>
-        <Menu.Item icon={<IconUserCircle />}>View Profile</Menu.Item>
-        <Menu.Item icon={<IconSend />}>Send Email</Menu.Item>
-      </>
-    ),
+
     // renderTopToolbar: ({ table }) => {
     //   const handleDeactivate = () => {
     //     table.getSelectedRowModel().flatRows.map((row) => {

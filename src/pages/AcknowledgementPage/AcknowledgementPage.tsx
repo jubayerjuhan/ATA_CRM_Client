@@ -189,35 +189,40 @@ export const AcknowledgementPage: React.FC = () => {
             </AlertDialogDescription>
             {selectedPaymentMethod === "bank" && (
               <div className="mt-4 p-6 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg shadow-[0_0px_5px_0px_rgba(0,0,0,0.1),0_0px_1px_0px_rgba(0,0,0,0.1)]">
-                <h3 className="text-xl font-semibold text-gray-800">
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">
                   Bank Account Details
                 </h3>
                 <p className="text-sm text-gray-600 mt-2 bg-blue-50 p-4 rounded-lg border border-blue-200">
                   Please transfer the amount to the following bank account and
                   press <span className="font-bold">Continue</span>:
                 </p>
-                <ul className="mt-4 space-y-2 text-sm text-gray-700">
+                <ul className="mt-4 space-y-2 text-sm text-gray-700 mb-2">
                   <li className="flex items-center">
                     <span className="font-semibold w-40">Bank Name:</span>
                     <span>Commonwealth Bank of Australia</span>
                   </li>
                   <li className="flex items-center">
                     <span className="font-semibold w-40">Account Name:</span>
-                    <span>ATA CRM Pty Ltd</span>
+                    <span>Airways Travel</span>
                   </li>
                   <li className="flex items-center">
                     <span className="font-semibold w-40">BSB:</span>
-                    <span>062-000</span>
+                    <span>063994</span>
                   </li>
                   <li className="flex items-center">
                     <span className="font-semibold w-40">Account Number:</span>
-                    <span>12345678</span>
+                    <span>10217082</span>
                   </li>
-                  <li className="flex items-center">
+                  {/* <li className="flex items-center">
                     <span className="font-semibold w-40">SWIFT Code:</span>
                     <span>CTBAAU2S</span>
-                  </li>
+                  </li> */}
                 </ul>
+
+                <p style={{ fontSize: "14px" }}>
+                  Please be advised fares and taxes are not guaranteed until
+                  paid and ticketed
+                </p>
               </div>
             )}
           </AlertDialogHeader>

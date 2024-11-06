@@ -25,6 +25,7 @@ const RefundPageURL = "/refund";
 const RefundListURL = "/refund-list";
 const TestRouteURL = "/test";
 const MyFollowUpsURL = "/my-follow-ups";
+const TotalFollowUpsURL = "/total-follow-ups";
 const WhatsappLeadURL = "/add-whatsapp-lead";
 const WhatsappLeadListURL = "/whatsapp-leads";
 const FacebookLeadListURL = "/facebook-leads";
@@ -70,6 +71,7 @@ export {
   RefundPageURL,
   TestRouteURL,
   MyFollowUpsURL,
+  TotalFollowUpsURL,
   MintpayPaymentPageURL,
   MintpayPaymentConfirmationURL,
 };

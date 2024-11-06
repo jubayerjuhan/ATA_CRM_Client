@@ -29,6 +29,7 @@ import {
   CustomerHistory,
   MintpayPaymentPage,
   MintpaymentPaymentConfirmation,
+  TotalFollowups,
 } from "@/pages";
 
 import {
@@ -64,6 +65,7 @@ import {
   CustomerHistoryURL,
   MintpayPaymentPageURL,
   MintpayPaymentConfirmationURL,
+  TotalFollowUpsURL,
 } from "./routeConstant";
 import PrivateRoute from "@/app_components/PrivateRoute/PrivateRoute";
 import FormManager from "@/pages/FormManager/FormManager";
@@ -164,6 +166,10 @@ const AppRoutes: React.FC = () => {
         <Route
           path={MyFollowUpsURL}
           element={<PrivateRoute component={MyFollowUps} />}
+        />
+        <Route
+          path={TotalFollowUpsURL}
+          element={<PrivateRoute component={TotalFollowups} />}
         />
         <Route
           path={WhatsappLeadURL}

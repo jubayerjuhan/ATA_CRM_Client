@@ -120,12 +120,6 @@ export const RefundListTable: React.FC<AllCustomersProps> = ({
     mantineSearchTextInputProps: {
       placeholder: "Search Refunds",
     },
-    renderRowActionMenuItems: () => (
-      <>
-        <Menu.Item icon={<IconUserCircle />}>View Profile</Menu.Item>
-        <Menu.Item icon={<IconSend />}>Send Email</Menu.Item>
-      </>
-    ),
   });
 
   if (loading) {

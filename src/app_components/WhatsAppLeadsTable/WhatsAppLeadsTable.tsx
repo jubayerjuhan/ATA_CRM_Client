@@ -79,12 +79,6 @@ export const WhatsAppLeadsTable: React.FC<WhatsAppLeadsProps> = ({
     mantineSearchTextInputProps: {
       placeholder: "Search Leads",
     },
-    renderRowActionMenuItems: () => (
-      <>
-        <Menu.Item icon={<IconUserCircle />}>View Profile</Menu.Item>
-        <Menu.Item icon={<IconSend />}>Send Email</Menu.Item>
-      </>
-    ),
   });
 
   if (loading) {

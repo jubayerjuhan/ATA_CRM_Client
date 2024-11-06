@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MyFollowUpsURL } from "@/routes/routeConstant";
+import { MyFollowUpsURL, TotalFollowUpsURL } from "@/routes/routeConstant";
 import { AppState } from "@/types";
 import React from "react";
 import { useSelector } from "react-redux";
@@ -72,7 +72,9 @@ export const DashboardCardsSection: React.FC<DashboardCardSectionProps> = ({
             </svg>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{customersData.followUps}</div>
+            <a href={TotalFollowUpsURL} className="text-2xl font-bold">
+              {customersData.followUps}
+            </a>
             <p className="mt-2 text-xs text-muted-foreground">
               Follow up required
             </p>

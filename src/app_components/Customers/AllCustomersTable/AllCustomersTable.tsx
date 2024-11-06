@@ -284,12 +284,6 @@ export const AllCustomersTable: React.FC<AllCustomersProps> = ({
         </Box>
       );
     },
-    renderRowActionMenuItems: () => (
-      <>
-        <Menu.Item icon={<IconUserCircle />}>View Profile</Menu.Item>
-        <Menu.Item icon={<IconSend />}>Send Email</Menu.Item>
-      </>
-    ),
   });
 
   if (loading) {
