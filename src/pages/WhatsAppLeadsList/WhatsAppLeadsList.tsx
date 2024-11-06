@@ -12,7 +12,7 @@ const WhatsAppLeadsList = () => {
     const fetchLeads = async () => {
       setLoading(true);
       try {
-        const { data } = await client.get("/whatsapp-leads/my-leads");
+        const { data } = await client.get("/whatsapp-leads");
         setLeads(data);
       } catch (error) {
         toast.error("Failed to fetch WhatsApp leads");

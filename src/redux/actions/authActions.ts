@@ -72,6 +72,7 @@ export const resetPasswordAction = (token: string, password: string) => {
         type: RESET_PASSWORD_SUCCESS,
         payload: "Your password has been reset successfully",
       });
+      window.location.href = "/login";
     } catch (error: any) {
       dispatch({
         type: RESET_PASSWORD_ERROR,

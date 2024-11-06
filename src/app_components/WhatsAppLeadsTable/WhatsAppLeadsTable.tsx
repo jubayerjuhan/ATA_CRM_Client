@@ -37,8 +37,8 @@ export const WhatsAppLeadsTable: React.FC<WhatsAppLeadsProps> = ({
             size: 200,
           },
           {
-            accessorKey: "description",
-            header: "Description",
+            accessorFn: (row) => `${row.added_by.name}`,
+            header: "Added By",
             size: 250,
           },
           // add a button to view the lead details

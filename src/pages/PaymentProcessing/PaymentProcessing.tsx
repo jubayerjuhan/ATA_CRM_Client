@@ -77,14 +77,6 @@ export function PaymentProcessing() {
               : "Your payment has been processed successfully. Thank you for your purchase!"}
           </p>
         </CardContent>
-        <CardFooter className="flex justify-center">
-          <Button
-            className="bg-primary hover:bg-primary/90 text-primary-foreground"
-            disabled={isLoading}
-          >
-            {isLoading ? "Processing..." : "Continue Shopping"}
-          </Button>
-        </CardFooter>
       </Card>
     </div>
   );

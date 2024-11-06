@@ -40,19 +40,22 @@ export const itineraryHtmlContent = (link: string) => {
 <h2><br><span style="color: rgb(0,123,255);font-size: 20px;">Flight Details</span>&nbsp;</h2>
 <p><span style="color: rgb(85,85,85);">Sydney - Dhaka</span><br><br><span style="color: rgb(85,85,85);">           CZ 326</span><br><br><span style="color: rgb(85,85,85);">           DEPART: Kingsford Smith, Sydney (SYD)</span><br><br><span style="color: rgb(85,85,85);">           Saturday 23 November 2024, 11:25</span><br><br><span style="color: rgb(85,85,85);">           ARRIVE: Baiyun Intl, Guangzhou (CAN)</span><br><br><span style="color: rgb(85,85,85);">           Saturday 23 November 2024, 17:50</span><br><br><span style="color: rgb(85,85,85);">           Duration: 9h 25m | Cabin Class: Economy</span><br><br><span style="color: rgb(85,85,85);">           Airline: China Southern | Aircraft: Airbus A350</span> <br></p>
 <p><span style="color: rgb(85,85,85);">Return Flight: Dhaka - Sydney</span><br><br><span style="color: rgb(85,85,85);">           CZ 392</span><br><br><span style="color: rgb(85,85,85);">           DEPART: Hazrat Shahjalal Intl, Dhaka (DAC)</span><br><br><span style="color: rgb(85,85,85);">           Saturday 07 December 2024, 20:30</span><br><br><span style="color: rgb(85,85,85);">           ARRIVE: Kingsford Smith, Sydney (SYD)</span><br><br><span style="color: rgb(85,85,85);">           Sunday 08 December 2024, 17:25</span><br><br><span style="color: rgb(85,85,85);">           Duration: 12h 55m | Cabin Class: Economy</span><br><br><span style="color: rgb(85,85,85);">           Airline: China Southern | Aircraft: Airbus A35</span></p>
-<p></p>
-<div style="text-align:center; margin-top: 20px; width: 100%; text-align: center">
-  <p style="color: rgb(85,85,85); font-size: 16px;">If you agree, please click the button below:</p></br>
-  <a href="${link}">
-  <button style="background-color: red; font-weight: 800; color: white; padding: 10px 20px; font-size: 20px; border: none; border-radius: 5px; cursor: pointer;">I Acknowledge</button>
-  </a></br>
-  <p style="color: rgb(85,85,85); font-size: 16px; font-style:italic">(By acknowledging, you confirm that you have reviewed all the above details and agree with the provided information.)</p>
-</div>
+<p style="text-align:center;"><span style="color: black;font-size: 20px;" margin-bottom: 20px; margin-top: 20px >-----—---------------------- IMPORTANT —----------------------------</span></p></br>
+<p style="text-align:center;"><span style="color: black;font-size: 20px;" margin-bottom: 10px >If you agree, please click the button below:</span></p></br>
+<a href="${link}" style="text-align:center; background-color: red;"><span style="color: black;font-size: 20px;" margin-bottom: 10px >I Acknowledge</span></a>
+<p style="text-align:center;"><span style="color: black;font-size: 14px;">(By acknowledging, you confirm that you have reviewed all the above details and agree with the provided information.)</span></p>
 <p style="text-align:center;"><span style="color: rgb(153,153,153);font-size: 14px;">Thank you for choosing Airways Travel!</span></p>
 <p style="text-align:center;"><span style="color: rgb(153,153,153);font-size: 14px;">For any inquiries, please contact us at support@airwaystravel.com.</span><br>  <br></p>
 `;
 };
 
+// <div style="text-align:center; margin-top: 20px; width: 100%; text-align: center">
+//   <p style="color: rgb(85,85,85); font-size: 16px;">If you agree, please click the button below:</p></br>
+//   <a href="${link}">
+//   <button style="background-color: red; font-weight: 800; color: white; padding: 10px 20px; font-size: 20px; border: none; border-radius: 5px; cursor: pointer;">I Acknowledge</button>
+//   </a></br>
+//   <p style="color: rgb(85,85,85); font-size: 16px; font-style:italic">(By acknowledging, you confirm that you have reviewed all the above details and agree with the provided information.)</p>
+// </div>
 export const ticketEmailContent = `<p style="margin-left:auto;"><span style="color: rgb(51,51,51);font-size: 16px;">Dear Customer</span><span style="color: rgb(51,51,51);font-size: 24px;">,</span>&nbsp;</p>
 <p><span style="color: rgb(85,85,85);">Thank you for choosing Airways Travel (Ticket Email).</span>&nbsp;</p>
 <p><span style="color: rgb(85,85,85);">Before finalizing your booking, we urge you to thoroughly check the details below for accuracy, including dates, names, and all applicable terms and conditions.</span> <br></p>
