@@ -15,14 +15,7 @@ export const itineraryHtmlContent = (link: string) => {
 </ul>
 <p><span style="color: rgb(217,83,79);">*Please note*: Changes and cancellations to bookings must be made more than 72 hours prior to flight departure, as charges can vary within 72 hours of departure. Domestic tickets and partially used tickets are non-refundable.</span>&nbsp;</p>
 <p><span style="color: rgb(217,83,79);">*Airways Travel Disclaimer*: Airways Travel is not liable for any schedule changes or cancellations made by the airline.</span> <br></p>
-<div style="text-align:center; margin-top: 20px;">
-  <p style="color: rgb(85,85,85); font-size: 16px;">If you agree, please click the button below:</p>
-  <a href="${link}">
-  <button style="background-color: #007bff; color: white; padding: 10px 20px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer;">
-    I Acknowledge
-  </button>
-  </a>
-</div>
+
 <h2><span style="color: rgb(0,123,255);font-size: 20px;">Flight Confirmation Reminder:</span>&nbsp;</h2>
 <p><span style="color: rgb(85,85,85);">We recommend you confirm your flight with us at least 72 hours prior to your departure. Please note that any request made within 48 hours of flight departure will not be guaranteed.</span>&nbsp;</p>
 <h2><span style="color: rgb(0,123,255);font-size: 20px;">Airport Arrival Recommendations:</span>&nbsp;</h2>
@@ -48,6 +41,13 @@ export const itineraryHtmlContent = (link: string) => {
 <p><span style="color: rgb(85,85,85);">Sydney - Dhaka</span><br><br><span style="color: rgb(85,85,85);">           CZ 326</span><br><br><span style="color: rgb(85,85,85);">           DEPART: Kingsford Smith, Sydney (SYD)</span><br><br><span style="color: rgb(85,85,85);">           Saturday 23 November 2024, 11:25</span><br><br><span style="color: rgb(85,85,85);">           ARRIVE: Baiyun Intl, Guangzhou (CAN)</span><br><br><span style="color: rgb(85,85,85);">           Saturday 23 November 2024, 17:50</span><br><br><span style="color: rgb(85,85,85);">           Duration: 9h 25m | Cabin Class: Economy</span><br><br><span style="color: rgb(85,85,85);">           Airline: China Southern | Aircraft: Airbus A350</span> <br></p>
 <p><span style="color: rgb(85,85,85);">Return Flight: Dhaka - Sydney</span><br><br><span style="color: rgb(85,85,85);">           CZ 392</span><br><br><span style="color: rgb(85,85,85);">           DEPART: Hazrat Shahjalal Intl, Dhaka (DAC)</span><br><br><span style="color: rgb(85,85,85);">           Saturday 07 December 2024, 20:30</span><br><br><span style="color: rgb(85,85,85);">           ARRIVE: Kingsford Smith, Sydney (SYD)</span><br><br><span style="color: rgb(85,85,85);">           Sunday 08 December 2024, 17:25</span><br><br><span style="color: rgb(85,85,85);">           Duration: 12h 55m | Cabin Class: Economy</span><br><br><span style="color: rgb(85,85,85);">           Airline: China Southern | Aircraft: Airbus A35</span></p>
 <p></p>
+<div style="text-align:center; margin-top: 20px; width: 100%; text-align: center">
+  <p style="color: rgb(85,85,85); font-size: 16px;">If you agree, please click the button below:</p></br>
+  <a href="${link}">
+  <button style="background-color: red; font-weight: 800; color: white; padding: 10px 20px; font-size: 20px; border: none; border-radius: 5px; cursor: pointer;">I Acknowledge</button>
+  </a></br>
+  <p style="color: rgb(85,85,85); font-size: 16px; font-style:italic">(By acknowledging, you confirm that you have reviewed all the above details and agree with the provided information.)</p>
+</div>
 <p style="text-align:center;"><span style="color: rgb(153,153,153);font-size: 14px;">Thank you for choosing Airways Travel!</span></p>
 <p style="text-align:center;"><span style="color: rgb(153,153,153);font-size: 14px;">For any inquiries, please contact us at support@airwaystravel.com.</span><br>  <br></p>
 `;
