@@ -68,6 +68,13 @@ export function LeadSearch() {
               Phone: <span className="">{leads[0]?.phone}</span>
             </h2>
             <h2 className="text-lg font-semibold text-gray-800 mb-4">
+              First Departure:{" "}
+              <span className="">
+                {oldestLead?.departure?.name}, {oldestLead?.departure?.city},{" "}
+                {oldestLead?.departure?.country}
+              </span>
+            </h2>
+            <h2 className="text-lg font-semibold text-gray-800 mb-4">
               First Destination:{" "}
               <span className="">
                 {oldestLead?.arrival?.name}, {oldestLead?.arrival?.city},{" "}

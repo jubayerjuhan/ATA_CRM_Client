@@ -80,6 +80,13 @@ export const CustomerHistoryTable: React.FC<MyCustomersTableProps> = ({
         Cell: ({ cell }) => <p>{cell.getValue<string>()}</p>,
       },
       {
+        accessorFn: (row) => `${row.firstLead.departure?.city}`,
+        id: "firstDeparture",
+        header: "First Departure",
+        size: 200,
+        Cell: ({ cell }) => <p>{cell.getValue<string>()}</p>,
+      },
+      {
         accessorFn: (row) => `${row.firstLead.arrival?.city}`,
         id: "firstDestination",
         header: "First Destination",
