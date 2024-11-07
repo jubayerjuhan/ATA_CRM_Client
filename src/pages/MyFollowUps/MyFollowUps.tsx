@@ -1,4 +1,4 @@
-import { MyCustomersTable } from "@/app_components";
+import { FollowupTable } from "@/app_components";
 import { DashboardLayout } from "@/app_components/DashboardLayout";
 import { getMyFollowUps } from "@/redux/actions";
 import { AppDispatch, AppState } from "@/types";
@@ -19,9 +19,10 @@ export const MyFollowUps = () => {
     fetchMyFollowUps();
   }, [dispatch, auth.profile?._id]);
 
+  console.log(followUpState, "followUpState");
   return (
     <DashboardLayout>
-      <MyCustomersTable
+      <FollowupTable
         title="My Follow Up's"
         customers={followUpState.myFollowUps}
         loading={followUpState.loading}

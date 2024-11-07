@@ -28,5 +28,6 @@ export * from "./AddWhatsappNote/AddWhatsappNote";
 export * from "./WorldClock/WorldClock";
 export * from "./FacebookLeadTable/FacebookLeadTable";
 export * from "./CustomerHistoryTable/CustomerHistoryTable";
+export * from "./FollowupTable/FollowupTable";
 // Test Component
 export * from "./TestComponent/TestComponent";

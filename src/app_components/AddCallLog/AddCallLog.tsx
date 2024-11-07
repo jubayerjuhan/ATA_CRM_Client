@@ -62,12 +62,6 @@ export const AddCallLogModal: React.FC<AddCallLogModalProps> = ({
     await dispatch(getSingleLead(leadId));
   };
 
-  if (lead.status === "Sale Lost") {
-    return <></>;
-  }
-
-  if (lead.status === "Ticket Sent" && profile?.role === "agent") return <></>;
-
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild className="mb-4">
