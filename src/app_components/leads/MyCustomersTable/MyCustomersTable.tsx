@@ -62,11 +62,14 @@ export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
               moment(row.follow_up_date).format("DD-MM-YYYY hh:mm A"),
             id: "follow_up_date",
             header: "Follow Up Date",
-            Cell: ({ cell }) => (
-              <p style={{ textDecoration: "none" }}>
-                {cell.getValue<string>()}
-              </p>
-            ),
+            Cell: ({ cell }) => {
+              if (!cell.row.original.follow_up_date) return "N/A";
+              return (
+                <p style={{ textDecoration: "none" }}>
+                  {cell.getValue<string>()}
+                </p>
+              );
+            },
             size: 200,
           },
           {
