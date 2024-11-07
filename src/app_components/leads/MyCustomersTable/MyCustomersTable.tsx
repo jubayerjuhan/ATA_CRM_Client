@@ -404,6 +404,16 @@ export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
       </div>
     );
   }
+
+  <div style={{ width: "100%" }}>
+    <Box sx={{ padding: "16px 0px", color: "#F16861" }}>
+      <Title order={3} className="text-[#F16861]">
+        {title ? title : "Customer History"}
+      </Title>
+    </Box>
+    <MantineReactTable table={table} />
+  </div>;
+
   return (
     <div style={{ width: "100%" }}>
       <Box sx={{ padding: "16px 0px", color: "#3960be" }}>
