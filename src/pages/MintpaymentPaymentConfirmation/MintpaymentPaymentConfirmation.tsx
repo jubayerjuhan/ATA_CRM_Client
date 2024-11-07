@@ -26,9 +26,7 @@ export function MintpaymentPaymentConfirmation() {
           `/payment/mint-pay/confirm-payment/${leadId}`
         );
 
-        setPaymentStatus(
-          data.payment_status === "APPROVED" ? "success" : "failed"
-        );
+        setPaymentStatus("success");
 
         if (data.payment_status !== "APPROVED") {
           // Dispatch an action to update the lead status

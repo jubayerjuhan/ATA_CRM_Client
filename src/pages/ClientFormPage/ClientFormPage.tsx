@@ -192,12 +192,12 @@ export const ClientFormPage = () => {
         }}
       />
       <div className="client-form-page">
-        {/* {showExistingLeadPopup && (
+        {showExistingLeadPopup && (
           <SearchExistingLeadPopup
             email={userSearchingEmail}
             onAdd={onExistingLeadAdd}
           />
-        )} */}
+        )}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

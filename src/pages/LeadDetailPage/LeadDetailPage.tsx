@@ -18,6 +18,8 @@ import moment from "moment";
 import { FaWhatsapp } from "react-icons/fa";
 import { FollowUpDatePicker } from "@/app_components/FollowupDatePicker/FollowupDatePicker";
 import "./LeadDetailPage.scss";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 export const LeadDetailPage = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -29,6 +31,37 @@ export const LeadDetailPage = () => {
       dispatch(getSingleLead(leadId));
     }
   }, [dispatch, leadId]);
+
+  const sendMessageToWhatsapp = async () => {
+    const phone = lead?.phone;
+    if (!lead) return toast.error("Lead not found");
+    if (!phone) return toast.error("Phone number not found");
+
+    const phoneNumber = lead.phone.startsWith("+")
+      ? lead.phone.slice(1)
+      : lead.phone;
+
+    const formData = new FormData();
+    formData.append(
+      "authToken",
+      `${import.meta.env.VITE_WHATSAPP_INTEGRATION_AUTH_TOKEN}`
+    );
+    formData.append("sendto", phoneNumber);
+    formData.append("language", "en");
+    formData.append("templateName", "startchatonline");
+    formData.append("originWebsite", "https://airwaystravel.com.au/");
+
+    const whatsapp_message_sending_url = `https://app.11za.in/apis/template/sendTemplate`;
+    try {
+      const { data } = await axios.post(whatsapp_message_sending_url, formData);
+      if (data.IsSuccess) {
+        return toast.success("Message sent to whatsapp");
+      }
+    } catch (error) {
+      console.error("Error sending message to whatsapp:", error);
+      return toast.error("Error sending message to whatsapp");
+    }
+  };
 
   if (!lead) {
     return <div>Lead not found</div>;
@@ -67,17 +100,21 @@ export const LeadDetailPage = () => {
           </div>
         </div>
 
-        <div className="mb-8 flex justify-between">
-          <a
-            href={`https://wa.me/${lead.phone}`}
-            target="_blank"
-            rel="noopener noreferrer"
+        <div
+          className="mb-8 flex justify-between"
+          onClick={sendMessageToWhatsapp}
+        >
+          <p
             className="flex gap-2 text-lg"
-            style={{ alignItems: "center", width: "fit-content" }}
+            style={{
+              alignItems: "center",
+              width: "fit-content",
+              cursor: "pointer",
+            }}
           >
             <span className="text-[#3498db]">WhatsApp:</span>
             <FaWhatsapp size={32} />
-          </a>
+          </p>
           {/* <CancelBookingPopup lead={lead} /> */}
         </div>
         <div
