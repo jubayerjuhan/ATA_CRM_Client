@@ -4,7 +4,7 @@ import {
   useMantineReactTable,
   type MRT_ColumnDef,
 } from "mantine-react-table";
-import { Box, Button, Menu, Text, Title } from "@mantine/core";
+import { Box, Menu, Text, Title } from "@mantine/core";
 import {
   IconUserCircle,
   IconSend,
@@ -14,6 +14,7 @@ import { FaRegUser } from "react-icons/fa";
 
 import moment from "moment";
 import { LeadType } from "@/types";
+import { Button } from "@/components/ui/button";
 
 // type Employee = {
 //   firstName: string;
@@ -157,13 +158,6 @@ export const CustomerHistoryTable: React.FC<MyCustomersTableProps> = ({
   }
   return (
     <div style={{ width: "100%" }}>
-      <Button
-        onClick={() => {
-          downloadCSV(customers);
-        }}
-      >
-        Download In CSV
-      </Button>
       <Box sx={{ padding: "16px 0px", color: "#F16861" }}>
         <Title order={3} className="text-[#F16861]">
           {title ? title : "Customer History"}
@@ -172,38 +166,4 @@ export const CustomerHistoryTable: React.FC<MyCustomersTableProps> = ({
       <MantineReactTable table={table} />
     </div>
   );
-};
-export const downloadCSV = (data: any[]) => {
-  const headers = [
-    "Name",
-    "Email",
-    "Phone",
-    "Profile Creation Date",
-    "First Destination",
-    "Total Inquiries",
-  ];
-
-  const csvContent = [
-    headers.join(","),
-    ...data.map((row) =>
-      [
-        `${row.latestLead.firstName} ${row.latestLead.lastName}`,
-        row.latestLead.email,
-        row.latestLead.phone,
-        moment(row.firstLead.createdAt).format("DD-MM-YYYY"),
-        row.firstLead.arrival?.city,
-        row.totalLeads,
-      ].join(",")
-    ),
-  ].join("\n");
-
-  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-  const link = document.createElement("a");
-  const url = URL.createObjectURL(blob);
-  link.setAttribute("href", url);
-  link.setAttribute("download", "customer_history.csv");
-  link.style.visibility = "hidden";
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
 };
