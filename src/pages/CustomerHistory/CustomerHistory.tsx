@@ -80,7 +80,7 @@ export const CustomerHistory = () => {
   );
 };
 
-export const downloadCSV = (data: any[]) => {
+const downloadCSV = (data: any[]) => {
   const headers = [
     "Name",
     "Email",

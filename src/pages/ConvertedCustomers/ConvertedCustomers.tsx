@@ -47,7 +47,7 @@ export const ConvertedCustomers = () => {
   );
 };
 
-export const downloadCSV = (data: any[]) => {
+const downloadCSV = (data: any[]) => {
   const headers = [
     "Booking ID",
     "First Name",
