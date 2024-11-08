@@ -128,13 +128,14 @@ export const ClientFormPage = () => {
       );
       setShowExistingLeadPopup(false);
       window.scrollTo(0, 0);
-    } catch (error) {
-      console.error("Error saving lead:", error);
-      toast.error("Failed to save lead information. Please try again.");
+    } catch (error: any) {
+      toast.error(
+        error.response.data.message
+          ? error.response.data.message
+          : "Failed to save lead information. Please try again."
+      );
     }
   };
-
-  console.log(watch("airlinesCode"), "watch airlines code");
 
   const onSubmitPartTwo = async (data: any) => {
     if (data.returnDate && data.returnDate < data.travelDate) {
@@ -181,6 +182,7 @@ export const ClientFormPage = () => {
     setValue("phone", lead?.phone || "");
     setValue("email", lead?.email || "");
     setValue("postCode", lead?.postCode || "");
+    setUserInputDisabled(true);
   };
 
   return (

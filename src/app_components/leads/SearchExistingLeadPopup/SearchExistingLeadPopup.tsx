@@ -25,6 +25,10 @@ export const SearchExistingLeadPopup: React.FC<
     fetchLeadInformation(email);
   }, [email]);
 
+  useEffect(() => {
+    if (lead) onAdd(lead);
+  }, [lead, onAdd]);
+
   const fetchLeadInformation = async (email: string | null) => {
     if (!email) return;
     // call the searchLeadWithEmail action

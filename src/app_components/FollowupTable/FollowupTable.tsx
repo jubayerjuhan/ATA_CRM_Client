@@ -91,11 +91,15 @@ export const FollowupTable: React.FC<FollowupTableProps> = ({
             filterVariant: "date-range",
             sortingFn: "datetime",
             enableColumnFilterModes: false, //keep this as only date-range filter with between inclusive filterFn
-            Cell: ({ cell }) => (
-              <p style={{ textDecoration: "none" }}>
-                {moment(cell.getValue<Date>()).format("DD-MM-YYYY hh:mm A")}
-              </p>
-            ),
+            Cell: ({ cell }) => {
+              return (
+                <p style={{ textDecoration: "none" }}>
+                  {moment(cell.row.original.follow_up_date).format(
+                    "DD-MM-YYYY hh:mm a"
+                  )}
+                </p>
+              );
+            },
             size: 200,
           },
           {

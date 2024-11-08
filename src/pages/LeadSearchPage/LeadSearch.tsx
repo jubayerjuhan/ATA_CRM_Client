@@ -16,6 +16,9 @@ export function LeadSearch() {
   const [email, setEmail] = useState<null | string>(null);
   const [leads, setLeads] = useState<LeadType[]>([]);
 
+  // logical state
+  const [newLeadDisabled, setNewLeadDisabled] = useState<boolean>(false);
+
   //  get the email from url query params
   const searchParams = new URLSearchParams(location.search);
   const queryEmail = searchParams.get("email");
@@ -32,6 +35,9 @@ export function LeadSearch() {
     try {
       const { data } = await client.get(`/leads/lead-search/${email}`);
       setLeads(data.leads);
+      data.leads.map((lead: LeadType) => {
+        if (lead.status === "In Progress") return setNewLeadDisabled(true);
+      });
     } catch (error) {
       console.error("Failed to fetch search results", error);
       return toast.error("Failed to fetch search results");
@@ -92,6 +98,7 @@ export function LeadSearch() {
             </h2>
             <div className="flex w-full justify-end">
               <Button
+                disabled={newLeadDisabled}
                 variant={"outline"}
                 className="my-4"
                 onClick={() =>
