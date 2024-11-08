@@ -44,7 +44,7 @@ export const Dashboard = () => {
     endDate: moment().endOf("month").toDate(),
   });
 
-  console.log(dateRange);
+  console.log(dateRange, "dateRange");
 
   useEffect(() => {
     const fetchCustomersByDate = async () => {
