@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { DashboardLayout } from "@/app_components/DashboardLayout";
@@ -13,6 +13,7 @@ export const Leads = () => {
   const { lead: leadState } = useSelector((state: AppState) => state);
   const { profile } = useSelector((state: AppState) => state.auth);
   const dispatch = useDispatch<AppDispatch>();
+  const [leads, setLeads] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchAllLeads = async () => {
@@ -20,6 +21,15 @@ export const Leads = () => {
     };
     fetchAllLeads();
   }, [dispatch]);
+
+  useEffect(() => {
+    const updatedLeads = leadState.leads?.map((lead) =>
+      lead.status === "Ticket Sent"
+        ? { ...lead, status: "Sale Converted" }
+        : lead
+    );
+    setLeads(updatedLeads);
+  }, [leadState.leads]);
 
   console.log("object");
   return (
@@ -35,7 +45,7 @@ export const Leads = () => {
           </Button>
         </div>
       )}
-      <AllLeadsTable customers={leadState.leads} loading={leadState.loading} />
+      <AllLeadsTable customers={leads} loading={leadState.loading} />
     </DashboardLayout>
   );
 };

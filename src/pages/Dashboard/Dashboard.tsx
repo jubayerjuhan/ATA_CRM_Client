@@ -23,6 +23,7 @@ interface CustomersDataType {
   monthlyConvertedLeads: number;
   totalConvertedLeadsByUser: number;
   totalTicketByUser: number;
+  inProgressLeads: number;
 }
 
 export const Dashboard = () => {
@@ -37,6 +38,7 @@ export const Dashboard = () => {
     monthlyConvertedLeads: 0,
     totalConvertedLeadsByUser: 0,
     totalTicketByUser: 0,
+    inProgressLeads: 0,
   });
 
   const [dateRange, setDateRange] = React.useState({

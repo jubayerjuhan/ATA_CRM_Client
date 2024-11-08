@@ -14,6 +14,7 @@ interface CustomersDataType {
   convertedLeads: number;
   monthlyConvertedLeads: number;
   totalConvertedLeadsByUser: number;
+  inProgressLeads: number;
 }
 
 interface DashboardCardSectionProps {
@@ -26,7 +27,11 @@ export const DashboardCardsSection: React.FC<DashboardCardSectionProps> = ({
   console.log(customersData, "customersData");
   const { auth: authState } = useSelector((state: AppState) => state);
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+    <div
+      className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-${
+        authState.profile?.role === "admin" ? "6" : "5"
+      } gap-4`}
+    >
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Total Leads</CardTitle>
@@ -184,6 +189,34 @@ export const DashboardCardsSection: React.FC<DashboardCardSectionProps> = ({
           <div className="text-2xl font-bold">{customersData.lostLeads}</div>
           <p className="mt-2 text-xs text-muted-foreground">
             Cancelled customers
+          </p>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">
+            In Progress Leads
+          </CardTitle>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            className="h-8 w-8 text-muted-foreground"
+          >
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+          </svg>
+        </CardHeader>
+        <CardContent>
+          <a href={TotalFollowUpsURL} className="text-2xl font-bold">
+            {customersData.inProgressLeads}
+          </a>
+          <p className="mt-2 text-xs text-muted-foreground">
+            Leads in progress (In Progress, Itinerary Sent, Payment Made)
           </p>
         </CardContent>
       </Card>
