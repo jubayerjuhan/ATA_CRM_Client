@@ -28,9 +28,13 @@ export const DashboardCardsSection: React.FC<DashboardCardSectionProps> = ({
   const { auth: authState } = useSelector((state: AppState) => state);
   return (
     <div
-      className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-${
-        authState.profile?.role === "admin" ? "6" : "5"
-      } gap-4`}
+      style={{
+        display: "grid",
+        gridTemplateColumns: `repeat(${
+          authState.profile?.role === "admin" ? 6 : 5
+        }, 1fr)`,
+        gap: "16px",
+      }}
     >
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
