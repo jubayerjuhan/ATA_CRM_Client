@@ -100,10 +100,7 @@ export const LeadDetailPage = () => {
           </div>
         </div>
 
-        <div
-          className="mb-8 flex justify-between"
-          onClick={sendMessageToWhatsapp}
-        >
+        <div className="mb-8 flex justify-between">
           <p
             className="flex gap-2 text-lg"
             style={{
@@ -111,6 +108,7 @@ export const LeadDetailPage = () => {
               width: "fit-content",
               cursor: "pointer",
             }}
+            onClick={sendMessageToWhatsapp}
           >
             <span className="text-[#3498db]">WhatsApp:</span>
             <FaWhatsapp size={32} />
@@ -121,7 +119,7 @@ export const LeadDetailPage = () => {
           className="flex
          justify-between mb-4"
         >
-          <LeadStatusChanger lead={lead} />
+          {lead.departure && lead.arrival && <LeadStatusChanger lead={lead} />}
           <div className="flex items-center space-x-2">
             <span className="font-semibold text-gray-700">Managing Agent:</span>
             <span className="px-2 py-1 bg-blue-500 text-white rounded-md">

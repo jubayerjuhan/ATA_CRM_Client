@@ -27,12 +27,17 @@ export const EmailSendingSection: React.FC<EmailSendingSectionProps> = ({
     lead.quoted_amount.total === 0 ||
     (lead.adult === 0 && lead.infant === 0 && lead.child === 0);
 
+  const disabledForDestination = !lead.departure || !lead.arrival;
   return (
     <InfoCard title="Email Section" className={""}>
       {/* Itinerary Email */}
       <InfoItem label={"Itinerary Email"}>
         <Button
-          disabled={disabledFields || disabledForPriceOrPassenger}
+          disabled={
+            disabledFields ||
+            disabledForPriceOrPassenger ||
+            disabledForDestination
+          }
           variant="outline"
           onClick={() => {
             setSelectedTab("itinerary");
@@ -43,7 +48,11 @@ export const EmailSendingSection: React.FC<EmailSendingSectionProps> = ({
       </InfoItem>
       <InfoItem label={"Ticket Email"}>
         <Button
-          disabled={disabledFields || disabledForPriceOrPassenger}
+          disabled={
+            disabledFields ||
+            disabledForPriceOrPassenger ||
+            disabledForDestination
+          }
           variant="outline"
           onClick={() => {
             setSelectedTab("ticket");

@@ -139,7 +139,7 @@ export const EditTravelDetails: React.FC<EditTravelDetailsProps> = ({
                     defaultDisplayValue={
                       lead[field.name as keyof LeadType]?.name
                     }
-                    defaultValue={lead.airline.name}
+                    defaultValue={lead.airline?.name}
                   />
                 </>
               );
