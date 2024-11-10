@@ -216,9 +216,7 @@ export const DashboardCardsSection: React.FC<DashboardCardSectionProps> = ({
           </svg>
         </CardHeader>
         <CardContent>
-          <a href={TotalFollowUpsURL} className="text-2xl font-bold">
-            {customersData.inProgressLeads}
-          </a>
+          <p className="text-2xl font-bold">{customersData.inProgressLeads}</p>
           <p className="mt-2 text-xs text-muted-foreground">
             Leads in progress (In Progress, Itinerary Sent, Payment Made)
           </p>
