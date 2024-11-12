@@ -65,6 +65,7 @@ export interface LeadType {
     | "PNR Sent"
     | "Payment Link Sent"
     | "Payment Complete"
+    | "Itenary Email Sent"
     | "Cancelled"
     | "Ticket Sent"
     | "Sale Lost";

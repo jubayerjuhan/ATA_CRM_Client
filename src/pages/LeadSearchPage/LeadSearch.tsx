@@ -36,7 +36,14 @@ export function LeadSearch() {
       const { data } = await client.get(`/leads/lead-search/${email}`);
       setLeads(data.leads);
       data.leads.map((lead: LeadType) => {
-        if (lead.status === "In Progress") return setNewLeadDisabled(true);
+        if (
+          lead.status === "In Progress" ||
+          lead.status === "Payment Link Sent" ||
+          lead.status === "Itenary Email Sent" ||
+          lead.status === "Payment Complete"
+        ) {
+          return setNewLeadDisabled(true);
+        }
       });
     } catch (error) {
       console.error("Failed to fetch search results", error);
