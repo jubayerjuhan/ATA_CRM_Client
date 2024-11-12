@@ -46,6 +46,91 @@ export const itineraryHtmlContent = (link: string) => {
 <p style="text-align:center;"><span style="color: black;font-size: 14px;">(By acknowledging, you confirm that you have reviewed all the above details and agree with the provided information.)</span></p>
 <p style="text-align:center;"><span style="color: rgb(153,153,153);font-size: 14px;">Thank you for choosing Airways Travel!</span></p>
 <p style="text-align:center;"><span style="color: rgb(153,153,153);font-size: 14px;">For any inquiries, please contact us at support@airwaystravel.com.</span><br>  <br></p>
+<div
+  style="
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    color: #333;
+  "
+>
+  <div
+    style="
+      text-align: left;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    "
+  >
+    <img
+      src="https://i.ibb.co.com/rvdQZqt/unnamed-6.png"
+      alt="Airways travel Logo"
+      style="
+        width: 150px;
+        height: 150px;
+        max-height: 150px;
+        max-width: 150px;
+        margin-right: 15px;
+        object-fit: contain;
+      "
+    />
+    <div>
+      <h2 style="margin: 0; color: #990000">Airways Travel</h2>
+      <p style="margin: 0; color: #666">Airways Travel, Excellence in Travel</p>
+    </div>
+  </div>
+  <div style="clear: both; padding-top: 20px; color: #333">
+    <p style="margin: 0; line-height: 24px">
+      <strong>Phone:</strong> 03 9041 3975 &nbsp;&nbsp;
+      <strong>WhatsApp:</strong> 0432 936 702<br />
+      <strong>Website:</strong>
+      <a
+        href="https://airwaystravel.com.au"
+        style="color: #990000; text-decoration: none"
+        >airwaystravel.com.au</a
+      >
+      &nbsp;&nbsp; <strong>Email:</strong>
+      <a
+        href="mailto:admin@airwaystravel.com.au"
+        style="color: #990000; text-decoration: none"
+        >admin@airwaystravel.com.au</a
+      ><br />
+      <strong>Address:</strong> 8 Tallis Cct, Truganina VIC 3029
+    </p>
+  </div>
+  <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0" />
+  <img
+    src="https://i.ibb.co.com/vDJMqLW/unnamed-7.png"
+    alt="Banner Image"
+    style="width: 100%; border-radius: 10px"
+  />
+  <div style="text-align: left; margin-top: 20px">
+    <p style="font-size: 12px; color: #999">
+      IMPORTANT: The contents of this email and any attachments are
+      confidential. They are intended for the named recipient(s) only. If you
+      have received this email by mistake, please notify the sender immediately
+      and do not disclose the contents to anyone or make copies thereof.
+    </p>
+    <div style="margin-top: 20px">
+      <a
+        href="https://airwaystravel.com.au"
+        style="text-decoration: none; color: #333; font-size: 13px"
+      >
+        ⭐ How did we do? <span style="color: #990000">Give us a review</span>
+      </a>
+      <br />
+      <a
+        href="https://airwaystravel.com.au"
+        style="text-decoration: none; color: #333; font-size: 13px"
+      >
+        📧 Subscribe Now!
+        <span style="color: #990000">Don’t miss a bargain</span>
+      </a>
+    </div>
+  </div>
+</div>
+
 `;
 };
 
@@ -99,4 +184,5 @@ export const ticketEmailContent = `<p style="margin-left:auto;"><span style="col
 <p></p>
 <p style="text-align:center;"><span style="color: rgb(153,153,153);font-size: 14px;">Thank you for choosing Airways Travel!</span></p>
 <p style="text-align:center;"><span style="color: rgb(153,153,153);font-size: 14px;">For any inquiries, please contact us at support@airwaystravel.com.</span><br>  <br></p>
+
 `;

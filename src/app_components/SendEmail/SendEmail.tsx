@@ -140,7 +140,7 @@ export const SendEmail: React.FC<SendEmailProps> = ({
           ))}
         </div>
       )}
-      <Button onClick={handleSendEmail} disabled={loading || disabledFields}>
+      <Button onClick={handleSendEmail} disabled={loading}>
         Send Email
       </Button>
     </div>
