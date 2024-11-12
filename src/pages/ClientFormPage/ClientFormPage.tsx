@@ -60,6 +60,10 @@ export const ClientFormPage = () => {
   const [tripType, setTripType] = useState("One Way");
   const [showExistingLeadPopup, setShowExistingLeadPopup] = useState(true);
 
+  // Get Facebook Lead ID from URL
+  const searchParams = new URLSearchParams(location.search);
+  const facebook_lead_id = searchParams.get("facebook_lead");
+
   useEffect(() => {
     if (leadData) {
       setValue("firstName", leadData.firstName);
@@ -119,10 +123,10 @@ export const ClientFormPage = () => {
     try {
       await dispatch(addLead({ ...data }));
 
-      console.log(leadState.insertedLeadId, "inserted lead id");
+      if (facebook_lead_id)
+        await client.post(`/facebook-leads/mark-as-added/${facebook_lead_id}`);
 
       setFormPart(2);
-
       toast.success(
         "Lead information saved. Please complete the journey details."
       );

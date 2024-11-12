@@ -4,14 +4,8 @@ import {
   useMantineReactTable,
   type MRT_ColumnDef,
 } from "mantine-react-table";
-import {
-  Box,
-  Menu,
-  Title,
-  Modal,
-  Button as MantineButton,
-} from "@mantine/core";
-import { IconUserCircle, IconSend } from "@tabler/icons-react";
+import { Box, Title, Modal, Button as MantineButton } from "@mantine/core";
+import { IconUserCircle } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { client } from "@/api/api";
@@ -86,30 +80,32 @@ export const FacebookLeadTable: React.FC<WhatsAppLeadsProps> = ({
             header: "Phone",
             size: 200,
           },
-          // add buttons to view and delete the lead details
+          {
+            accessorFn: (row) => (row.added ? "✅" : "❌"),
+            id: "status",
+            header: "Status",
+            size: 100,
+          },
           {
             id: "actions",
             header: "Actions",
             size: 200,
-            Cell: ({ row }: any) => (
-              <div style={{ display: "flex", gap: "8px" }}>
-                <Button
-                  onClick={() =>
-                    navigate(`/form`, {
-                      state: { leadData: row.original },
-                    })
-                  }
-                >
-                  <IconUserCircle size={20} /> Add This Lead
-                </Button>
-                <Button
-                  variant={"outline"}
-                  onClick={() => handleDeleteFacebookLead(row.original._id)}
-                >
-                  Added This Lead
-                </Button>
-              </div>
-            ),
+            Cell: ({ row }: any) => {
+              if (row.original.added) return null;
+              return (
+                <div style={{ display: "flex", gap: "8px" }}>
+                  <Button
+                    onClick={() =>
+                      navigate(`/form?facebook_lead=${row.original._id}`, {
+                        state: { leadData: row.original },
+                      })
+                    }
+                  >
+                    <IconUserCircle size={20} /> Add This Lead
+                  </Button>
+                </div>
+              );
+            },
           },
         ],
       },
