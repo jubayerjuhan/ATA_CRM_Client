@@ -79,7 +79,11 @@ export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
             size: 200,
             Cell: ({ cell }) => {
               const status = cell.getValue<string>();
-              return status === "Ticket Sent" ? "Sale Converted" : status;
+              return status === "Ticket Sent"
+                ? "Sale Converted"
+                : status === "Itenary Email Sent"
+                ? "Payment Link Sent"
+                : status;
             },
           },
           {
