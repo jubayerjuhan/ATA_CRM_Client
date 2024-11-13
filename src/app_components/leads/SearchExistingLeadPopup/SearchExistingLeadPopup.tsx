@@ -72,6 +72,20 @@ export const SearchExistingLeadPopup: React.FC<
             {lead?.converted ? "Yes" : "No"}
           </span>
         </p>
+        <p>
+          <strong>Last Lead Status:</strong>
+          <span
+            style={{
+              marginLeft: "5px",
+            }}
+          >
+            {lead?.status === "Ticket Sent"
+              ? "Sale Converted"
+              : lead?.status === "Itenary Email Sent"
+              ? "Payment Link Sent"
+              : lead?.status}
+          </span>
+        </p>
       </div>
       <Button onClick={() => onAdd(lead)}>Add To Form</Button>
     </div>

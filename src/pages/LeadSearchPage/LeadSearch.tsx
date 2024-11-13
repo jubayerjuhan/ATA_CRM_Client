@@ -168,6 +168,8 @@ export function LeadSearch() {
                         >
                           {lead.status === "Ticket Sent"
                             ? "Sale Converted"
+                            : lead.status === "Itenary Email Sent"
+                            ? "Payment Link Sent"
                             : lead.status}
                         </Badge>
                       </div>
