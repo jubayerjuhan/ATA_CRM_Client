@@ -271,8 +271,10 @@ export const InfoItem: React.FC<InfoItemProps> = ({
   <div className="info-item" {...props}>
     <span className="label">{label}:</span>
     <div className="info-item_content">
-      {icon}
-      <span className="value">{value}</span>
+      {icon}{" "}
+      <span className="value" style={{ whiteSpace: "pre-wrap" }}>
+        {value}
+      </span>
       {children && <div className="extra-content">{children}</div>}
     </div>
   </div>
