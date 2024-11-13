@@ -183,17 +183,6 @@ export const FollowupTable: React.FC<FollowupTableProps> = ({
             size: 120,
           },
           {
-            accessorKey: "quotedAmount",
-            header: "Quoted Amount",
-            size: 150,
-            Cell: ({ cell }) =>
-              `${
-                cell.row.original.quoted_amount.total
-                  ? `$${cell.row.original.quoted_amount.total}`
-                  : "N/A"
-              }`,
-          },
-          {
             accessorKey: "payment.status",
             header: "Payment Status",
             size: 150,

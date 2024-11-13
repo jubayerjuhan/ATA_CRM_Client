@@ -167,15 +167,6 @@ export const MyCustomersTable: React.FC<MyCustomersTableProps> = ({
             size: 120,
           },
           {
-            accessorKey: "quotedAmount",
-            header: "Quoted Amount",
-            size: 150,
-            Cell: ({ cell }) =>
-              `${
-                cell.getValue<string>() ? `$${cell.getValue<string>()}` : "N/A"
-              }`,
-          },
-          {
             accessorKey: "payment.status",
             header: "Payment Status",
             size: 150,

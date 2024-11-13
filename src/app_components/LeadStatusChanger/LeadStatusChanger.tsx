@@ -43,7 +43,7 @@ export const LeadStatusChanger: FC<LeadStatusChangerProps> = ({ lead }) => {
 
   const onSubmit = async (data: any) => {
     if (selectedStatus === "Sale Lost" && !data.saleLostReason) {
-      toast.error("Please provide a reason for sale lost");
+      return toast.error("Please provide a reason for sale lost");
     }
     let updatedLead = {
       ...lead, // Copy all properties from lead
@@ -64,6 +64,10 @@ export const LeadStatusChanger: FC<LeadStatusChangerProps> = ({ lead }) => {
         cancelled: true,
         converted: false,
       };
+    }
+
+    if (data === "nothing") {
+      return toast.error("Please select a status");
     }
 
     await changeLeadStatus(updatedLead, dispatch);
@@ -103,8 +107,7 @@ export const LeadStatusChanger: FC<LeadStatusChangerProps> = ({ lead }) => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="In Progress">In Progress</SelectItem>
-                    <SelectItem value="Itenary Email Sent">
+                    {/* <SelectItem value="Itenary Email Sent">
                       Itenary Email Sent
                     </SelectItem>
                     <SelectItem value="Payment Link Sent">
@@ -113,7 +116,7 @@ export const LeadStatusChanger: FC<LeadStatusChangerProps> = ({ lead }) => {
                     <SelectItem value="Payment Complete">
                       Payment Complete
                     </SelectItem>
-                    <SelectItem value="Ticket Sent">Sale Converted</SelectItem>
+                    <SelectItem value="Ticket Sent">Sale Converted</SelectItem> */}
                     <SelectItem value="Sale Lost">Sale Lost</SelectItem>
                   </SelectContent>
                 </Select>
