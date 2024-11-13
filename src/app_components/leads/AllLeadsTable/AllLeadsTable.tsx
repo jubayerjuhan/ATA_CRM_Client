@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import {
   MantineReactTable,
+  MRT_Row,
   useMantineReactTable,
   type MRT_ColumnDef,
 } from "mantine-react-table";
@@ -13,6 +14,10 @@ import {
 import { FaRegUser } from "react-icons/fa";
 
 import moment from "moment";
+import { client } from "@/api/api";
+import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
+import { AppState } from "@/types";
 
 export type Employee = {
   firstName: string;
@@ -34,6 +39,8 @@ export const AllLeadsTable: React.FC<AllLeadsTableProps> = ({
   customers,
   loading,
 }) => {
+  const { profile } = useSelector((state: AppState) => state.auth);
+
   const columns = useMemo<MRT_ColumnDef<any>[]>(
     () => [
       {
@@ -205,9 +212,43 @@ export const AllLeadsTable: React.FC<AllLeadsTableProps> = ({
         header: "Claimed By",
         size: 150,
       },
+      {
+        accessorKey: "actions",
+        header: "Actions",
+        size: 150,
+        Cell: ({ row }: { row: MRT_Row<any> }) => {
+          if (profile?.role === "admin")
+            return (
+              <Button
+                color="red"
+                onClick={() => {
+                  if (
+                    window.confirm("Are you sure you want to delete this lead?")
+                  ) {
+                    handleDeleteLead(row.original._id);
+                  }
+                }}
+              >
+                Delete
+              </Button>
+            );
+        },
+      },
     ],
-    []
+    [profile?.role]
   );
+
+  const handleDeleteLead = async (leadId: string) => {
+    try {
+      const { data } = await client.delete(`/leads/${leadId}`);
+      console.log(data, "data...");
+      toast.success("Lead Deleted Successfully!");
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+      toast.error("Error Deleting Lead!");
+    }
+  };
 
   const table = useMantineReactTable({
     columns,
