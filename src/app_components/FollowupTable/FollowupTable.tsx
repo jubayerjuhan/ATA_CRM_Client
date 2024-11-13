@@ -94,9 +94,9 @@ export const FollowupTable: React.FC<FollowupTableProps> = ({
             Cell: ({ cell }) => {
               return (
                 <p style={{ textDecoration: "none" }}>
-                  {moment(cell.row.original.follow_up_date).format(
-                    "DD-MM-YYYY hh:mm a"
-                  )}
+                  {moment(cell.row.original.follow_up_date)
+                    .local()
+                    .format("DD-MM-YYYY hh:mm a")}
                 </p>
               );
             },

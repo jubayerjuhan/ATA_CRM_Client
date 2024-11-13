@@ -50,8 +50,15 @@ export function FollowUpDatePicker({ lead }: FollowUpDatePickerProps) {
       return;
     }
 
+    let hour = parseInt(hours);
+    if (ampm === "PM" && hour !== 12) {
+      hour += 12;
+    } else if (ampm === "AM" && hour === 12) {
+      hour = 0; // Midnight case
+    }
+
     const dateTime = date.set({
-      hour: parseInt(hours) + (ampm === "PM" ? 12 : 0),
+      hour,
       minute: parseInt(minutes),
     });
 
