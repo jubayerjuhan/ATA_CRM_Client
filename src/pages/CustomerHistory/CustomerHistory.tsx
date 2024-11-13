@@ -9,7 +9,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
-export const CustomerHistory = () => {
+export const CustomerHistory: React.FC = () => {
   const { auth } = useSelector((state: AppState) => state);
   const [customers, setCustomers] = useState<
     { firstLead: LeadType; latestLead: LeadType; totalLeads: number }[]
@@ -26,16 +26,16 @@ export const CustomerHistory = () => {
   useEffect(() => {
     const fetchCustomerHistory = async () => {
       setLoading(true);
-
-      const url =
-        dateRange.startDate && dateRange.endDate
-          ? `/customers/unique-customers?startDate=${moment(
-              dateRange.startDate
-            ).toISOString()}&endDate=${moment(dateRange.endDate).toISOString()}`
-          : `/customers/unique-customers`;
+      const url = `/customers/unique-customers`;
       try {
         const { data } = await client.get(url);
-        setCustomers(data.customers);
+
+        if (dateRange.startDate && dateRange.endDate) {
+          const filteredCustomer = filterDateRange(data.customers);
+          setCustomers(filteredCustomer);
+        } else {
+          setCustomers(data.customers);
+        }
       } catch (error) {
         console.error(error);
       } finally {
@@ -52,16 +52,36 @@ export const CustomerHistory = () => {
     });
   };
 
+  const filterDateRange = (fetchedCustomers: any) => {
+    if (dateRange.startDate && dateRange.endDate) {
+      const filteredCustomers = fetchedCustomers.filter((customer: any) => {
+        const firstLeadDate = moment(customer.firstLead.createdAt);
+        const endDate = moment(dateRange.endDate).endOf("day");
+        return (
+          firstLeadDate.isSameOrAfter(dateRange.startDate) &&
+          firstLeadDate.isSameOrBefore(endDate)
+        );
+      });
+      console.log(
+        filteredCustomers,
+        filteredCustomers.length,
+        "filtered customers"
+      );
+
+      return filteredCustomers;
+    }
+  };
+
+  const handleDownloadCSV = () => {
+    downloadCSV(customers);
+  };
+
   return (
     <DashboardLayout>
-      <Button
-        onClick={() => {
-          downloadCSV(customers);
-        }}
-      >
-        Download In CSV
-      </Button>
-      <div className="mt-4 flex gap-2">
+      <div className="mb-4">
+        <Button onClick={handleDownloadCSV}>Download as CSV</Button>
+      </div>
+      <div className="flex gap-2 mb-4">
         <DateRangePicker
           dateRange={{
             startDate: dateRange.startDate,
@@ -116,3 +136,5 @@ const downloadCSV = (data: any[]) => {
   link.click();
   document.body.removeChild(link);
 };
+
+export default CustomerHistory;

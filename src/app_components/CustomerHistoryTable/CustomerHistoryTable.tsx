@@ -74,7 +74,7 @@ export const CustomerHistoryTable: React.FC<MyCustomersTableProps> = ({
       },
       {
         accessorFn: (row) =>
-          moment(row.firstLead.createdAt).format("DD-MM-YYYY"),
+          moment(row.firstLead.createdAt).local().format("DD-MM-YYYY"),
         id: "profileCreationDate",
         header: "Profile Creation Date",
         size: 200,

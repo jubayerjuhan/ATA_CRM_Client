@@ -44,7 +44,12 @@ export const DateRangePicker: React.FC<DateRangePickerProps> = ({
 
   const handleComplete = () => {
     if (tempRange.from && tempRange.to) {
-      setDateRange({ startDate: tempRange.from, endDate: tempRange.to });
+      setDateRange({
+        startDate: tempRange.from,
+        endDate: tempRange.to
+          ? moment(tempRange.to).endOf("day").toDate()
+          : undefined,
+      });
       setOpen(false); // Close the popover
     }
   };

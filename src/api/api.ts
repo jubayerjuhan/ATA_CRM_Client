@@ -1,12 +1,11 @@
 import axios from "axios";
-import Cookies from "js-cookie";
 
 const environment = import.meta.env.VITE_NODE_ENV;
 
 export const base_url =
   environment === "development" || environment === undefined
     ? import.meta.env.VITE_SERVER_URL_DEVELOPMENT
-    : import.meta.env.VITE_SERVER_URL_DEVELOPMENT;
+    : import.meta.env.VITE_SERVER_URL_PRODUCTION;
 
 const authToken = localStorage.getItem("auth_token");
 
