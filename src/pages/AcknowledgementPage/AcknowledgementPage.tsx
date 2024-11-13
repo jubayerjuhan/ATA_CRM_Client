@@ -137,15 +137,15 @@ export const AcknowledgementPage: React.FC = () => {
     });
   };
 
-  useEffect(() => {
-    sendAcknowledgementEmail(leadId);
-  }, [leadId]);
+  // useEffect(() => {
+  //   sendAcknowledgementEmail(leadId);
+  // }, [leadId]);
 
-  const sendAcknowledgementEmail = async (leadId: string | null) => {
-    await client.post(`/email/send-acknowledgement-email`, {
-      leadId,
-    });
-  };
+  // const sendAcknowledgementEmail = async (leadId: string | null) => {
+  //   await client.post(`/email/send-acknowledgement-email`, {
+  //     leadId,
+  //   });
+  // };
 
   if (lead?.selectedPaymentMethod || lead?.converted) {
     return (
