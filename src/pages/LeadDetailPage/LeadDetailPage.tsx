@@ -76,7 +76,11 @@ export const LeadDetailPage = () => {
             {lead.firstName} {lead.lastName}'s Lead Details
           </h1>
           <span className={`lead-type ${lead.leadType?.toLowerCase()}`}>
-            {lead.status === "Ticket Sent" ? "Sale Converted" : lead.status}
+            {lead.status === "Ticket Sent"
+              ? "Sale Converted"
+              : lead.status === "Itenary Email Sent"
+              ? "Payment Link Sent"
+              : lead.status}
           </span>
         </header>
         {lead.selectedPaymentMethod && (

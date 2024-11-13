@@ -188,7 +188,9 @@ export const FollowupTable: React.FC<FollowupTableProps> = ({
             size: 150,
             Cell: ({ cell }) =>
               `${
-                cell.getValue<string>() ? `$${cell.getValue<string>()}` : "N/A"
+                cell.row.original.quoted_amount.total
+                  ? `$${cell.row.original.quoted_amount.total}`
+                  : "N/A"
               }`,
           },
           {

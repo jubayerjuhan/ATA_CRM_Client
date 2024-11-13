@@ -31,7 +31,7 @@ export const EmailSendingSection: React.FC<EmailSendingSectionProps> = ({
   return (
     <InfoCard title="Email Section" className={""}>
       {/* Itinerary Email */}
-      <InfoItem label={"Itinerary Email"}>
+      <InfoItem label={"Payment Link"}>
         <Button
           disabled={
             disabledFields ||
