@@ -58,7 +58,21 @@ export const SendEmail: React.FC<SendEmailProps> = ({
   const disabledFields =
     lead.status === "Sale Lost" || lead.status === "Ticket Sent";
 
-  console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
+  console.log(
+    `<div>` +
+      draftToHtml(convertToRaw(editorState.getCurrentContent()), {
+        separator: "<br>",
+      })
+        .replace(
+          /<p style="margin-left:auto;">/g,
+          '<p style="margin-left:auto; margin-bottom: 10px">'
+        )
+        .replace(
+          /<p style="text-align:center;">/g,
+          '<p style="text-align:center; margin-bottom: 30px;">'
+        ) +
+      `</div>`
+  );
 
   const handleSendEmail = async () => {
     try {
@@ -66,7 +80,9 @@ export const SendEmail: React.FC<SendEmailProps> = ({
       const formData = new FormData();
       formData.append(
         "htmlContent",
-        draftToHtml(convertToRaw(editorState.getCurrentContent()))
+        draftToHtml(convertToRaw(editorState.getCurrentContent()), {
+          separator: "<br>",
+        }).replace(/<p>/g, '<p style="margin-bottom: 10px;">')
       );
       formData.append("subject", getEmailSubject(emailType));
       formData.append("email", lead.email);
