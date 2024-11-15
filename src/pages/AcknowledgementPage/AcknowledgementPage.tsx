@@ -322,21 +322,21 @@ export const AcknowledgementPage: React.FC = () => {
                 className="flex items-center justify-center space-x-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white p-3 rounded-lg hover:from-purple-600 hover:to-purple-700 transition duration-300"
               >
                 <CreditCard size={20} />
-                <span>Pay with SlicePay</span>
+                <span>Book Now Pay Later</span>
               </button>
               <button
                 onClick={() => handlePayment("bank")}
                 className="flex items-center justify-center space-x-2 bg-gradient-to-r from-green-500 to-green-600 text-white p-3 rounded-lg hover:from-green-600 hover:to-green-700 transition duration-300"
               >
                 <Landmark size={20} />
-                <span>Pay with Bank</span>
+                <span>Pay With Bank</span>
               </button>
               <button
                 onClick={() => handlePayment("mintpay")}
                 className="flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white p-3 rounded-lg hover:from-blue-600 hover:to-blue-700 transition duration-300"
               >
                 <Wallet size={20} />
-                <span>Pay with MintPay</span>
+                <span>Pay With Credit Card</span>
               </button>
             </div>
           </div>
