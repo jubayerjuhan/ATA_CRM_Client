@@ -112,7 +112,7 @@ export const ClientFormPage = () => {
       if (value.email) {
         const validEmail = isValidEmail(value.email);
         if (validEmail) {
-          setUserSearchingEmail(value.email);
+          setUserSearchingEmail(value.email.toLowerCase());
         }
       }
     });
@@ -238,6 +238,9 @@ export const ClientFormPage = () => {
                       pattern: {
                         value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                         message: "Invalid email address",
+                      },
+                      onChange: (e) => {
+                        e.target.value = e.target.value.toLowerCase();
                       },
                     })}
                   />
