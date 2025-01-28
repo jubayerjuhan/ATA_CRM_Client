@@ -31,7 +31,7 @@ export const DashboardCardsSection: React.FC<DashboardCardSectionProps> = ({
       style={{
         display: "grid",
         gridTemplateColumns: `repeat(${
-          authState.profile?.role === "admin" ? 6 : 5
+          ["admin", "leader"].includes(authState.profile?.role || "") ? 6 : 5
         }, 1fr)`,
         gap: "16px",
       }}
@@ -61,7 +61,7 @@ export const DashboardCardsSection: React.FC<DashboardCardSectionProps> = ({
           </p>
         </CardContent>
       </Card>
-      {authState.profile?.role === "admin" && (
+      {["admin", "leader"].includes(authState.profile?.role || "") && (
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
@@ -115,7 +115,7 @@ export const DashboardCardsSection: React.FC<DashboardCardSectionProps> = ({
           </p>
         </CardContent>
       </Card>
-      {authState.profile?.role === "admin" && (
+      {["admin", "leader"].includes(authState.profile?.role || "") && (
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">

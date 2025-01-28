@@ -12,7 +12,7 @@ export interface AuthState {
     _id: string;
     email: string;
     name: string;
-    role: "admin" | "agent";
+    role: "admin" | "agent" | "leader";
   } | null;
   error: {
     message: string;

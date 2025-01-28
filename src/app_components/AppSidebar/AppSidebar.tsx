@@ -166,8 +166,11 @@ const Sidebar = () => {
     // },
   ];
 
-  const sidebarLinks: SidebarLinksType[] =
-    profile?.role === "admin" ? adminSidebarLink : agentSidebarLinks;
+  const sidebarLinks: SidebarLinksType[] = ["admin", "leader"].includes(
+    profile?.role || ""
+  )
+    ? adminSidebarLink
+    : agentSidebarLinks;
   const handleSidebarLinkClick = (link: SidebarLinksType) => {
     navigate(link.pathname);
   };

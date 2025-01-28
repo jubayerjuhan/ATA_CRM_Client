@@ -217,14 +217,12 @@ export const AllLeadsTable: React.FC<AllLeadsTableProps> = ({
         header: "Actions",
         size: 150,
         Cell: ({ row }: { row: MRT_Row<any> }) => {
-          if (profile?.role === "admin")
+          if (profile?.role === "admin" || profile?.role === "leader")
             return (
               <Button
                 color="red"
                 onClick={() => {
-                  if (
-                    window.confirm("Are you sure you want to delete this lead?")
-                  ) {
+                  if (window.confirm("Are you sure you want to delete this?")) {
                     handleDeleteLead(row.original._id);
                   }
                 }}

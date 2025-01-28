@@ -55,6 +55,7 @@ export const AddUserFormModal = () => {
       options: [
         { value: "admin", label: "Admin" },
         { value: "agent", label: "Agent" },
+        { value: "leader", label: "Team Leader" },
       ],
     },
   ];

@@ -122,6 +122,7 @@ export const columns: ColumnDef<UserType>[] = [
     cell: ({ row }) => (
       <div className="flex items-center">
         <select
+          aria-label="Select user role"
           defaultValue={row.getValue("role")}
           className="mr-2"
           onChange={(event) => {
@@ -130,6 +131,7 @@ export const columns: ColumnDef<UserType>[] = [
         >
           <option value="admin">Admin</option>
           <option value="agent">Agent</option>
+          <option value="leader">Team Leader</option>
         </select>
         <Button
           variant="default"
