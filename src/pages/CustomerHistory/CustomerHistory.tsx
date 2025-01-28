@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
 export const CustomerHistory: React.FC = () => {
+  const { profile } = useSelector((state: AppState) => state.auth);
   const { auth } = useSelector((state: AppState) => state);
   const [customers, setCustomers] = useState<
     { firstLead: LeadType; latestLead: LeadType; totalLeads: number }[]
@@ -39,9 +40,11 @@ export const CustomerHistory: React.FC = () => {
 
   return (
     <DashboardLayout>
-      <div className="mb-4">
-        <Button onClick={handleDownloadCSV}>Download as CSV</Button>
-      </div>
+      {profile?.role === "admin" && (
+        <div className="mb-4">
+          <Button onClick={handleDownloadCSV}>Download as CSV</Button>
+        </div>
+      )}
       <CustomerHistoryTable
         customers={customers}
         loading={loading}
