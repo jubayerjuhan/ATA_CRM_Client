@@ -73,6 +73,7 @@ import { CancelledCustomers } from "@/pages/CancelledCustomersPage/CancelledCust
 import RefundList from "@/pages/RefundList/RefundList";
 import WhatsAppLeadsList from "@/pages/WhatsAppLeadsList/WhatsAppLeadsList";
 
+// TODO: Add routes for the new pages
 const AppRoutes: React.FC = () => {
   return (
     <Router>
