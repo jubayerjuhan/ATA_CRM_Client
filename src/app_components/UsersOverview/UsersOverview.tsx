@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -16,6 +16,7 @@ import {
   ChevronsRight,
   ArrowUpDown,
   Search,
+  Loader2,
 } from "lucide-react";
 
 type User = {
@@ -34,27 +35,67 @@ type LeadData = {
   conversionRate: string;
 };
 
-interface UsersOverviewProps {
-  data: any[];
+interface PaginationInfo {
+  currentPage: number;
+  totalPages: number;
+  totalCount: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+  limit: number;
 }
 
-export const UsersOverview: React.FC<UsersOverviewProps> = ({ data }) => {
-  const [currentPage, setCurrentPage] = useState(1);
+interface UsersOverviewProps {
+  data: any[];
+  onDataRequest?: (params: {
+    page: number;
+    limit: number;
+    search: string;
+    sortBy: string;
+    sortOrder: "asc" | "desc";
+  }) => Promise<void>;
+  loading?: boolean;
+  pagination?: PaginationInfo;
+}
+
+export const UsersOverview: React.FC<UsersOverviewProps> = ({
+  data,
+  onDataRequest,
+  loading = false,
+  pagination
+}) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [localSearchTerm, setLocalSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState<{
     key: keyof LeadData | "user.name";
     direction: "asc" | "desc";
-  } | null>(null);
+  }>({ key: "user.name", direction: "asc" });
 
+  // Debounced search effect
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (localSearchTerm !== searchTerm) {
+        handleSearch(localSearchTerm);
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [localSearchTerm]);
+
+  // Use server-side pagination if available, otherwise fall back to client-side
+  const isServerSide = !!onDataRequest && !!pagination;
+
+  // Client-side logic for backward compatibility
   const filteredData = useMemo(() => {
+    if (isServerSide) return data; // Server handles filtering
     return data.filter(
       (item) =>
         item.user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.user.email.toLowerCase().includes(searchTerm.toLowerCase())
     );
-  }, [searchTerm, data]);
+  }, [searchTerm, data, isServerSide]);
 
   const sortedData = useMemo(() => {
+    if (isServerSide) return data; // Server handles sorting
     const sortableItems = [...filteredData];
     if (sortConfig !== null) {
       sortableItems.sort((a, b) => {
@@ -73,15 +114,17 @@ export const UsersOverview: React.FC<UsersOverviewProps> = ({ data }) => {
       });
     }
     return sortableItems;
-  }, [filteredData, sortConfig]);
+  }, [filteredData, sortConfig, isServerSide, data]);
 
-  const paginatedData = sortedData.slice(
-    (currentPage - 1) * 10,
-    currentPage * 10
+  const paginatedData = isServerSide ? data : sortedData.slice(
+    ((pagination?.currentPage || 1) - 1) * 10,
+    (pagination?.currentPage || 1) * 10
   );
-  const totalPages = Math.ceil(sortedData.length / 10);
 
-  const requestSort = (key: keyof LeadData | "user.name") => {
+  const totalPages = isServerSide ? pagination?.totalPages || 1 : Math.ceil(sortedData.length / 10);
+  const currentPage = isServerSide ? pagination?.currentPage || 1 : 1;
+
+  const requestSort = async (key: keyof LeadData | "user.name") => {
     let direction: "asc" | "desc" = "asc";
     if (
       sortConfig &&
@@ -91,6 +134,41 @@ export const UsersOverview: React.FC<UsersOverviewProps> = ({ data }) => {
       direction = "desc";
     }
     setSortConfig({ key, direction });
+
+    if (isServerSide && onDataRequest) {
+      await onDataRequest({
+        page: 1, // Reset to first page when sorting
+        limit: pagination?.limit || 10,
+        search: searchTerm,
+        sortBy: key,
+        sortOrder: direction,
+      });
+    }
+  };
+
+  const handlePageChange = async (page: number) => {
+    if (isServerSide && onDataRequest) {
+      await onDataRequest({
+        page,
+        limit: pagination?.limit || 10,
+        search: searchTerm,
+        sortBy: sortConfig.key,
+        sortOrder: sortConfig.direction,
+      });
+    }
+  };
+
+  const handleSearch = async (search: string) => {
+    setSearchTerm(search);
+    if (isServerSide && onDataRequest) {
+      await onDataRequest({
+        page: 1, // Reset to first page when searching
+        limit: pagination?.limit || 10,
+        search,
+        sortBy: sortConfig.key,
+        sortOrder: sortConfig.direction,
+      });
+    }
   };
 
   return (
@@ -101,48 +179,63 @@ export const UsersOverview: React.FC<UsersOverviewProps> = ({ data }) => {
           <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Search by name or email"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            value={localSearchTerm}
+            onChange={(e) => setLocalSearchTerm(e.target.value)}
             className="pl-8 w-[300px]"
+            disabled={loading}
           />
+          {loading && (
+            <Loader2 className="absolute right-2 top-2.5 h-4 w-4 animate-spin text-muted-foreground" />
+          )}
         </div>
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
-            onClick={() => setCurrentPage(1)}
-            disabled={currentPage === 1}
+            onClick={() => handlePageChange(1)}
+            disabled={currentPage === 1 || loading}
           >
             <ChevronsLeft className="h-4 w-4" />
           </Button>
           <Button
             variant="outline"
-            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            disabled={currentPage === 1}
+            onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
+            disabled={currentPage === 1 || loading}
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
           <span className="text-sm text-muted-foreground">
             Page {currentPage} of {totalPages}
+            {isServerSide && pagination && (
+              <span className="ml-2">
+                ({pagination.totalCount} total users)
+              </span>
+            )}
           </span>
           <Button
             variant="outline"
-            onClick={() =>
-              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-            }
-            disabled={currentPage === totalPages}
+            onClick={() => handlePageChange(Math.min(currentPage + 1, totalPages))}
+            disabled={currentPage === totalPages || loading}
           >
             <ChevronRight className="h-4 w-4" />
           </Button>
           <Button
             variant="outline"
-            onClick={() => setCurrentPage(totalPages)}
-            disabled={currentPage === totalPages}
+            onClick={() => handlePageChange(totalPages)}
+            disabled={currentPage === totalPages || loading}
           >
             <ChevronsRight className="h-4 w-4" />
           </Button>
         </div>
       </div>
-      <div className="border rounded-md">
+      <div className="border rounded-md relative">
+        {loading && (
+          <div className="absolute inset-0 bg-white/50 backdrop-blur-sm z-10 flex items-center justify-center">
+            <div className="flex items-center space-x-2">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              <span className="text-sm text-muted-foreground">Loading...</span>
+            </div>
+          </div>
+        )}
         <Table>
           <TableHeader>
             <TableRow>

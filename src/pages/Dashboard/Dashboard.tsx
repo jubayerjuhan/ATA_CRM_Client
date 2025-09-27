@@ -57,12 +57,12 @@ export const Dashboard = () => {
           ).toISOString()}&endDate=${moment(dateRange.endDate).toISOString()}`
         );
         const { data: usersOverviewData } = await client.get(
-          `/user/overview-list?startDate=${moment(
+          `/user/overview-list-optimized?startDate=${moment(
             dateRange.startDate
-          ).toISOString()}&endDate=${moment(dateRange.endDate).toISOString()}`
+          ).toISOString()}&endDate=${moment(dateRange.endDate).toISOString()}&page=1&limit=100`
         );
         setCustomersData(data);
-        setUsersOverviewData(usersOverviewData);
+        setUsersOverviewData(usersOverviewData.users || usersOverviewData);
       } catch (error) {
         console.error(error);
       }
