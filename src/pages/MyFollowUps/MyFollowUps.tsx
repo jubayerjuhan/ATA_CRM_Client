@@ -1,32 +1,70 @@
 import { FollowupTable } from "@/app_components";
 import { DashboardLayout } from "@/app_components/DashboardLayout";
-import { getMyFollowUps } from "@/redux/actions";
-import { AppDispatch, AppState } from "@/types";
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { client } from "@/api/api";
+import { AppState } from "@/types";
+import React, { Profiler, useEffect } from "react";
 import { useSelector } from "react-redux";
+import {
+  createTableProfilerCallback,
+  useTableRenderTracker,
+} from "@/utils/tablePerfProfiler";
+import toast from "react-hot-toast";
+
+const myFollowupsTableProfiler = createTableProfilerCallback("MyFollowupsTable");
 
 export const MyFollowUps = () => {
-  const { followUp: followUpState } = useSelector((state: AppState) => state);
   const { auth } = useSelector((state: AppState) => state);
-
-  const dispatch = useDispatch<AppDispatch>();
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const [followUps, setFollowUps] = React.useState<any[]>([]);
+  const [rowCount, setRowCount] = React.useState<number>(0);
+  const [pagination, setPagination] = React.useState({
+    pageIndex: 0,
+    pageSize: 50,
+  });
+  useTableRenderTracker("MyFollowupsTable", {
+    rows: followUps.length,
+    loading,
+    pageIndex: pagination.pageIndex,
+    pageSize: pagination.pageSize,
+  });
 
   useEffect(() => {
     const fetchMyFollowUps = async () => {
-      await dispatch(getMyFollowUps());
+      setLoading(true);
+      try {
+        const { data } = await client.get(`/followups/my-follow-ups`, {
+          params: {
+            page: pagination.pageIndex + 1,
+            limit: pagination.pageSize,
+          },
+        });
+        setFollowUps(data.followups || []);
+        setRowCount(data.pagination?.totalCount ?? 0);
+      } catch (error) {
+        toast.error("Failed to fetch my followups");
+      } finally {
+        setLoading(false);
+      }
     };
     fetchMyFollowUps();
-  }, [dispatch, auth.profile?._id]);
+  }, [auth.profile?._id, pagination.pageIndex, pagination.pageSize]);
 
-  console.log(followUpState, "followUpState");
   return (
     <DashboardLayout>
-      <FollowupTable
-        title="My Follow Up's"
-        customers={followUpState.myFollowUps}
-        loading={followUpState.loading}
-      />
+      <Profiler id="MyFollowupsTable" onRender={myFollowupsTableProfiler}>
+        <FollowupTable
+          title="My Follow Up's"
+          customers={followUps}
+          loading={loading}
+          pagination={pagination}
+          rowCount={rowCount}
+          onPaginationChange={(updater) => {
+            setPagination((prev) =>
+              typeof updater === "function" ? updater(prev) : updater
+            );
+          }}
+        />
+      </Profiler>
     </DashboardLayout>
   );
 };

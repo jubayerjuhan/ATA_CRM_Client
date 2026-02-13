@@ -2,7 +2,7 @@ import { client } from "@/api/api";
 
 export const getAllFormFields = async (): Promise<any> => {
   try {
-    const { data } = await client.get("/form");
+    const { data } = await client.get("/form", { params: { all: true } });
     return data.formFields;
   } catch (error) {
     throw {

@@ -1,53 +1,129 @@
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { Profiler, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 import { DashboardLayout } from "@/app_components/DashboardLayout";
 
-import { getAllLeads } from "@/redux/actions";
-import { AppDispatch, AppState } from "@/types";
+import { client } from "@/api/api";
+import { AppState } from "@/types";
 import { AllLeadsTable } from "@/app_components";
 import moment from "moment";
 import { Button } from "@/components/ui/button";
+import {
+  createTableProfilerCallback,
+  useTableRenderTracker,
+} from "@/utils/tablePerfProfiler";
+import toast from "react-hot-toast";
+
+const allLeadsTableProfiler = createTableProfilerCallback("AllLeadsTable");
 
 export const Leads = () => {
-  const { lead: leadState } = useSelector((state: AppState) => state);
   const { profile } = useSelector((state: AppState) => state.auth);
-  const dispatch = useDispatch<AppDispatch>();
+  const [loading, setLoading] = useState<boolean>(false);
   const [leads, setLeads] = useState<any[]>([]);
+  const [rowCount, setRowCount] = useState<number>(0);
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 50,
+  });
+  useTableRenderTracker("AllLeadsTable", {
+    rows: leads.length,
+    loading,
+    pageIndex: pagination.pageIndex,
+    pageSize: pagination.pageSize,
+  });
 
   useEffect(() => {
-    const fetchAllLeads = async () => {
-      await dispatch(getAllLeads());
+    const controller = new AbortController();
+    const fetchPage = async () => {
+      setLoading(true);
+      try {
+        const { data } = await client.get("/leads", {
+          params: {
+            page: pagination.pageIndex + 1,
+            limit: pagination.pageSize,
+          },
+          signal: controller.signal as any,
+        });
+        const updatedLeads =
+          (data.leads || []).map((lead: any) =>
+            lead.status === "Ticket Sent"
+              ? { ...lead, status: "Sale Converted" }
+              : lead
+          ) ?? [];
+        setLeads(updatedLeads);
+        setRowCount(data.pagination?.totalCount ?? 0);
+      } catch (error: any) {
+        if (error?.name !== "CanceledError") {
+          toast.error("Failed to fetch leads");
+        }
+      } finally {
+        setLoading(false);
+      }
     };
-    fetchAllLeads();
-  }, [dispatch]);
 
-  useEffect(() => {
-    const updatedLeads = leadState.leads?.map((lead) =>
-      lead.status === "Ticket Sent"
-        ? { ...lead, status: "Sale Converted" }
-        : lead
-    );
-    setLeads(updatedLeads);
-  }, [leadState.leads]);
+    fetchPage();
+    return () => controller.abort();
+  }, [pagination.pageIndex, pagination.pageSize]);
 
-  console.log("object");
   return (
     <DashboardLayout>
       {profile?.role === "admin" && (
         <div style={{ width: "100%" }}>
           <Button
-            onClick={() => {
-              downloadCSV(leadState.leads);
+            onClick={async () => {
+              await downloadCSVFromServer();
             }}
+            disabled={loading}
           >
             Download In CSV
           </Button>
         </div>
       )}
-      <AllLeadsTable customers={leads} loading={leadState.loading} />
+      <Profiler id="AllLeadsTable" onRender={allLeadsTableProfiler}>
+        <AllLeadsTable
+          customers={leads}
+          loading={loading}
+          pagination={pagination}
+          rowCount={rowCount}
+          onPaginationChange={(updater) => {
+            setPagination((prev) =>
+              typeof updater === "function" ? updater(prev) : updater
+            );
+          }}
+        />
+      </Profiler>
     </DashboardLayout>
   );
+};
+
+const fetchAllPages = async (endpoint: string) => {
+  const pageSize = 200;
+  let page = 1;
+  const allRows: any[] = [];
+
+  while (true) {
+    const { data } = await client.get(endpoint, {
+      params: { page, limit: pageSize },
+    });
+    const rows = data.leads || [];
+    allRows.push(...rows);
+    const pagination = data.pagination;
+    if (!pagination?.hasNextPage) break;
+    page += 1;
+  }
+
+  return allRows;
+};
+
+const downloadCSVFromServer = async () => {
+  try {
+    toast.loading("Preparing CSV...", { id: "csv" });
+    const data = await fetchAllPages("/leads");
+    downloadCSV(data);
+    toast.success("CSV ready", { id: "csv" });
+  } catch (error) {
+    toast.error("Failed to prepare CSV", { id: "csv" });
+  }
 };
 
 const downloadCSV = (data: any[]) => {
@@ -96,7 +172,7 @@ const downloadCSV = (data: any[]) => {
         row.departure?.name,
         row.arrival?.name,
         row.airline?.name,
-        row.payment.status,
+        row.payment?.status,
         row.passengerType,
         row.postCode,
         moment(row.caseDate).format("DD-MM-YYYY"),
@@ -108,7 +184,7 @@ const downloadCSV = (data: any[]) => {
         row.infant,
         row.leadOrigin,
         row.claimed_by?.name,
-        row.quoted_amount.total,
+        row.quoted_amount?.total,
         row.follow_up_date
           ? moment(row.follow_up_date).format("DD-MM-YYYY")
           : "n/a",

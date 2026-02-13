@@ -33,11 +33,17 @@ export type Employee = {
 interface AllLeadsTableProps {
   customers: any;
   loading: boolean;
+  pagination?: { pageIndex: number; pageSize: number };
+  rowCount?: number;
+  onPaginationChange?: (updater: any) => void;
 }
 
 export const AllLeadsTable: React.FC<AllLeadsTableProps> = ({
   customers,
   loading,
+  pagination,
+  rowCount,
+  onPaginationChange,
 }) => {
   const { profile } = useSelector((state: AppState) => state.auth);
 
@@ -251,6 +257,13 @@ export const AllLeadsTable: React.FC<AllLeadsTableProps> = ({
   const table = useMantineReactTable({
     columns,
     data: customers ? customers : [], //must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+    manualPagination: !!onPaginationChange && typeof rowCount === "number",
+    rowCount: typeof rowCount === "number" ? rowCount : undefined,
+    onPaginationChange: onPaginationChange as any,
+    state: {
+      isLoading: loading,
+      pagination: pagination as any,
+    },
     enableColumnFilterModes: true,
     enableColumnOrdering: true,
     enableFacetedValues: true,

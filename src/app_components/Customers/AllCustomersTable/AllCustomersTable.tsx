@@ -17,11 +17,17 @@ import moment from "moment";
 interface AllCustomersProps {
   customers: any;
   loading: boolean;
+  pagination?: { pageIndex: number; pageSize: number };
+  rowCount?: number;
+  onPaginationChange?: (updater: any) => void;
 }
 
 export const AllCustomersTable: React.FC<AllCustomersProps> = ({
   customers,
   loading,
+  pagination,
+  rowCount,
+  onPaginationChange,
 }) => {
   const columns = useMemo<MRT_ColumnDef<any>[]>(
     () => [
@@ -190,6 +196,13 @@ export const AllCustomersTable: React.FC<AllCustomersProps> = ({
   const table = useMantineReactTable({
     columns,
     data: customers ? customers : [], //must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+    manualPagination: !!onPaginationChange && typeof rowCount === "number",
+    rowCount: typeof rowCount === "number" ? rowCount : undefined,
+    onPaginationChange: onPaginationChange as any,
+    state: {
+      isLoading: loading,
+      pagination: pagination as any,
+    },
     enableColumnFilterModes: true,
     enableColumnOrdering: true,
     enableFacetedValues: true,

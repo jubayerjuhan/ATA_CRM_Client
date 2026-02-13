@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { Profiler, useEffect } from "react";
 import moment from "moment";
 
 import { DashboardLayout } from "@/app_components/DashboardLayout";
@@ -13,6 +13,12 @@ import {
 } from "@/app_components";
 import { useSelector } from "react-redux";
 import { AppState } from "@/types";
+import {
+  createTableProfilerCallback,
+  useTableRenderTracker,
+} from "@/utils/tablePerfProfiler";
+
+const usersOverviewTableProfiler = createTableProfilerCallback("UsersOverviewTable");
 
 interface CustomersDataType {
   leads: number;
@@ -45,30 +51,43 @@ export const Dashboard = () => {
     startDate: moment().startOf("month").toDate(),
     endDate: moment().endOf("month").toDate(),
   });
+  useTableRenderTracker("UsersOverviewTable", {
+    rows: usersOverviewData.length,
+    startDate: moment(dateRange.startDate).toISOString(),
+    endDate: moment(dateRange.endDate).toISOString(),
+  });
 
   console.log(dateRange, "dateRange");
 
   useEffect(() => {
+    const controller = new AbortController();
     const fetchCustomersByDate = async () => {
       try {
-        const { data } = await client.get(
-          `/customers/filter/converted?startDate=${moment(
-            dateRange.startDate
-          ).toISOString()}&endDate=${moment(dateRange.endDate).toISOString()}`
+        const startIso = moment(dateRange.startDate).toISOString();
+        const endIso = moment(dateRange.endDate).toISOString();
+
+        const [customersResp, usersOverviewResp] = await Promise.all([
+          client.get(
+            `/customers/filter/converted?startDate=${startIso}&endDate=${endIso}`,
+            { signal: controller.signal as any }
+          ),
+          client.get(
+            `/user/overview-list-optimized?startDate=${startIso}&endDate=${endIso}&page=1&limit=100`,
+            { signal: controller.signal as any }
+          ),
+        ]);
+
+        setCustomersData(customersResp.data);
+        setUsersOverviewData(
+          usersOverviewResp.data.users || usersOverviewResp.data
         );
-        const { data: usersOverviewData } = await client.get(
-          `/user/overview-list-optimized?startDate=${moment(
-            dateRange.startDate
-          ).toISOString()}&endDate=${moment(dateRange.endDate).toISOString()}&page=1&limit=100`
-        );
-        setCustomersData(data);
-        setUsersOverviewData(usersOverviewData.users || usersOverviewData);
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchCustomersByDate();
+    return () => controller.abort();
   }, [dateRange]);
 
   // const data = Array.from({ length: 7 })
@@ -103,7 +122,9 @@ export const Dashboard = () => {
           currentLeads={customersData.totalTicketByUser}
         />
         {authState.profile?.role === "admin" ? (
-          <UsersOverview data={usersOverviewData} />
+          <Profiler id="UsersOverviewTable" onRender={usersOverviewTableProfiler}>
+            <UsersOverview data={usersOverviewData} />
+          </Profiler>
         ) : (
           <WorldClock />
         )}

@@ -7,12 +7,20 @@ export const base_url =
     ? import.meta.env.VITE_SERVER_URL_DEVELOPMENT
     : import.meta.env.VITE_SERVER_URL_PRODUCTION;
 
-const authToken = localStorage.getItem("auth_token");
-
 export const client = axios.create({
   baseURL: base_url,
   headers: {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${authToken}`,
   },
+});
+
+client.interceptors.request.use((config) => {
+  const token = localStorage.getItem("auth_token");
+  if (token) {
+    config.headers = config.headers ?? {};
+    config.headers.Authorization = `Bearer ${token}`;
+  } else if (config.headers?.Authorization) {
+    delete (config.headers as any).Authorization;
+  }
+  return config;
 });

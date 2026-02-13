@@ -28,7 +28,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { AppDispatch, AppState, LeadType } from "@/types";
+import { AppDispatch, AppState, LeadType, PaginationInfo } from "@/types";
 import { AssignLead } from "@/app_components";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -37,7 +37,9 @@ import { claimLead } from "@/redux/actions";
 export const NewLeadsTable: React.FC<{
   leads: LeadType[];
   loading?: boolean;
-}> = ({ leads, loading }) => {
+  pagination?: PaginationInfo;
+  onPageChange?: (page: number) => void;
+}> = ({ leads, loading, pagination, onPageChange }) => {
   const [rows, setRows] = React.useState<any[]>([]);
   const [claimLeadLoading, setClaimLeadLoading] = React.useState(false);
 
@@ -281,21 +283,46 @@ export const NewLeadsTable: React.FC<{
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+            onClick={() => {
+              if (pagination && onPageChange) {
+                onPageChange(Math.max(1, pagination.currentPage - 1));
+              } else {
+                table.previousPage();
+              }
+            }}
+            disabled={
+              loading ||
+              (pagination ? !pagination.hasPrevPage : !table.getCanPreviousPage())
+            }
           >
             Previous
           </Button>
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
+            onClick={() => {
+              if (pagination && onPageChange) {
+                onPageChange(
+                  Math.min(pagination.totalPages, pagination.currentPage + 1)
+                );
+              } else {
+                table.nextPage();
+              }
+            }}
+            disabled={
+              loading ||
+              (pagination ? !pagination.hasNextPage : !table.getCanNextPage())
+            }
           >
             Next
           </Button>
         </div>
       </div>
+      {pagination && (
+        <div className="text-sm text-muted-foreground">
+          Page {pagination.currentPage} of {pagination.totalPages} ({pagination.totalCount} total)
+        </div>
+      )}
     </div>
   );
 };

@@ -4,9 +4,17 @@ import { DashboardLayout } from "@/app_components/DashboardLayout";
 import { Button } from "@/components/ui/button";
 import { AppDispatch, AppState, LeadType } from "@/types";
 import moment from "moment";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { Profiler, useEffect, useState, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import {
+  createTableProfilerCallback,
+  useTableRenderTracker,
+} from "@/utils/tablePerfProfiler";
+
+const customerHistoryTableProfiler = createTableProfilerCallback(
+  "CustomerHistoryTable"
+);
 
 interface PaginationInfo {
   currentPage: number;
@@ -35,6 +43,15 @@ export const CustomerHistory: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("firstLead.createdAt");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+  useTableRenderTracker("CustomerHistoryTable", {
+    rows: customers.length,
+    loading,
+    page: pagination.currentPage,
+    pageSize: pagination.limit,
+    search: searchTerm,
+    sortBy,
+    sortOrder,
+  });
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -75,17 +92,27 @@ export const CustomerHistory: React.FC = () => {
 
     setLoading(true);
     try {
-      // For large datasets, we'll fetch all data for CSV export
-      const { data } = await client.get(`/customers/unique-customers-paginated`, {
-        params: {
-          page: 1,
-          limit: pagination.totalCount, // Get all records
-          search: searchTerm,
-          sortBy,
-          sortOrder,
-        },
-      });
-      downloadCSV(data.customers);
+      // Fetch all pages in the background so we don't request an unbounded payload.
+      const pageSize = 200;
+      let page = 1;
+      const allRows: any[] = [];
+
+      while (true) {
+        const { data } = await client.get(`/customers/unique-customers-paginated`, {
+          params: {
+            page,
+            limit: pageSize,
+            search: searchTerm,
+            sortBy,
+            sortOrder,
+          },
+        });
+        allRows.push(...(data.customers || []));
+        if (!data.pagination?.hasNextPage) break;
+        page += 1;
+      }
+
+      downloadCSV(allRows);
     } catch (error) {
       console.error("Error downloading CSV:", error);
     } finally {
@@ -125,19 +152,21 @@ export const CustomerHistory: React.FC = () => {
           </Button>
         </div>
       )}
-      <CustomerHistoryTable
-        customers={customers}
-        loading={loading}
-        title="Customer's Log"
-        pagination={pagination}
-        onPageChange={handlePageChange}
-        onPageSizeChange={handlePageSizeChange}
-        onSearch={handleSearch}
-        onSort={handleSort}
-        searchTerm={searchTerm}
-        sortBy={sortBy}
-        sortOrder={sortOrder}
-      />
+      <Profiler id="CustomerHistoryTable" onRender={customerHistoryTableProfiler}>
+        <CustomerHistoryTable
+          customers={customers}
+          loading={loading}
+          title="Customer's Log"
+          pagination={pagination}
+          onPageChange={handlePageChange}
+          onPageSizeChange={handlePageSizeChange}
+          onSearch={handleSearch}
+          onSort={handleSort}
+          searchTerm={searchTerm}
+          sortBy={sortBy}
+          sortOrder={sortOrder}
+        />
+      </Profiler>
     </DashboardLayout>
   );
 };

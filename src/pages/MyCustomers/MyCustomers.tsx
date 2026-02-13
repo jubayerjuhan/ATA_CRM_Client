@@ -1,47 +1,123 @@
 import { MyCustomersTable } from "@/app_components";
 import { DashboardLayout } from "@/app_components/DashboardLayout";
 import { Button } from "@/components/ui/button";
-import { getMyAssignedList } from "@/redux/actions";
-import { AppDispatch, AppState } from "@/types";
+import { client } from "@/api/api";
+import { AppState } from "@/types";
 import moment from "moment";
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React, { Profiler, useEffect } from "react";
 import { useSelector } from "react-redux";
+import {
+  createTableProfilerCallback,
+  useTableRenderTracker,
+} from "@/utils/tablePerfProfiler";
+import toast from "react-hot-toast";
+
+const myCustomersTableProfiler = createTableProfilerCallback("MyCustomersTable");
 
 export const MyCustomers = () => {
-  const { lead: leadState } = useSelector((state: AppState) => state);
   const { profile } = useSelector((state: AppState) => state.auth);
   const { auth } = useSelector((state: AppState) => state);
 
-  const dispatch = useDispatch<AppDispatch>();
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const [customers, setCustomers] = React.useState<any[]>([]);
+  const [rowCount, setRowCount] = React.useState<number>(0);
+  const [pagination, setPagination] = React.useState({
+    pageIndex: 0,
+    pageSize: 50,
+  });
+  useTableRenderTracker("MyCustomersTable", {
+    rows: customers.length,
+    loading,
+    pageIndex: pagination.pageIndex,
+    pageSize: pagination.pageSize,
+  });
 
   useEffect(() => {
-    const fetchMyCustomers = async () => {
-      await dispatch(getMyAssignedList());
+    const controller = new AbortController();
+    const fetchPage = async () => {
+      setLoading(true);
+      try {
+        const { data } = await client.get(`/leads/my-leads/ongoing`, {
+          params: {
+            page: pagination.pageIndex + 1,
+            limit: pagination.pageSize,
+          },
+          signal: controller.signal as any,
+        });
+        setCustomers(data.leads || []);
+        setRowCount(data.pagination?.totalCount ?? 0);
+      } catch (error: any) {
+        if (error?.name !== "CanceledError") {
+          toast.error("Failed to fetch my leads");
+        }
+      } finally {
+        setLoading(false);
+      }
     };
-    fetchMyCustomers();
-  }, [dispatch, auth.profile?._id]);
+    fetchPage();
+    return () => controller.abort();
+  }, [auth.profile?._id, pagination.pageIndex, pagination.pageSize]);
 
   return (
     <DashboardLayout>
       {profile?.role === "admin" && (
         <div style={{ width: "100%" }}>
           <Button
-            onClick={() => {
-              downloadCSV(leadState.leads);
+            onClick={async () => {
+              await downloadCSVFromServer();
             }}
+            disabled={loading}
           >
             Download In CSV
           </Button>
         </div>
       )}
 
-      <MyCustomersTable
-        customers={leadState.leads}
-        loading={leadState.loading}
-      />
+      <Profiler id="MyCustomersTable" onRender={myCustomersTableProfiler}>
+        <MyCustomersTable
+          customers={customers}
+          loading={loading}
+          pagination={pagination}
+          rowCount={rowCount}
+          onPaginationChange={(updater) => {
+            setPagination((prev) =>
+              typeof updater === "function" ? updater(prev) : updater
+            );
+          }}
+        />
+      </Profiler>
     </DashboardLayout>
   );
+};
+
+const fetchAllPages = async (endpoint: string) => {
+  const pageSize = 200;
+  let page = 1;
+  const allRows: any[] = [];
+
+  while (true) {
+    const { data } = await client.get(endpoint, {
+      params: { page, limit: pageSize },
+    });
+    const rows = data.leads || [];
+    allRows.push(...rows);
+    const pagination = data.pagination;
+    if (!pagination?.hasNextPage) break;
+    page += 1;
+  }
+
+  return allRows;
+};
+
+const downloadCSVFromServer = async () => {
+  try {
+    toast.loading("Preparing CSV...", { id: "csv-my" });
+    const data = await fetchAllPages("/leads/my-leads/ongoing");
+    downloadCSV(data);
+    toast.success("CSV ready", { id: "csv-my" });
+  } catch (error) {
+    toast.error("Failed to prepare CSV", { id: "csv-my" });
+  }
 };
 
 const downloadCSV = (data: any[]) => {
@@ -86,7 +162,7 @@ const downloadCSV = (data: any[]) => {
         row.departure?.name,
         row.arrival?.name,
         row.airline?.name,
-        row.payment.status,
+        row.payment?.status,
         row.passengerType,
         row.postCode,
         moment(row.caseDate).format("DD-MM-YYYY"),
@@ -98,7 +174,7 @@ const downloadCSV = (data: any[]) => {
         row.infant,
         row.leadOrigin,
         row.claimed_by?.name,
-        row.quoted_amount.total,
+        row.quoted_amount?.total,
         moment(row.follow_up_date).format("DD-MM-YYYY"),
       ].join(",")
     ),

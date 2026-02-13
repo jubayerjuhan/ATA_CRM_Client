@@ -33,12 +33,18 @@ interface FollowupTableProps {
   customers: any;
   loading: boolean;
   title?: string;
+  pagination?: { pageIndex: number; pageSize: number };
+  rowCount?: number;
+  onPaginationChange?: (updater: any) => void;
 }
 
 export const FollowupTable: React.FC<FollowupTableProps> = ({
   customers,
   loading,
   title,
+  pagination,
+  rowCount,
+  onPaginationChange,
 }) => {
   const { profile } = useSelector((state: AppState) => state.auth);
   const columns = useMemo<MRT_ColumnDef<any>[]>(
@@ -159,7 +165,6 @@ export const FollowupTable: React.FC<FollowupTableProps> = ({
             header: "Airlines Name",
             size: 120,
             Cell: ({ cell }) => {
-              console.log(cell.row.original.airline?.iata, "cell");
               const airline = cell.getValue<string>();
               return airline
                 ? `${airline} (${cell.row.original.airline?.iata})`
@@ -274,6 +279,13 @@ export const FollowupTable: React.FC<FollowupTableProps> = ({
   const table = useMantineReactTable({
     columns,
     data: customers ? customers : [], //must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
+    manualPagination: !!onPaginationChange && typeof rowCount === "number",
+    rowCount: typeof rowCount === "number" ? rowCount : undefined,
+    onPaginationChange: onPaginationChange as any,
+    state: {
+      isLoading: loading,
+      pagination: pagination as any,
+    },
     enableColumnFilterModes: true,
     enableColumnOrdering: true,
     enableFacetedValues: true,

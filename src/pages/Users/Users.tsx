@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { Profiler, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import { DashboardLayout } from "@/app_components/DashboardLayout";
@@ -8,12 +8,22 @@ import { UsersTable } from "@/app_components/UsersTable/UsersTable";
 import { getAllUsers } from "@/redux/actions/userActions";
 import { AppDispatch, AppState } from "@/types";
 import { AddUserFormModal } from "@/app_components";
+import {
+  createTableProfilerCallback,
+  useTableRenderTracker,
+} from "@/utils/tablePerfProfiler";
+
+const usersTableProfiler = createTableProfilerCallback("UsersTable");
 
 export const Users = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [users, setUsers] = useState<any[]>([]);
 
   const { user } = useSelector((state: AppState) => state);
+  useTableRenderTracker("UsersTable", {
+    rows: users.length,
+    loading: user.loading,
+  });
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -32,7 +42,9 @@ export const Users = () => {
   return (
     <DashboardLayout>
       <AddUserFormModal />
-      <UsersTable users={users} loading={user.loading} />
+      <Profiler id="UsersTable" onRender={usersTableProfiler}>
+        <UsersTable users={users} loading={user.loading} />
+      </Profiler>
     </DashboardLayout>
   );
 };

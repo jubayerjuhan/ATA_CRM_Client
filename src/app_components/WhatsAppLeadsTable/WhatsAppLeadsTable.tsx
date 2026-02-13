@@ -11,11 +11,17 @@ import { Button } from "@/components/ui/button";
 interface WhatsAppLeadsProps {
   leads: any;
   loading: boolean;
+  pagination?: { pageIndex: number; pageSize: number };
+  rowCount?: number;
+  onPaginationChange?: (updater: any) => void;
 }
 
 export const WhatsAppLeadsTable: React.FC<WhatsAppLeadsProps> = ({
   leads,
   loading,
+  pagination,
+  rowCount,
+  onPaginationChange,
 }) => {
   const columns = useMemo<MRT_ColumnDef<any>[]>(
     () => [
@@ -65,6 +71,13 @@ export const WhatsAppLeadsTable: React.FC<WhatsAppLeadsProps> = ({
   const table = useMantineReactTable({
     columns,
     data: leads ? leads : [],
+    manualPagination: !!onPaginationChange && typeof rowCount === "number",
+    rowCount: typeof rowCount === "number" ? rowCount : undefined,
+    onPaginationChange: onPaginationChange as any,
+    state: {
+      isLoading: loading,
+      pagination: pagination as any,
+    },
     enableColumnFilterModes: true,
     enableColumnOrdering: true,
     enableFacetedValues: true,
