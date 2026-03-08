@@ -22,7 +22,13 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       >
         <span className="sponsored_text">
           Powered by{" "}
-          <a href="https://rokoautomations.com.au/">Roko Automations</a>
+          <a
+            href="https://rokoautomations.com.au/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Roko Automations
+          </a>
         </span>
         {children}
       </div>

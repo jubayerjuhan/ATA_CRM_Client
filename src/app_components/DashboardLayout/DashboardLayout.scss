@@ -22,8 +22,16 @@
     margin-top: 25px;
     position: absolute;
     right: 20px;
+    top: 0;
+    z-index: 3;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.45);
+    padding: 6px 10px;
+    border-radius: 999px;
     a {
-      color: $primary-color;
+      color: #fff;
+      font-weight: 700;
+      text-decoration: underline;
     }
   }
   .layout-content {
